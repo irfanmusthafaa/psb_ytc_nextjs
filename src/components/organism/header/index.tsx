@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
@@ -23,8 +23,14 @@ export const Header = () => {
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-           
-            <Image src="/images/logo.png" alt="logo" width={40} height={40} priority/>
+
+            <Image
+              src="/images/logo.png"
+              alt="logo"
+              width={40}
+              height={40}
+              priority
+            />
           </a>
         </div>
         <div className="flex lg:hidden">
@@ -65,10 +71,12 @@ export const Header = () => {
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
+              <Image
+                src="/images/logo.png"
+                alt="logo"
+                width={40}
+                height={40}
+                priority
               />
             </a>
             <button
