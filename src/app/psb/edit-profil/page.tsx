@@ -12,8 +12,11 @@ const onChange: DatePickerProps["onChange"] = (date, dateString) => {
   console.log(date, dateString);
 };
 
-export default function Profile() {
+export default function EditProfil() {
   const [value, setValue] = useState(1);
+  const [selectedFileAvatar, setSelectedFileAvatar] = useState<File | null>(
+    null
+  );
 
   const onChangeJk = (e: RadioChangeEvent) => {
     console.log("radio checked", e.target.value);
@@ -23,10 +26,17 @@ export default function Profile() {
   const handleChangePendidikan = (value: string) => {
     console.log(`selected ${value}`);
   };
+
+  const handleFileChangeAvatar = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setSelectedFileAvatar(event.target.files[0]);
+    }
+  };
+
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
-        <p className="text-black font-semibold text-xl">Biodata Santri</p>
+        <p className="text-black font-semibold text-xl">Edit Biodata Santri</p>
       </div>
 
       {/* Form */}
@@ -93,6 +103,28 @@ export default function Profile() {
               <Input placeholder="Jumlah Hafalan" maxLength={2} type="number" />
             </div>
             <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">Foto</label>
+              <label className="flex items-center relative border border-gray-300 rounded-md p-2 h-[32px] box-border">
+                <Upload className="w-4 h-4 mr-4 text-gray-400" />
+                <Input
+                  type="file"
+                  accept=".png, .jpg, .jpeg, .pdf"
+                  onChange={handleFileChangeAvatar}
+                  placeholder="Upload Foto 3x4"
+                  className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                />
+                {selectedFileAvatar ? (
+                  <p className="text-sm text-black ">
+                    Selected file: {selectedFileAvatar.name}
+                  </p>
+                ) : (
+                  <p className="text-sm text-gray-400 font-light">
+                    Upload Foto 3x4 (png/jpg)
+                  </p>
+                )}
+              </label>
+            </div>
+            {/* <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">
                 Motivasi Daftar Beasiswa YTC
               </label>
@@ -101,7 +133,7 @@ export default function Profile() {
                 maxLength={100}
                 placeholder="Tuliskan motivasi anda mengikuti program beasiswa YTC"
               />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

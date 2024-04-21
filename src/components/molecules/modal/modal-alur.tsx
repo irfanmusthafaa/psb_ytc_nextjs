@@ -2,29 +2,24 @@ import React from "react";
 import { Modal } from "antd";
 
 const datas = [
-  "Usia 18 - 25 tahun.",
-  "Lancar membaca Al Quran.",
-  "Siap berkhidmat 6 bulan setelah program menghafal",
-  "Sehat jasmani dan rohani",
-  "Mendapatkan izin dari orang tua",
-  "Siap mengikuti aturan dan program",
+  "Membaca Syarat Pendaftaran dengan Detail",
+  "Registrasi Pendaftaran di Website Young Tahfizh Center",
+  "Mengisi Form Data Diri",
+  "Mengikuti Seleksi",
+  "Infaq Rp. 100.000 (Sebagai Komitmen Hadir)",
 ];
 
-interface ModalPersyaratanProps {
+interface ModalAlurProps {
   open: boolean;
   onCancel?: () => void;
   onOk: () => void;
 }
 
-const ModalPersyaratan: React.FC<ModalPersyaratanProps> = ({
-  open,
-  onCancel,
-  onOk,
-}) => {
+const ModalAlur: React.FC<ModalAlurProps> = ({ open, onCancel, onOk }) => {
   return (
     <Modal centered width={500} open={open} onCancel={onCancel} onOk={onOk}>
       <h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
-        Syarat Pendaftaran:
+        Alur Pendaftaran:
       </h2>
       <ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
         {datas?.map((data: any) => (
@@ -46,4 +41,4 @@ const ModalPersyaratan: React.FC<ModalPersyaratanProps> = ({
   );
 };
 
-export default ModalPersyaratan;
+export default ModalAlur;
