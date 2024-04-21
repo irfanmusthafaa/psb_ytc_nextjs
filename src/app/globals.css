@@ -56,3 +56,5 @@ body {
 .selected-file {
   margin-top: 8px;
 }
+
+.adjust_button_hover_drawer.ant-btn:hover { border-color: white !important; }
