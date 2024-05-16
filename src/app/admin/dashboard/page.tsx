@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Badge, Card, Space } from "antd";
+import Apex from "@/components/molecules/chart";
 
 export default function Dashboard() {
   return (
@@ -106,6 +107,8 @@ export default function Dashboard() {
           </div>
           {/* End Card */}
         </div>
+
+        <Apex />
       </div>
     </div>
   );
