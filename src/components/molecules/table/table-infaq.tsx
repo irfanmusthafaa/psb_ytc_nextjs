@@ -14,6 +14,12 @@ interface DataType {
 
 const columns: TableProps<DataType>["columns"] = [
   {
+    title: "No",
+    dataIndex: "key",
+    key: "key",
+    render: (text) => <a>{text}</a>,
+  },
+  {
     title: "Atas Nama",
     dataIndex: "atas_nama",
     key: "atas_nama",
@@ -75,7 +81,7 @@ const columns: TableProps<DataType>["columns"] = [
 const data: DataType[] = [
   {
     key: "1",
-    atas_nama: "John Brown",
+    atas_nama: "Muhammad Ramdani",
     total_transfer: "23/07/1999",
     bukti_pembayaran:
       "https://help.xendit.co/hc/article_attachments/23877909212953",
@@ -83,7 +89,7 @@ const data: DataType[] = [
   },
   {
     key: "2",
-    atas_nama: "Jim Green",
+    atas_nama: "Aisyah",
     total_transfer: "23/07/1998",
     bukti_pembayaran:
       "https://help.xendit.co/hc/article_attachments/23877909212953",
@@ -91,7 +97,7 @@ const data: DataType[] = [
   },
   {
     key: "3",
-    atas_nama: "Joe Black",
+    atas_nama: "Annisa",
     total_transfer: "23/07/2002",
     bukti_pembayaran:
       "https://help.xendit.co/hc/article_attachments/23877909212953",
@@ -99,7 +105,7 @@ const data: DataType[] = [
   },
   {
     key: "4",
-    atas_nama: "John Brown",
+    atas_nama: "Ahmad Fajar",
     total_transfer: "23/07/1999",
     bukti_pembayaran:
       "https://help.xendit.co/hc/article_attachments/23877909212953",
@@ -108,7 +114,7 @@ const data: DataType[] = [
   },
   {
     key: "5",
-    atas_nama: "Jim Green",
+    atas_nama: "Ridwan",
     total_transfer: "23/07/1998",
     bukti_pembayaran:
       "https://help.xendit.co/hc/article_attachments/23877909212953",
@@ -117,7 +123,7 @@ const data: DataType[] = [
   },
   {
     key: "6",
-    atas_nama: "Joe Black",
+    atas_nama: "Firdaus",
     total_transfer: "23/07/2002",
     bukti_pembayaran:
       "https://help.xendit.co/hc/article_attachments/23877909212953",

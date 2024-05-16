@@ -20,12 +20,12 @@ export default function Status() {
                 Young Tahfizh Center
               </Card>
             </Badge.Ribbon>
-            <Badge.Ribbon text="Tidak Lulus" color="red">
+            {/* <Badge.Ribbon text="Tidak Lulus" color="red">
               <Card title="Pemberitahuan Status Kelulusan" size="small">
                 Mohon maaf anda dinyatakan tidak lulus dalam proses seleksi
                 beasiswa Young Tahfizh Center
               </Card>
-            </Badge.Ribbon>
+            </Badge.Ribbon> */}
             <Badge.Ribbon text="On Proses">
               <Card title="Pemberitahuan Status Kelulusan" size="small">
                 Saat ini masih dalam proses seleksi kelulusan

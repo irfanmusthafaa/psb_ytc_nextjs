@@ -36,11 +36,11 @@ export default function EditProfil() {
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
-        <p className="text-black font-semibold text-xl">Edit Biodata Santri</p>
+        <p className="text-black font-semibold text-xl">Input Biodata Santri</p>
       </div>
 
       {/* Form */}
-      <div className="pt-5 px-6">
+      <div className="pt-5 pb-10 px-6 ">
         <div className="w-full flex justify-center items-start gap-10">
           <div className="w-1/2 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
@@ -134,6 +134,61 @@ export default function EditProfil() {
                 placeholder="Tuliskan motivasi anda mengikuti program beasiswa YTC"
               />
             </div> */}
+          </div>
+        </div>
+      </div>
+      {/* End Form */}
+
+      <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
+        <p className="text-black font-semibold text-xl">
+          Input Data Orang Tua/ Wali
+        </p>
+      </div>
+
+      {/* Form  Ortu*/}
+      <div className="pt-5 pb-10 px-6 ">
+        <div className="w-full flex justify-center items-start gap-10">
+          <div className="w-1/2 flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">Nama Ayah</label>
+              <Input placeholder="Nama Ayah" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">Nama Ibu</label>
+              <Input placeholder="Nama Ibu" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">No Orang Tua/ Wali</label>
+              <Input placeholder="No Orang Tua/ Wali" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">
+                Alamat Orang Tua/ Wali
+              </label>
+              <TextArea rows={4} placeholder="Alamat Orang Tua/ Wali" />
+            </div>
+          </div>
+
+          {/* Kanan */}
+          <div className="w-1/2 flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">Pekerjaan Ayah</label>
+              <Input placeholder="Pekerjaan Ayah" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">Pekerjaan Ibu</label>
+              <Input placeholder="Pekerjaan Ibu" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">
+                Penghasilan Orang Tua
+              </label>
+              <Input
+                placeholder="Penghasilan Orang Tua"
+                maxLength={17}
+                type="number"
+              />
+            </div>
           </div>
         </div>
       </div>

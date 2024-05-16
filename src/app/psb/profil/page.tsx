@@ -31,12 +31,13 @@ export default function Profil() {
       <div className="pt-5 px-6">
         <div className="w-full flex justify-center items-start gap-10">
           <div className="w-[70%] flex flex-col gap-4">
+            <h2 className="px-4 font-semibold text-md">Data Santri</h2>
             <ul className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg dark:bg-gray-700 dark:text-white">
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                 <span className="min-w-48">Nama</span> Irfan Mustafa
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                <span className="min-w-48">Tanggal Lahir</span>23 Juli 1999
+                <span className="min-w-48">Tanggal Lahir</span>20 Juli 2001
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                 <span className="min-w-48">Jenis Kelamin</span>Laki - laki
@@ -45,9 +46,8 @@ export default function Profil() {
                 <span className="min-w-48">Kota Asal</span>Bandung
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                <span className="min-w-48">Alamat Lengkap</span>Kp. Muara
-                Ciwidey RT 04 RW 01 Desa Cilampeni Kecamatan Katapang Kab
-                Bandung
+                <span className="min-w-48">Alamat Lengkap</span>Jl. Siliwangi RT
+                04 RW 01 Desa Pangauban Kecamatan Margaasih Kab Bandung
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                 <span className="min-w-48">Pendidikan Terakhir</span>SLTA/
@@ -63,7 +63,7 @@ export default function Profil() {
                 <span className="min-w-48">Jumlah Hafalan</span>10 Juz
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                <span className="min-w-48">Status</span>
+                <span className="min-w-48">Status</span>Belum di proses
               </li>
             </ul>
           </div>
@@ -76,6 +76,35 @@ export default function Profil() {
               alt="Rounded avatar"
             />
           </div>
+        </div>
+        {/* Data Orang Tua */}
+        <div className="w-[70%] mt-5 flex flex-col gap-4">
+          <h2 className="px-4 font-semibold text-md">Data Orang Tua/ Wali</h2>
+          <ul className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg dark:bg-gray-700 dark:text-white">
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <span className="min-w-48">Nama Ayah</span> Ferdi
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <span className="min-w-48">Nama Ibu</span>Aisyah
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <span className="min-w-48">No Telepon</span>08121281281
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <span className="min-w-48">Alamat Lengkap</span>Jl. Siliwangi RT
+              04 RW 01 Desa Pangauban Kecamatan Margaasih Kab Bandung
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <span className="min-w-48">Pekerjaan Ayah</span>Wiraswasta
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <span className="min-w-48">Pekerjaan Ibu</span>Ibu Rumah Tangga
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <span className="min-w-48">Penghasilan Orang Tua</span>Rp.
+              3.000.000
+            </li>
+          </ul>
         </div>
       </div>
       {/* End Form */}

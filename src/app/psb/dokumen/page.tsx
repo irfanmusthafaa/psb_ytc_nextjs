@@ -14,9 +14,8 @@ const onChange: DatePickerProps["onChange"] = (date, dateString) => {
 
 export default function Dokumen() {
   const [value, setValue] = useState(1);
-  const [selectedFileAvatar, setSelectedFileAvatar] = useState<File | null>(
-    null
-  );
+  const [selectedFileSertifikat, setSelectedFileSertifikat] =
+    useState<File | null>(null);
   const [selectedFileKTP, setSelectedFileKTP] = useState<File | null>(null);
   const [selectedFileKK, setSelectedFileKK] = useState<File | null>(null);
   const [selectedFileIjazah, setSelectedFileIjazah] = useState<File | null>(
@@ -41,9 +40,9 @@ export default function Dokumen() {
     }
   };
 
-  const handleFileChangeAvatar = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChangeSertifikat = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      setSelectedFileAvatar(event.target.files[0]);
+      setSelectedFileSertifikat(event.target.files[0]);
     }
   };
 
@@ -132,23 +131,23 @@ export default function Dokumen() {
             </div>
             <div className="flex flex-col gap-2">
               {" "}
-              <label className="text-sm font-medium">Foto</label>
+              <label className="text-sm font-medium">Sertifikat</label>
               <label className="flex items-center relative border border-gray-300 rounded-md p-2 h-[32px] box-border">
                 <Upload className="w-4 h-4 mr-4 text-gray-400" />
                 <Input
                   type="file"
                   accept=".png, .jpg, .jpeg, .pdf"
-                  onChange={handleFileChangeAvatar}
+                  onChange={handleFileChangeSertifikat}
                   placeholder="Upload Foto 3x4"
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
-                {selectedFileAvatar ? (
+                {selectedFileSertifikat ? (
                   <p className="text-sm text-black ">
-                    Selected file: {selectedFileAvatar.name}
+                    Selected file: {selectedFileSertifikat.name}
                   </p>
                 ) : (
                   <p className="text-sm text-gray-400 font-light">
-                    Upload Foto 3x4 (png/jpg)
+                    Upload Sertifikat
                   </p>
                 )}
               </label>
@@ -158,7 +157,7 @@ export default function Dokumen() {
       </div>
       {/* End Form */}
 
-      <div className="mt-10 py-4 px-6 flex justify-start items-center">
+      <div className="mt-5 mb-10 py-4 px-6 flex justify-start items-center">
         <Button type="primary" className="bg-[#273b83]">
           Simpan Perubahan
         </Button>

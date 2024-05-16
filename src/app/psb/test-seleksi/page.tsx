@@ -1,6 +1,11 @@
-import { Button, Input } from "antd";
+"use client";
+
+import { Button, Input, Select } from "antd";
 
 export default function Seleksi() {
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
@@ -16,9 +21,28 @@ export default function Seleksi() {
               <p className="text-base font-normal ">
                 Upload link video rekaman Anda
               </p>
-              <p>Membaca surah Maryam ayat 1-10</p>
             </div>
-
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">Soal Seleksi</label>
+              <Select
+                placeholder="Surah dan ayat pilihan"
+                onChange={handleChange}
+                options={[
+                  {
+                    value: "Surah Maryam ayat 1- 10",
+                    label: "Surah Maryam ayat 1- 10",
+                  },
+                  {
+                    value: "Surah Al Baqarah ayat 100 - 110",
+                    label: "Surah Al Baqarah ayat 100 - 110",
+                  },
+                  {
+                    value: "Surah Al Fajar ayat 1 - 30",
+                    label: "Surah Al Fajar ayat 1 - 30",
+                  },
+                ]}
+              />
+            </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Link Rekaman Video</label>
               <Input placeholder="Link Video" />

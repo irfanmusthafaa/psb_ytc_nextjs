@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Button, Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
-import { Expand } from "lucide-react";
+import { Expand, FilePenLine, Maximize2, Trash2 } from "lucide-react";
 import ModalStatus from "../modal/modal-status";
 
 interface DataType {
@@ -19,6 +19,12 @@ const TableSantri: React.FC = () => {
   const [openModalStatus, setOpenModalStatus] = useState(false);
 
   const columns: TableProps<DataType>["columns"] = [
+    {
+      title: "No",
+      dataIndex: "key",
+      key: "key",
+      render: (text) => <a>{text}</a>,
+    },
     {
       title: "Nama Santri",
       dataIndex: "nama_santri",
@@ -65,24 +71,22 @@ const TableSantri: React.FC = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button
-            type="primary"
-            className="flex justify-center items-center  gap-2 bg-amber-500 text-white border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full"
-          >
+          <Button className="flex justify-center  items-center  gap-2  text-gray-700 border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full">
             {/* <Expand /> */}
-            Detail
+            <Maximize2 />
           </Button>
           <Button
-            type="primary"
-            className="flex justify-center items-center  gap-2 bg-amber-500 text-white border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full"
+            className="flex justify-center items-center  gap-2  text-gray-700  border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full"
             onClick={() => setOpenModalStatus(true)}
           >
             {/* <Expand /> */}
-            Edit Status
+            {/* Edit Status */}
+            <FilePenLine />
           </Button>
-          <Button className="bg-red-600 text-white hover:bg-red-900 hover:border-0 rounded-full">
+          <Button className=" text-gray-700 hover:bg-red-900 rounded-none border-none">
             {/* <DeleteOutlined /> */}
-            Hapus
+            {/* Hapus */}
+            <Trash2 />
           </Button>
         </Space>
       ),
@@ -92,7 +96,7 @@ const TableSantri: React.FC = () => {
   const data: DataType[] = [
     {
       key: "1",
-      nama_santri: "John Brown",
+      nama_santri: "Muhammad Ramdani",
       tanggal_lahir: "23/07/1999",
       jenis_kelamin: "Laki-laki",
       kota_asal: "Bandung",
@@ -100,7 +104,7 @@ const TableSantri: React.FC = () => {
     },
     {
       key: "2",
-      nama_santri: "Jim Green",
+      nama_santri: "Aisyah",
       tanggal_lahir: "23/07/1998",
       jenis_kelamin: "Perempuan",
       kota_asal: "Jakarta",
@@ -108,7 +112,7 @@ const TableSantri: React.FC = () => {
     },
     {
       key: "3",
-      nama_santri: "Joe Black",
+      nama_santri: "Ahmad Fajar",
       tanggal_lahir: "23/07/2002",
       jenis_kelamin: "Laki-laki",
       kota_asal: "Bogor",
@@ -116,7 +120,7 @@ const TableSantri: React.FC = () => {
     },
     {
       key: "4",
-      nama_santri: "John Brown",
+      nama_santri: "Ridwan",
       tanggal_lahir: "23/07/1999",
       jenis_kelamin: "Laki-laki",
       kota_asal: "Bandung",
@@ -124,7 +128,7 @@ const TableSantri: React.FC = () => {
     },
     {
       key: "5",
-      nama_santri: "Jim Green",
+      nama_santri: "Annisa",
       tanggal_lahir: "23/07/1998",
       jenis_kelamin: "Perempuan",
       kota_asal: "Jakarta",
@@ -132,7 +136,7 @@ const TableSantri: React.FC = () => {
     },
     {
       key: "6",
-      nama_santri: "Joe Black",
+      nama_santri: "Muhammad Ardi",
       tanggal_lahir: "23/07/2002",
       jenis_kelamin: "Laki-laki",
       kota_asal: "Bogor",

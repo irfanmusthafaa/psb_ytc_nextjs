@@ -6,22 +6,28 @@ import { useRouter } from "next/navigation";
 export default function Login() {
   const router = useRouter();
   return (
-    <section className="bg-gray-100 dark:bg-gray-900">
+    <section className="bg-[#273b83] ">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a
           href="#"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
-          <img
-            className="w-[7rem] h-[7rem] mr-2"
-            src="/images/logo2.png"
-            alt="logo"
-          />
+          <div className="flex flex-col justify-center items-center gap-2">
+            <img
+              className="w-[5rem] h-[5rem] mr-2"
+              src="/images/logo3.png"
+              alt="logo"
+            />
+            <div className="text-center">
+              <p className="text-white text-xs">Young Tahfizh</p>
+              <p className="text-white text-xs">Center</p>
+            </div>
+          </div>
         </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Masuk
+              Login
             </h1>
             <form className="space-y-4 md:space-y-6" action="#">
               <div>

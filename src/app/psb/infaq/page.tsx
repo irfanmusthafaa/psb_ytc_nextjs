@@ -28,6 +28,10 @@ export default function Infaq() {
     }
   };
 
+  const handleChangeRekening = (value: string) => {
+    console.log(`selected ${value}`);
+  };
+
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
@@ -40,12 +44,28 @@ export default function Infaq() {
           {/* Kanan */}
           <div className="w-1/2 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <p className="text-base font-normal ">
+              {/* <p className="text-base font-normal ">
                 Membayar Infaq sebesar 200000
               </p>
-              <p>Transfer ke rekening : BSI - 7179088511</p>
+              <p>Transfer ke rekening : BSI - 7179088511</p> */}
             </div>
-
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">Rekening Tujuan</label>
+              <Select
+                placeholder="Pilih rekening tujuan"
+                onChange={handleChangeRekening}
+                options={[
+                  {
+                    value: "BSI - 7981721211",
+                    label: "BSI - 7981721211",
+                  },
+                  {
+                    value: "BCA Syariah - 8908239812",
+                    label: "BCA Syariah - 8908239812",
+                  },
+                ]}
+              />
+            </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Atas Nama</label>
               <Input placeholder="Atas Nama" />
