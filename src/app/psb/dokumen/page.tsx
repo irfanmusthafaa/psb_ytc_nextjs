@@ -55,7 +55,7 @@ export default function Dokumen() {
     console.log(`selected ${value}`);
   };
   return (
-    <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl">
+    <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl text-black">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
         <p className="text-black font-semibold text-xl">
           Upload Dokumen Santri

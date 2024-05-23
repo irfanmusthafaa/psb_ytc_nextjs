@@ -85,7 +85,8 @@ export default function SidebarUser() {
                 : "hover:bg-indigo-700"
             }`}
           >
-            <TextSelect />
+            <ClipboardPen />
+
             <span className="ml-2 text-sm font-medium">Test Seleksi</span>
           </Link>
 
@@ -97,7 +98,7 @@ export default function SidebarUser() {
                 : "hover:bg-indigo-700"
             }`}
           >
-            <ClipboardPen />
+            <TextSelect />
             <span className="ml-2 text-sm font-medium">Hasil Seleksi</span>
           </Link>
         </div>
