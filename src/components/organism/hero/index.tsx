@@ -4,7 +4,7 @@ import { Header } from "../header";
 
 export const Hero = () => {
   return (
-    <div className="bg-white max-h-screen">
+    <div className="bg-gray-100 h-screen">
       <Header />
       <div className="relative isolate px-6 lg:px-8">
         <div
@@ -29,7 +29,7 @@ export const Hero = () => {
               </a>
             </div>
           </div>
-          <div className="text-center">
+          <div className="text-center pt-10">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
               Penerimaan Santri Baru Young Tahfizh Center
             </h1>

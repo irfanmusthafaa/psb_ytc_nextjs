@@ -8,8 +8,8 @@ import Link from "next/link";
 
 const navigation = [
   { name: "Home", href: "#" },
-  { name: "Gallery", href: "#" },
-  { name: "Info", href: "#" },
+  // { name: "Gallery", href: "#" },
+  { name: "Info PSB", href: "#" },
   { name: "Tentang Kami", href: "#" },
 ];
 
