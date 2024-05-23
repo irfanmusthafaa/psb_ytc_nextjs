@@ -1,22 +1,30 @@
 "use client";
 
 import React from "react";
-import { Badge, Card, Space } from "antd";
+import { Badge, Card, Input, Space } from "antd";
 import Apex from "@/components/molecules/chart";
+import TableSantri from "@/components/molecules/table/table-santri";
+import { SearchOutlined } from "@ant-design/icons";
+
+const dashboard = {
+  total_santri: 170,
+  total_lulus: 20,
+  total_seleksi: 90,
+};
 
 export default function Dashboard() {
   return (
     <div className="bg-white h-auto min-h-[500px] m-8 box-border w-max-full rounded-xl">
-      <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
+      {/* <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
         <p className="text-black font-semibold text-xl">Dashboard</p>
-      </div>
+      </div> */}
 
       {/* Form */}
       <div className="pt-5 px-6">
         <div className="w-full flex justify-center items-start gap-10">
           {/* Card */}
           <div className="w-full flex justify-between items-center gap-4  ">
-            <div className="flex items-center bg-white border rounded-sm overflow-hidden shadow">
+            <div className="w-1/3 flex items-center bg-white border rounded-sm overflow-hidden shadow">
               <div className="p-4 bg-green-400">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -34,11 +42,11 @@ export default function Dashboard() {
                 </svg>
               </div>
               <div className="px-4 text-gray-700">
-                <h3 className="text-sm tracking-wider">Total Member</h3>
-                <p className="text-3xl">12,768</p>
+                <h3 className="text-sm tracking-wider">Total Pendaftar</h3>
+                <p className="text-3xl">{dashboard.total_santri}</p>
               </div>
             </div>
-            <div className="flex items-center bg-white border rounded-sm overflow-hidden shadow">
+            <div className="w-1/3 flex items-center bg-white border rounded-sm overflow-hidden shadow">
               <div className="p-4 bg-blue-400">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -56,11 +64,11 @@ export default function Dashboard() {
                 </svg>
               </div>
               <div className="px-4 text-gray-700">
-                <h3 className="text-sm tracking-wider">Total Post</h3>
-                <p className="text-3xl">39,265</p>
+                <h3 className="text-sm tracking-wider">Total Santri Lulus</h3>
+                <p className="text-3xl">{dashboard.total_lulus}</p>
               </div>
             </div>
-            <div className="flex items-center bg-white border rounded-sm overflow-hidden shadow">
+            <div className="w-1/3 flex items-center bg-white border rounded-sm overflow-hidden shadow">
               <div className="p-4 bg-indigo-400">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -78,37 +86,24 @@ export default function Dashboard() {
                 </svg>
               </div>
               <div className="px-4 text-gray-700">
-                <h3 className="text-sm tracking-wider">Total Comment</h3>
-                <p className="text-3xl">142,334</p>
-              </div>
-            </div>
-            <div className="flex items-center bg-white border rounded-sm overflow-hidden shadow">
-              <div className="p-4 bg-red-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
-                  ></path>
-                </svg>
-              </div>
-              <div className="px-4 text-gray-700">
-                <h3 className="text-sm tracking-wider">Server Load</h3>
-                <p className="text-3xl">34.12%</p>
+                <h3 className="text-sm tracking-wider">
+                  Total Mengikuti Seleksi
+                </h3>
+                <p className="text-3xl">{dashboard.total_seleksi}</p>
               </div>
             </div>
           </div>
           {/* End Card */}
         </div>
 
-        <Apex />
+        <div className="mt-7 w-full flex flex-col justify-center items-start gap-3">
+          <div className="w-1/3">
+            <Input placeholder="Cari santri" prefix={<SearchOutlined />} />
+          </div>
+          <TableSantri />
+        </div>
+
+        {/* <Apex /> */}
       </div>
     </div>
   );

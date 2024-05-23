@@ -1,6 +1,15 @@
 "use client";
 
-import { CreditCard, FilePlus, TextSelect, User, UserCog } from "lucide-react";
+import {
+  BookText,
+  CreditCard,
+  FilePlus,
+  Files,
+  LayoutDashboard,
+  TextSelect,
+  User,
+  UserCog,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -32,11 +41,11 @@ export default function SidebarAdmin() {
                 : "hover:bg-indigo-700"
             }`}
           >
-            <User />
+            <LayoutDashboard />
             <span className="ml-2 text-sm font-medium">Dashboard</span>
           </Link>
 
-          <Link
+          {/* <Link
             href="/admin/data-santri"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/admin/data-santri"
@@ -46,7 +55,7 @@ export default function SidebarAdmin() {
           >
             <UserCog />
             <span className="ml-2 text-sm font-medium">Data Santri</span>
-          </Link>
+          </Link> */}
           <Link
             href="/admin/data-infaq"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
@@ -55,7 +64,7 @@ export default function SidebarAdmin() {
                 : "hover:bg-indigo-700"
             }`}
           >
-            <FilePlus />
+            <Files />
             <span className="ml-2 text-sm font-medium">Data Infaq</span>
           </Link>
         </div>
@@ -68,7 +77,7 @@ export default function SidebarAdmin() {
                 : "hover:bg-indigo-700"
             }`}
           >
-            <User />
+            <BookText />
             <span className="ml-2 text-sm font-medium">Informasi PSB</span>
           </Link>
           <Link
@@ -90,7 +99,7 @@ export default function SidebarAdmin() {
                 : "hover:bg-indigo-700"
             }`}
           >
-            <TextSelect />
+            <CreditCard />
             <span className="ml-2 text-sm font-medium">Bank</span>
           </Link>
         </div>

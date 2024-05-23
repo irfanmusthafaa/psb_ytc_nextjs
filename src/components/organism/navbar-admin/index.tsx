@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { usePathname } from "next/navigation";
 
 const navigation = [
   { name: "Admin", href: "/psb/profil", current: true },
@@ -16,6 +17,8 @@ function classNames(...classes: any) {
 }
 
 export const NavbarAdmin = () => {
+  const pathname = usePathname();
+
   return (
     <Disclosure as="nav" className="bg-white">
       {({ open }) => (
@@ -44,9 +47,33 @@ export const NavbarAdmin = () => {
                 </div> */}
                 <div className="hidden sm:block">
                   <div className="flex space-x-4">
-                    <h1 className="text-xl text-black font-semibold">
+                    <p className="text-black font-semibold text-xl">
+                      {pathname === "/admin/dashboard"
+                        ? "Dashboard"
+                        : pathname === "/admin/data-infaq"
+                        ? "Data Infaq"
+                        : pathname === "/admin/soal-seleksi"
+                        ? "Soal Seleksi"
+                        : pathname === "/admin/bank"
+                        ? "Bank"
+                        : pathname === "/admin/informasi-psb"
+                        ? "Informasi PSB"
+                        : ""}
+                    </p>
+
+                    {/* <h1 className="text-xl text-black font-semibold">
                       Halo Admin !
-                    </h1>
+                    </h1> */}
+
+                    {/* <a
+                      href="/"
+                      className="bg-[#273b83] text-white rounded-md px-3 py-2 text-sm font-medium"
+
+                  
+                    >
+                      Home
+                    </a> */}
+
                     {/* {navigation.map((item) => (
                       <a
                         key={item.name}
@@ -66,14 +93,14 @@ export const NavbarAdmin = () => {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
+                {/* <button
                   type="button"
                   className="relative rounded-full bg-[#273b83] p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6 " aria-hidden="true" />
-                </button>
+                </button> */}
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">

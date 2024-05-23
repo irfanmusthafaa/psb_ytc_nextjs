@@ -7,7 +7,7 @@ export default function Status() {
   return (
     <div className="bg-white h-auto min-h-[500px] m-8 box-border w-max-full rounded-xl">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
-        <p className="text-black font-semibold text-xl">Notifikasi</p>
+        <p className="text-black font-semibold text-xl">Hasil Seleksi</p>
       </div>
 
       {/* Form */}
@@ -15,7 +15,7 @@ export default function Status() {
         <div className="w-full flex justify-center items-start gap-10">
           <div className="w-full flex flex-col gap-4">
             <Badge.Ribbon text="Lulus" color="green">
-              <Card title="Pemberitahuan Status Kelulusan" size="small">
+              <Card title="Pemberitahuan Hasil Kelulusan" size="small">
                 Selamat Anda dinyatakan lulus dalam proses seleksi beasiswa
                 Young Tahfizh Center
               </Card>
@@ -26,11 +26,11 @@ export default function Status() {
                 beasiswa Young Tahfizh Center
               </Card>
             </Badge.Ribbon> */}
-            <Badge.Ribbon text="On Proses">
+            {/* <Badge.Ribbon text="On Proses">
               <Card title="Pemberitahuan Status Kelulusan" size="small">
                 Saat ini masih dalam proses seleksi kelulusan
               </Card>
-            </Badge.Ribbon>
+            </Badge.Ribbon> */}
           </div>
         </div>
       </div>

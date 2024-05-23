@@ -7,28 +7,36 @@ import { CheckCircleOutlined } from "@ant-design/icons";
 interface DataType {
   key: string;
   atas_nama: string;
-  total_transfer: string;
+  total_transfer: number;
   bukti_pembayaran: string;
   status: string[];
 }
+
+const formatRupiah = (number: number) => {
+  return number.toLocaleString("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
+};
 
 const columns: TableProps<DataType>["columns"] = [
   {
     title: "No",
     dataIndex: "key",
     key: "key",
-    render: (text) => <a>{text}</a>,
+    render: (text) => <>{text}</>,
   },
   {
     title: "Atas Nama",
     dataIndex: "atas_nama",
     key: "atas_nama",
-    render: (text) => <a>{text}</a>,
+    render: (text) => <>{text}</>,
   },
   {
     title: "Total Transfer",
     dataIndex: "total_transfer",
     key: "total_transfer",
+    render: (text) => <>{formatRupiah(text)}</>,
   },
   {
     title: "Bukti Pembayaran",
@@ -82,7 +90,7 @@ const data: DataType[] = [
   {
     key: "1",
     atas_nama: "Muhammad Ramdani",
-    total_transfer: "23/07/1999",
+    total_transfer: 250000,
     bukti_pembayaran:
       "https://help.xendit.co/hc/article_attachments/23877909212953",
     status: ["Sudah Konfirmasi Pembayaran"],
@@ -90,7 +98,7 @@ const data: DataType[] = [
   {
     key: "2",
     atas_nama: "Aisyah",
-    total_transfer: "23/07/1998",
+    total_transfer: 250000,
     bukti_pembayaran:
       "https://help.xendit.co/hc/article_attachments/23877909212953",
     status: ["Sudah Konfirmasi Pembayaran"],
@@ -98,7 +106,7 @@ const data: DataType[] = [
   {
     key: "3",
     atas_nama: "Annisa",
-    total_transfer: "23/07/2002",
+    total_transfer: 250000,
     bukti_pembayaran:
       "https://help.xendit.co/hc/article_attachments/23877909212953",
     status: ["Sudah Konfirmasi Pembayaran"],
@@ -106,7 +114,7 @@ const data: DataType[] = [
   {
     key: "4",
     atas_nama: "Ahmad Fajar",
-    total_transfer: "23/07/1999",
+    total_transfer: 250000,
     bukti_pembayaran:
       "https://help.xendit.co/hc/article_attachments/23877909212953",
 
@@ -115,7 +123,7 @@ const data: DataType[] = [
   {
     key: "5",
     atas_nama: "Ridwan",
-    total_transfer: "23/07/1998",
+    total_transfer: 300000,
     bukti_pembayaran:
       "https://help.xendit.co/hc/article_attachments/23877909212953",
 
@@ -124,7 +132,7 @@ const data: DataType[] = [
   {
     key: "6",
     atas_nama: "Firdaus",
-    total_transfer: "23/07/2002",
+    total_transfer: 250000,
     bukti_pembayaran:
       "https://help.xendit.co/hc/article_attachments/23877909212953",
 
