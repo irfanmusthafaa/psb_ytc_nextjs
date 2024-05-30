@@ -7,24 +7,68 @@ import { Button, DatePicker, Input, Radio, Select } from "antd";
 import { Upload } from "lucide-react";
 const { TextArea } = Input;
 import { ChangeEvent, useState } from "react";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
-const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-  console.log(date, dateString);
-};
-
+dayjs.extend(customParseFormat);
 export default function EditProfil() {
+  const [Name, setName] = useState("");
+  // const [TanggalLahir, setTanggalLahir] = useState<Date | null>(null);
+  const [TanggalLahir, setTanggalLahir] = useState("");
+  const [JenisKelamin, setJenisKelamin] = useState("");
+  const [KotaAsal, setKotaAsal] = useState("");
+  const [Alamat, setAlamat] = useState("");
+  const [PendidikanTerakhir, setPendidikanTerakhir] = useState("");
+  const [Nik, setNik] = useState("");
+  const [NoTelp, setNoTelp] = useState("");
+  const [NamaAyah, setNamaAyah] = useState("");
+  const [NamaIbu, setNamaIbu] = useState("");
+  const [NoTelpOrtu, setNoTelpOrtu] = useState("");
+  const [AlamatOrtu, setAlamatOrtu] = useState("");
+  const [PekerjaanAyah, setPekerjaanAyah] = useState("");
+  const [PekerjaanIbu, setPekerjaanIbu] = useState("");
+  const [PenghasilanOrtu, setPenghasilanOrtu] = useState("");
+
   const [value, setValue] = useState(1);
   const [selectedFileAvatar, setSelectedFileAvatar] = useState<File | null>(
     null
   );
 
+  const handleInput = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (e) {
+      const { id, value } = e.target;
+
+      if (id === "Name") setName(value);
+      if (id === "KotaAsal") setKotaAsal(value);
+      if (id === "Alamat") setAlamat(value);
+      if (id === "Nik") setNik(value);
+      if (id === "NoTelp") setNoTelp(value);
+      if (id === "NamaAyah") setNamaAyah(value);
+      if (id === "NamaIbu") setNamaIbu(value);
+      if (id === "NoTelpOrtu") setNoTelpOrtu(value);
+      if (id === "AlamatOrtu") setAlamatOrtu(value);
+      if (id === "PekerjaanAyah") setPekerjaanAyah(value);
+      if (id === "PekerjaanIbu") setPekerjaanIbu(value);
+      if (id === "PenghasilanOrtu") setPenghasilanOrtu(value);
+    }
+  };
+
+  const onChangeDate: DatePickerProps["onChange"] = (date, dateString) => {
+    // const tanggal = dateString;
+    // console.log(date, dateString, "date");
+    const dateFix = setTanggalLahir(date);
+  };
+
   const onChangeJk = (e: RadioChangeEvent) => {
     console.log("radio checked", e.target.value);
-    setValue(e.target.value);
+    setJenisKelamin(e.target.value);
   };
 
   const handleChangePendidikan = (value: string) => {
     console.log(`selected ${value}`);
+    setPendidikanTerakhir(value);
   };
 
   const handleFileChangeAvatar = (event: ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +77,24 @@ export default function EditProfil() {
     }
   };
 
+  const dateFormat = "YYYY-MM-DD";
+
+  console.log(Name, "Name");
+  console.log(TanggalLahir, "TanggalLahir");
+  console.log(JenisKelamin, "JenisKelamin");
+  console.log(KotaAsal, "KotaAsal");
+  console.log(Alamat, "Alamat");
+  console.log(PendidikanTerakhir, "PendidikanTerakhir");
+  console.log(Nik, "Nik");
+  console.log(NoTelp, "NoTelp");
+  console.log(NamaAyah, "NamaAyah");
+  console.log(NamaIbu, "NamaIbu");
+  console.log(NoTelpOrtu, "NoTelpOrtu");
+  console.log(AlamatOrtu, "AlamatOrtu");
+  console.log(PekerjaanAyah, "PekerjaanAyah");
+  console.log(PekerjaanIbu, "PekerjaanIbu");
+  console.log(PenghasilanOrtu, "PenghasilanOrtu");
+  console.log(selectedFileAvatar, "Avatar");
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl text-black">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
@@ -45,11 +107,20 @@ export default function EditProfil() {
           <div className="w-1/2 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Nama Lengkap</label>
-              <Input placeholder="Nama Lengkap" />
+              <Input
+                id="Name"
+                onChange={handleInput}
+                placeholder="Nama Lengkap"
+              />
             </div>
             <div className="flex flex-col gap-2 ">
               <label className="text-sm font-medium">Tanggal Lahir</label>
-              <DatePicker onChange={onChange} />
+              <DatePicker
+                id="TanggalLahir"
+                // onChange={onChangeDate}
+                defaultValue={dayjs("2024-09-03", dateFormat)}
+                onChange={() => setTanggalLahir}
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Jenis Kelamin</label>
@@ -60,11 +131,20 @@ export default function EditProfil() {
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Kota Asal</label>
-              <Input placeholder="Kota Asal" />
+              <Input
+                id="KotaAsal"
+                onChange={handleInput}
+                placeholder="Kota Asal"
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Alamat Lengkap</label>
-              <TextArea rows={5} placeholder="Alamat Lengkap" />
+              <TextArea
+                id="Alamat"
+                onChange={handleInput}
+                rows={5}
+                placeholder="Alamat Lengkap"
+              />
             </div>
           </div>
 
@@ -90,18 +170,30 @@ export default function EditProfil() {
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">NIK</label>
-              <Input placeholder="NIK" maxLength={17} type="number" />
+              <Input
+                id="Nik"
+                onChange={handleInput}
+                placeholder="NIK"
+                maxLength={17}
+                type="number"
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">No Telepon</label>
-              <Input placeholder="No Telepon" maxLength={13} type="number" />
+              <Input
+                id="NoTelp"
+                onChange={handleInput}
+                placeholder="No Telepon"
+                maxLength={13}
+                type="number"
+              />
             </div>
-            <div className="flex flex-col gap-2">
+            {/* <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">
                 Jumlah Hafalan (Juz)
               </label>
               <Input placeholder="Jumlah Hafalan" maxLength={2} type="number" />
-            </div>
+            </div> */}
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Foto</label>
               <label className="flex items-center relative border border-gray-300 rounded-md p-2 h-[32px] box-border">
@@ -124,16 +216,6 @@ export default function EditProfil() {
                 )}
               </label>
             </div>
-            {/* <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium">
-                Motivasi Daftar Beasiswa YTC
-              </label>
-              <TextArea
-                rows={5}
-                maxLength={100}
-                placeholder="Tuliskan motivasi anda mengikuti program beasiswa YTC"
-              />
-            </div> */}
           </div>
         </div>
       </div>
@@ -151,21 +233,38 @@ export default function EditProfil() {
           <div className="w-1/2 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Nama Ayah</label>
-              <Input placeholder="Nama Ayah" />
+              <Input
+                id="NamaAyah"
+                onChange={handleInput}
+                placeholder="Nama Ayah"
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Nama Ibu</label>
-              <Input placeholder="Nama Ibu" />
+              <Input
+                id="NamaIbu"
+                onChange={handleInput}
+                placeholder="Nama Ibu"
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">No Orang Tua/ Wali</label>
-              <Input placeholder="No Orang Tua/ Wali" />
+              <Input
+                id="NoTelpOrtu"
+                onChange={handleInput}
+                placeholder="No Orang Tua/ Wali"
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">
                 Alamat Orang Tua/ Wali
               </label>
-              <TextArea rows={4} placeholder="Alamat Orang Tua/ Wali" />
+              <TextArea
+                id="AlamatOrtu"
+                onChange={handleInput}
+                rows={4}
+                placeholder="Alamat Orang Tua/ Wali"
+              />
             </div>
           </div>
 
@@ -173,17 +272,27 @@ export default function EditProfil() {
           <div className="w-1/2 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Pekerjaan Ayah</label>
-              <Input placeholder="Pekerjaan Ayah" />
+              <Input
+                id="PekerjaanAyah"
+                onChange={handleInput}
+                placeholder="Pekerjaan Ayah"
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Pekerjaan Ibu</label>
-              <Input placeholder="Pekerjaan Ibu" />
+              <Input
+                id="PekerjaanIbu"
+                onChange={handleInput}
+                placeholder="Pekerjaan Ibu"
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">
                 Penghasilan Orang Tua
               </label>
               <Input
+                id="PenghasilanOrtu"
+                onChange={handleInput}
                 placeholder="Penghasilan Orang Tua"
                 maxLength={17}
                 type="number"

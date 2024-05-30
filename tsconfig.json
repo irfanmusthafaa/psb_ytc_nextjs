@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/molecules/chart/index.jsx", "src/app/providers.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/molecules/chart/index.jsx", "src/app/providers.tsx", "src/utils/http.ts"],
   "exclude": ["node_modules"]
 }

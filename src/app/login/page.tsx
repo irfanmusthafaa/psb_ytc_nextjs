@@ -8,8 +8,8 @@ import { Toaster } from "react-hot-toast";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function Login() {
-  const [Email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const router = useRouter();
 
@@ -33,24 +33,24 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (isError) {
-      toast("Error");
-    }
     if (isSuccess) {
-      toast("Login Berhasil");
-
-      // router.push("/psb/profil");
+      toast.success("Login Berhasil");
+      router.push("/psb/profil");
     }
   }, [status]);
 
-  const loginUser = () => {
-    if (!Email || !Password) {
-      toast.error("Mohon Lengkapi Data !!");
+  const handleSubmit = () => {
+    if (!email) {
+      toast.error("Email wajib diisi");
+      return;
+    }
+    if (!password) {
+      toast.error("Password wajib diisi");
       return;
     }
     dataLogin({
-      email: Email,
-      password: Password,
+      email: email,
+      password: password,
     });
   };
 
@@ -144,7 +144,7 @@ export default function Login() {
                 type="submit"
                 className="w-full text-white bg-[#273b83] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 onClick={() => {
-                  loginUser();
+                  handleSubmit();
                 }}
               >
                 Login
@@ -162,7 +162,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-      {/* <Toaster /> */}
     </section>
   );
 }

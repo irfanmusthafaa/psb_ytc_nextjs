@@ -24,7 +24,7 @@ http.interceptors.request.use((config: any) => {
 
   config.headers = {
     ...config.headers,
-    Authorization: `${CookiesStorage.get(CookiesKey.AuthToken) ? CookiesStorage.get(CookiesKey.AuthToken) : ""}`,
+    Authorization: `Bearer ${CookiesStorage.get(CookiesKey.AuthToken) ? CookiesStorage.get(CookiesKey.AuthToken) : ""}`,
   };
   return config;
 });

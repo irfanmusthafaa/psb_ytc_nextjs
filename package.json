@@ -24,7 +24,8 @@
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
     "react-toastify": "^10.0.5",
-    "universal-cookie": "^7.1.4"
+    "universal-cookie": "^7.1.4",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",
