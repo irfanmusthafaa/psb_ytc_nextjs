@@ -2,6 +2,7 @@
 
 import { useGetProfileUser } from "@/services/user/profil/get-profil";
 import { createSeleksi } from "@/services/user/seleksi/create-seleksi";
+import { useGetSoalSeleksi } from "@/services/user/seleksi/get-soal-seleksi";
 import { Button, Input, Select } from "antd";
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -51,29 +52,54 @@ interface ProfileData {
   } | null;
 }
 
+interface SoalSeleksiData {
+  value: string;
+  label: string;
+}
+
 export default function Seleksi() {
   const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [Soal, setSoal] = useState<SoalSeleksiData[]>([]);
+  const [SelectedSoal, setSelectedSoal] = useState("");
 
   const [SoalSeleksi, setSoalSeleksi] = useState("");
   const [LinkRekaman, setLinkRekaman] = useState("");
 
-  const { data: dataProfile, isLoading, isError } = useGetProfileUser();
+  const {
+    data: dataProfile,
+    isLoading: isLoadingProfile,
+    isError: isErrorProfile,
+  } = useGetProfileUser();
+  const {
+    data: dataSoal,
+    isLoading: isLoadingSoal,
+    isError: isErrorSoal,
+  } = useGetSoalSeleksi();
 
   useEffect(() => {
-    if (!isLoading && !isError && dataProfile) {
+    if (!isLoadingProfile && !isErrorProfile && dataProfile) {
       setProfile(dataProfile || {});
       setProfile(dataProfile);
       setLinkRekaman(dataProfile?.seleksi_id?.link_rekaman || "");
     }
+    setSoal(dataSoal);
   }, [
+    dataSoal,
     dataProfile,
     // dataProfile?.seleksi_id?.soal_seleksi,
     dataProfile?.seleksi_id?.link_rekaman,
-    isLoading,
-    isError,
+    isLoadingSoal,
+    isErrorSoal,
   ]);
 
   console.log(profile, "profil");
+  console.log(Soal, "soal");
+
+  // const soalOptions =
+  //   Soal?.map((item) => ({
+  //     value: item.id,
+  //     label: item.soal,
+  //   })) || [];
 
   const handleChangeSoal = (value: string) => {
     setSoalSeleksi(value);

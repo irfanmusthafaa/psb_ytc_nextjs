@@ -3,5 +3,6 @@ export const API_ENDPOINT = {
     PROFILE: "/api/v1/user/profile",
     CREATE_INFAQ: '/api/v1/infaq/create',
     CREATE_SELEKSI: '/api/v1/seleksi/create',
+    GET_SOAL_SELEKSI: '/api/v1/soal'
     
   };

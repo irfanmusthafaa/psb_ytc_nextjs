@@ -16,8 +16,6 @@ import { usePathname } from "next/navigation";
 export default function SidebarAdmin() {
   const pathname = usePathname();
 
-  console.log(pathname, "pathname");
-
   return (
     <div className="flex flex-col items-center w-72 h-screen overflow-hidden text-indigo-300 bg-[#273b83] rounded">
       <a className="flex items-center w-full px-3 mt-3" href="#">
