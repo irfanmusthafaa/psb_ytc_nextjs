@@ -1,11 +1,113 @@
 "use client";
 
+import { useGetProfileUser } from "@/services/user/profil/get-profil";
+import { createSeleksi } from "@/services/user/seleksi/create-seleksi";
 import { Button, Input, Select } from "antd";
+import { ChangeEvent, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
+interface ProfileData {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  avatar: string;
+  nik: string;
+  tanggal_lahir: string;
+  jenis_kelamin: string;
+  pendidikan_terakhir: string;
+  kota_asal: string;
+  alamat: string;
+  status: string;
+  nama_ayah: string;
+  nama_ibu: string;
+  no_telp_ortu: string;
+  pekerjaan_ayah: string;
+  pekerjaan_ibu: string;
+  penghasilan_ortu: number;
+  infaq_id: {
+    _id: string;
+    atas_nama: string;
+    total_transfer: number;
+    bukti_pembayaran: string;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
+  document_id: {
+    _id: string;
+    ktp: string;
+    kk: string;
+    ijazah: string;
+    sertifikat: string;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
+  seleksi_id: {
+    _id: string;
+    soal_seleksi: string;
+    link_rekaman: string;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
+}
 
 export default function Seleksi() {
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
+
+  const [SoalSeleksi, setSoalSeleksi] = useState("");
+  const [LinkRekaman, setLinkRekaman] = useState("");
+
+  const { data: dataProfile, isLoading, isError } = useGetProfileUser();
+
+  useEffect(() => {
+    if (!isLoading && !isError && dataProfile) {
+      setProfile(dataProfile || {});
+      setProfile(dataProfile);
+      setLinkRekaman(dataProfile?.seleksi_id?.link_rekaman || "");
+    }
+  }, [
+    dataProfile,
+    // dataProfile?.seleksi_id?.soal_seleksi,
+    dataProfile?.seleksi_id?.link_rekaman,
+    isLoading,
+    isError,
+  ]);
+
+  console.log(profile, "profil");
+
+  const handleChangeSoal = (value: string) => {
+    setSoalSeleksi(value);
   };
+
+  const handleInput = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (e) {
+      const { id, value } = e.target;
+      if (id === "LinkRekaman") setLinkRekaman(value);
+    }
+  };
+
+  const handleCreateSeleksi = () => {
+    if (!SoalSeleksi) {
+      toast.error("Soal Seleksi wajib diisi");
+      return;
+    }
+    if (!LinkRekaman) {
+      toast.error("Link Rekaman wajib diisi");
+      return;
+    }
+    createSeleksi({
+      soal_seleksi: SoalSeleksi,
+      link_rekaman: LinkRekaman,
+    });
+
+    toast.success("Update Seleksi Berhasil");
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 1000);
+  };
+
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl text-black">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
@@ -25,8 +127,8 @@ export default function Seleksi() {
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Soal Seleksi</label>
               <Select
-                placeholder="Surah dan ayat pilihan"
-                onChange={handleChange}
+                placeholder="Pilih soal seleksi"
+                onChange={handleChangeSoal}
                 options={[
                   {
                     value: "Surah Maryam ayat 1- 10",
@@ -45,7 +147,12 @@ export default function Seleksi() {
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Link Rekaman Video</label>
-              <Input placeholder="Link Video" />
+              <Input
+                id="LinkRekaman"
+                value={LinkRekaman}
+                onChange={handleInput}
+                placeholder="Link Video"
+              />
             </div>
           </div>
         </div>
@@ -53,7 +160,13 @@ export default function Seleksi() {
       {/* End Form */}
 
       <div className="py-10 px-6 flex justify-start items-center">
-        <Button type="primary" className="bg-[#273b83]">
+        <Button
+          type="primary"
+          className="bg-[#273b83]"
+          onClick={() => {
+            handleCreateSeleksi();
+          }}
+        >
           Simpan Perubahan
         </Button>
       </div>
