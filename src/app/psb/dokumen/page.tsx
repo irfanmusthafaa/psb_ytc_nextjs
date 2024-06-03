@@ -1,26 +1,79 @@
 "use client";
 
+import { createDocument } from "@/services/user/document/create-document";
+import { useGetProfileUser } from "@/services/user/profil/get-profil";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import type { DatePickerProps } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { Button, DatePicker, Input, Radio, Select } from "antd";
 import { Upload } from "lucide-react";
 const { TextArea } = Input;
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const onChange: DatePickerProps["onChange"] = (date, dateString) => {
   console.log(date, dateString);
 };
 
+interface ProfileData {
+  id: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
+  avatar: string;
+  nik: string;
+  tanggal_lahir: string;
+  jenis_kelamin: string;
+  pendidikan_terakhir: string;
+  kota_asal: string;
+  alamat: string;
+  status: string;
+  nama_ayah: string;
+  nama_ibu: string;
+  no_telp_ortu: string;
+  pekerjaan_ayah: string;
+  pekerjaan_ibu: string;
+  penghasilan_ortu: number;
+  infaq_id: {
+    _id: string;
+    atas_nama: string;
+    total_transfer: number;
+    bukti_pembayaran: string;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
+  document_id: {
+    _id: string;
+    ktp: string;
+    kk: string;
+    ijazah: string;
+    sertifikat: string;
+    createdAt: string;
+    updatedAt: string;
+  } | null;
+  seleksi_id: string | null;
+}
+
 export default function Dokumen() {
-  const [value, setValue] = useState(1);
-  const [selectedFileSertifikat, setSelectedFileSertifikat] =
+  const [Profile, setProfile] = useState<ProfileData | null>(null);
+
+  const [SelectedFileSertifikat, setSelectedFileSertifikat] =
     useState<File | null>(null);
-  const [selectedFileKTP, setSelectedFileKTP] = useState<File | null>(null);
-  const [selectedFileKK, setSelectedFileKK] = useState<File | null>(null);
-  const [selectedFileIjazah, setSelectedFileIjazah] = useState<File | null>(
+  const [SelectedFileKTP, setSelectedFileKTP] = useState<File | null>(null);
+  const [SelectedFileKK, setSelectedFileKK] = useState<File | null>(null);
+  const [SelectedFileIjazah, setSelectedFileIjazah] = useState<File | null>(
     null
   );
+
+  const { data: dataProfile, isLoading, isError } = useGetProfileUser();
+
+  useEffect(() => {
+    if (!isLoading && !isError && dataProfile) {
+      setProfile(dataProfile);
+    }
+  }, [dataProfile, isLoading, isError]);
+
+  console.log(Profile, "profile");
 
   const handleFileChangeKTP = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -46,14 +99,51 @@ export default function Dokumen() {
     }
   };
 
-  const onChangeJk = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
-    setValue(e.target.value);
+  const handleUpdateDocument = async () => {
+    if (!SelectedFileKTP) {
+      toast.error("Nama wajib diisi");
+      return;
+    }
+    if (!SelectedFileKK) {
+      toast.error("Tanggal Lahir wajib diisi");
+      return;
+    }
+    if (!SelectedFileIjazah) {
+      toast.error("Kota Asal wajib diisi");
+      return;
+    }
+    if (!SelectedFileSertifikat) {
+      toast.error("Alamat wajib diisi");
+      return;
+    }
+
+    const formData = new FormData();
+
+    if (SelectedFileKTP) {
+      formData.append("ktp", SelectedFileKTP);
+    }
+    if (SelectedFileKK) {
+      formData.append("kk", SelectedFileKK);
+    }
+    if (SelectedFileIjazah) {
+      formData.append("ijazah", SelectedFileIjazah);
+    }
+    if (SelectedFileSertifikat) {
+      formData.append("sertifikat", SelectedFileSertifikat);
+    }
+
+    try {
+      await createDocument(formData);
+      toast.success("Update Document Success");
+    } catch (error) {
+      toast.error("Update Document Failed");
+    }
+
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 1000);
   };
 
-  const handleChangePendidikan = (value: string) => {
-    console.log(`selected ${value}`);
-  };
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl text-black">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
@@ -78,9 +168,9 @@ export default function Dokumen() {
                   placeholder="Upload KTP"
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
-                {selectedFileKTP ? (
+                {SelectedFileKTP ? (
                   <p className="text-sm text-black ">
-                    Selected file: {selectedFileKTP.name}
+                    Selected file: {SelectedFileKTP.name}
                   </p>
                 ) : (
                   <p className="text-sm text-gray-400 font-light">Upload KTP</p>
@@ -98,9 +188,9 @@ export default function Dokumen() {
                   placeholder="Upload KK"
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
-                {selectedFileKK ? (
+                {SelectedFileKK ? (
                   <p className="text-sm text-black ">
-                    Selected file: {selectedFileKK.name}
+                    Selected file: {SelectedFileKK.name}
                   </p>
                 ) : (
                   <p className="text-sm text-gray-400 font-light">Upload KK</p>
@@ -118,9 +208,9 @@ export default function Dokumen() {
                   placeholder="Upload Ijazah"
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
-                {selectedFileIjazah ? (
+                {SelectedFileIjazah ? (
                   <p className="text-sm text-black ">
-                    Selected file: {selectedFileIjazah.name}
+                    Selected file: {SelectedFileIjazah.name}
                   </p>
                 ) : (
                   <p className="text-sm text-gray-400 font-light">
@@ -141,9 +231,9 @@ export default function Dokumen() {
                   placeholder="Upload Foto 3x4"
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
-                {selectedFileSertifikat ? (
+                {SelectedFileSertifikat ? (
                   <p className="text-sm text-black ">
-                    Selected file: {selectedFileSertifikat.name}
+                    Selected file: {SelectedFileSertifikat.name}
                   </p>
                 ) : (
                   <p className="text-sm text-gray-400 font-light">
@@ -158,7 +248,13 @@ export default function Dokumen() {
       {/* End Form */}
 
       <div className="mt-5 mb-10 py-4 px-6 flex justify-start items-center">
-        <Button type="primary" className="bg-[#273b83]">
+        <Button
+          type="primary"
+          className="bg-[#273b83]"
+          onClick={() => {
+            handleUpdateDocument();
+          }}
+        >
           Simpan Perubahan
         </Button>
       </div>
