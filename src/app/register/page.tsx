@@ -137,12 +137,13 @@ export default function Register() {
     formData.append("pendidikan_terakhir", PendidikanTerakhir);
 
     if (selectedFileAvatar) {
-      formData.append("avatar", selectedFileAvatar);
+      formData.append("image", selectedFileAvatar);
     }
 
     try {
       await createRegister(formData);
       toast.success("Update Profile Success");
+      router.push("/login");
     } catch (error) {
       toast.error("Update Profile Failed");
     }

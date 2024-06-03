@@ -1,5 +1,5 @@
 export const API_ENDPOINT = {
-  REGISTER: "/api/v1/auth/register",
+  REGISTER: "/api/v1/auth/signup",
   LOGIN_USER: "/api/v1/auth/signin",
   PROFILE: "/api/v1/user/profile",
   CREATE_INFAQ: "/api/v1/infaq/create",
