@@ -157,12 +157,10 @@ export default function EditProfil() {
   };
 
   const onChangeJk = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
     setJenisKelamin(e.target.value);
   };
 
   const handleChangePendidikan = (value: string) => {
-    console.log(`selected ${value}`);
     setPendidikanTerakhir(value);
   };
 
