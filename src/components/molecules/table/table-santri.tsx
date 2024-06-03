@@ -71,10 +71,9 @@ const TableSantri: React.FC = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button className="flex justify-center  items-center  gap-2  text-gray-700 border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full">
-            {/* <Expand /> */}
+          {/* <Button className="flex justify-center  items-center  gap-2  text-gray-700 border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full">
             <Maximize2 />
-          </Button>
+          </Button> */}
           <Button
             className="flex justify-center items-center  gap-2  text-gray-700  border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full"
             onClick={() => setOpenModalStatus(true)}

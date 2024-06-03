@@ -7,4 +7,7 @@ export const API_ENDPOINT = {
   GET_SOAL_SELEKSI: "/api/v1/soal",
   GET_BANK: "/api/v1/bank",
   CREATE_DOCUMENT: "/api/v1/document/create",
+
+  LOGIN_ADMIN:"/api/v1/admin/signin",
+  GET_ALL_USER:'/api/v1//admin/users'
 };
