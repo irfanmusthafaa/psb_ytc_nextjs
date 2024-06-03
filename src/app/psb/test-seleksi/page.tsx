@@ -53,6 +53,8 @@ interface ProfileData {
 }
 
 interface SoalSeleksiData {
+  soal: string;
+  _id: any;
   value: string;
   label: string;
 }
@@ -95,11 +97,12 @@ export default function Seleksi() {
   console.log(profile, "profil");
   console.log(Soal, "soal");
 
-  // const soalOptions =
-  //   Soal?.map((item) => ({
-  //     value: item.id,
-  //     label: item.soal,
-  //   })) || [];
+  const soalOptions =
+    Soal?.map((item) => ({
+      key: item._id,
+      value: item._id,
+      label: item.soal ?? "",
+    })) ?? [];
 
   const handleChangeSoal = (value: string) => {
     setSoalSeleksi(value);
@@ -155,20 +158,7 @@ export default function Seleksi() {
               <Select
                 placeholder="Pilih soal seleksi"
                 onChange={handleChangeSoal}
-                options={[
-                  {
-                    value: "Surah Maryam ayat 1- 10",
-                    label: "Surah Maryam ayat 1- 10",
-                  },
-                  {
-                    value: "Surah Al Baqarah ayat 100 - 110",
-                    label: "Surah Al Baqarah ayat 100 - 110",
-                  },
-                  {
-                    value: "Surah Al Fajar ayat 1 - 30",
-                    label: "Surah Al Fajar ayat 1 - 30",
-                  },
-                ]}
+                options={soalOptions}
               />
             </div>
             <div className="flex flex-col gap-2">
