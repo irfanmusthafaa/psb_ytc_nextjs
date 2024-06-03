@@ -90,6 +90,8 @@ export default function Seleksi() {
     dataProfile,
     // dataProfile?.seleksi_id?.soal_seleksi,
     dataProfile?.seleksi_id?.link_rekaman,
+    isLoadingProfile,
+    isErrorProfile,
     isLoadingSoal,
     isErrorSoal,
   ]);
