@@ -3,11 +3,18 @@
 import React, { useState } from "react";
 import { Button, Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
-import { Expand, FilePenLine, Maximize2, Trash2 } from "lucide-react";
+import { Expand, Eye, FilePenLine, Maximize2, Trash2 } from "lucide-react";
 import ModalStatus from "../modal/modal-status";
+import { SantriTypes } from "@/services/data-types";
+import { useRouter } from "next/navigation";
+
+interface DataSantriProps {
+  data: SantriTypes[];
+}
 
 interface DataType {
   key: string;
+  id?: string;
   nama_santri: string;
   tanggal_lahir: string;
   jenis_kelamin: string;
@@ -15,8 +22,13 @@ interface DataType {
   tags: string[];
 }
 
-const TableSantri: React.FC = () => {
+export default function TableSantri(props: DataSantriProps) {
+  const { data } = props;
   const [openModalStatus, setOpenModalStatus] = useState(false);
+
+  const router = useRouter();
+
+  console.log(data, "data");
 
   const columns: TableProps<DataType>["columns"] = [
     {
@@ -53,8 +65,8 @@ const TableSantri: React.FC = () => {
       render: (_, { tags }) => (
         <>
           {tags.map((tag) => {
-            let color = tag === "Lulus" ? "green" : "geekblue";
-            if (tag === "Tidak Lulus") {
+            let color = tag === "lulus" ? "green" : "geekblue";
+            if (tag === "tidak lulus") {
               color = "volcano";
             }
             return (
@@ -71,20 +83,19 @@ const TableSantri: React.FC = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          {/* <Button className="flex justify-center  items-center  gap-2  text-gray-700 border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full">
-            <Maximize2 />
-          </Button> */}
           <Button
-            className="flex justify-center items-center  gap-2  text-gray-700  border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full"
-            onClick={() => setOpenModalStatus(true)}
+            type="primary"
+            className="flex justify-center items-center gap-2  border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full"
+            // onClick={() => setOpenModalStatus(true)}
+            onClick={() => router.push(`/admin/santri/${record.id}`)}
           >
-            {/* <Expand /> */}
-            {/* Edit Status */}
-            <FilePenLine />
+            Lihat Detail
+            {/* <Eye width={20} height={20} /> */}
           </Button>
-          <Button className=" text-gray-700 hover:bg-red-900 rounded-none border-none">
-            {/* <DeleteOutlined /> */}
-            {/* Hapus */}
+          <Button
+            type="dashed"
+            className="text-gray-700 hover:bg-red-900 rounded-none border-none"
+          >
             <Trash2 />
           </Button>
         </Space>
@@ -92,60 +103,19 @@ const TableSantri: React.FC = () => {
     },
   ];
 
-  const data: DataType[] = [
-    {
-      key: "1",
-      nama_santri: "Muhammad Ramdani",
-      tanggal_lahir: "23/07/1999",
-      jenis_kelamin: "Laki-laki",
-      kota_asal: "Bandung",
-      tags: ["Lulus"],
-    },
-    {
-      key: "2",
-      nama_santri: "Aisyah",
-      tanggal_lahir: "23/07/1998",
-      jenis_kelamin: "Perempuan",
-      kota_asal: "Jakarta",
-      tags: ["Tidak Lulus"],
-    },
-    {
-      key: "3",
-      nama_santri: "Ahmad Fajar",
-      tanggal_lahir: "23/07/2002",
-      jenis_kelamin: "Laki-laki",
-      kota_asal: "Bogor",
-      tags: ["Belum di proses"],
-    },
-    {
-      key: "4",
-      nama_santri: "Ridwan",
-      tanggal_lahir: "23/07/1999",
-      jenis_kelamin: "Laki-laki",
-      kota_asal: "Bandung",
-      tags: ["Lulus"],
-    },
-    {
-      key: "5",
-      nama_santri: "Annisa",
-      tanggal_lahir: "23/07/1998",
-      jenis_kelamin: "Perempuan",
-      kota_asal: "Jakarta",
-      tags: ["Tidak Lulus"],
-    },
-    {
-      key: "6",
-      nama_santri: "Muhammad Ardi",
-      tanggal_lahir: "23/07/2002",
-      jenis_kelamin: "Laki-laki",
-      kota_asal: "Bogor",
-      tags: ["Belum di proses"],
-    },
-  ];
+  const dataSource: DataType[] = data?.map((item, index) => ({
+    key: (index + 1).toString(),
+    id: item._id,
+    nama_santri: item.name,
+    tanggal_lahir: new Date(item.tanggal_lahir).toLocaleDateString(),
+    jenis_kelamin: item.jenis_kelamin,
+    kota_asal: item.kota_asal,
+    tags: [item.status],
+  }));
 
   return (
     <>
-      <Table columns={columns} dataSource={data} className="w-full" />
+      <Table columns={columns} dataSource={dataSource} className="w-full" />
 
       <ModalStatus
         open={openModalStatus}
@@ -154,6 +124,6 @@ const TableSantri: React.FC = () => {
       />
     </>
   );
-};
+}
 
-export default TableSantri;
+// export default TableSantri;

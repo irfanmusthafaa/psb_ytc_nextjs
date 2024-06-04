@@ -1,9 +1,12 @@
+"use client"
+
 import { API_ENDPOINT } from "@/utils/api-endpoint";
 import httpAdmin from "@/utils/http-admin";
 import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 
 
-const GetAllUser = async ({ queryKey }: QueryFunctionContext) => {
+const GetDetailUser = async ({ queryKey }: QueryFunctionContext) => {
     const [_key, _params] = queryKey as [string, any]
     try {
         const { data } = await httpAdmin.get(_key, { params: _params });
@@ -14,8 +17,10 @@ const GetAllUser = async ({ queryKey }: QueryFunctionContext) => {
       }
 };
 
-const useGetAllUser = (options?: any) => {
-  return useQuery([API_ENDPOINT.GET_ALL_USER, options], GetAllUser);
+const useGetDetailUser = (options?: any) => {
+    const params = useParams();
+    const {slug} = params
+  return useQuery([`${API_ENDPOINT.GET_DETAIL_USER}/${slug}`, options], GetDetailUser);
 };
 
-export { GetAllUser, useGetAllUser };
+export { GetDetailUser, useGetDetailUser };

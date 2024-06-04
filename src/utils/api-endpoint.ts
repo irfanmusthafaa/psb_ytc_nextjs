@@ -9,5 +9,6 @@ export const API_ENDPOINT = {
   CREATE_DOCUMENT: "/api/v1/document/create",
 
   LOGIN_ADMIN:"/api/v1/admin/signin",
-  GET_ALL_USER:'/api/v1//admin/users'
+  GET_ALL_USER:'/api/v1/admin/users',
+  GET_DETAIL_USER:'/api/v1/admin/user'
 };

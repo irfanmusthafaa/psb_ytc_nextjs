@@ -1,61 +1,32 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Button, Divider, List, Typography } from "antd";
-import { useGetProfileUser } from "@/services/user/profil/get-profil";
+import { useParams, useRouter } from "next/navigation";
+import { useGetDetailUser } from "@/services/admin/users/detail-user";
+import { SantriTypes } from "@/services/data-types";
+import { Button } from "antd";
+import ModalStatus from "@/components/molecules/modal/modal-status";
 
-interface ProfileData {
-  id: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  avatar: string;
-  nik: string;
-  tanggal_lahir: string;
-  jenis_kelamin: string;
-  pendidikan_terakhir: string;
-  kota_asal: string;
-  alamat: string;
-  status: string;
-  nama_ayah: string;
-  nama_ibu: string;
-  no_telp_ortu: string;
-  pekerjaan_ayah: string;
-  pekerjaan_ibu: string;
-  alamat_ortu: string;
-  penghasilan_ortu: number;
-  infaq_id: {
-    _id: string;
-    atas_nama: string;
-    total_transfer: number;
-    bukti_pembayaran: string;
-    createdAt: string;
-    updatedAt: string;
-  } | null;
-  document_id: {
-    _id: string;
-    ktp: string;
-    kk: string;
-    ijazah: string;
-    sertifikat: string;
-    createdAt: string;
-    updatedAt: string;
-  } | null;
-  seleksi_id: string | null;
+interface DataSantriProps {
+  data: SantriTypes;
 }
 
-export default function Profil() {
-  const [profile, setProfile] = useState<ProfileData | null>(null);
+export default function DetailSantri() {
+  const [Users, setUsers] = useState<SantriTypes | null>(null);
+  const [openModalStatus, setOpenModalStatus] = useState(false);
 
-  const { data: dataProfile, isLoading, isError } = useGetProfileUser();
+  const params = useParams();
+  const { slug } = params;
 
-  console.log(profile, "Profils");
+  const { data: dataUsers, isLoading, isError } = useGetDetailUser();
 
   useEffect(() => {
     if (!isLoading && !isError) {
-      setProfile(dataProfile || {});
+      setUsers(dataUsers?.data || []);
     }
-  }, [dataProfile, isLoading, isError]);
+  }, [dataUsers, isLoading, isError]);
+
+  console.log(Users, "Users");
 
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl">
@@ -74,39 +45,39 @@ export default function Profil() {
             </h2>
             <ul className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg ">
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
-                <span className="min-w-48">Nama</span> {profile?.name}
+                <span className="min-w-48">Nama</span> {Users?.name}
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
                 <span className="min-w-48">Tanggal Lahir</span>
-                {profile?.tanggal_lahir}
+                {Users?.tanggal_lahir}
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
                 <span className="min-w-48">Jenis Kelamin</span>
-                {profile?.jenis_kelamin}
+                {Users?.jenis_kelamin}
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
                 <span className="min-w-48">Kota Asal</span>
-                {profile?.kota_asal}
+                {Users?.kota_asal}
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
                 <span className="min-w-48">Alamat Lengkap</span>
-                {profile?.alamat}
+                {Users?.alamat}
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
                 <span className="min-w-48">Pendidikan Terakhir</span>
-                {profile?.pendidikan_terakhir}
+                {Users?.pendidikan_terakhir}
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
                 <span className="min-w-48">NIK</span>
-                {profile?.nik}
+                {Users?.nik}
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
                 <span className="min-w-48">No Telepon</span>
-                {profile?.phoneNumber}
+                {Users?.phoneNumber}
               </li>
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
                 <span className="min-w-48">Status</span>
-                {profile?.status}
+                {Users?.status}
               </li>
             </ul>
           </div>
@@ -115,7 +86,7 @@ export default function Profil() {
           <div className="w-[30%] flex flex-col justify-center items-center gap-4">
             <img
               className="w-1/2 h-52 rounded-md"
-              src={`${process.env.NEXT_PUBLIC_IMG}/${profile?.avatar}`}
+              src={`${process.env.NEXT_PUBLIC_IMG}/${Users?.avatar}`}
               alt="Rounded avatar"
             />
           </div>
@@ -127,31 +98,31 @@ export default function Profil() {
           </h2>
           <ul className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg ">
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
-              <span className="min-w-48">Nama Ayah</span> {profile?.nama_ayah}
+              <span className="min-w-48">Nama Ayah</span> {Users?.nama_ayah}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Nama Ibu</span>
-              {profile?.nama_ibu}
+              {Users?.nama_ibu}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">No Telepon</span>
-              {profile?.no_telp_ortu}
+              {Users?.no_telp_ortu}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Alamat Lengkap</span>
-              {profile?.alamat_ortu}
+              {Users?.alamat_ortu}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Pekerjaan Ayah</span>
-              {profile?.pekerjaan_ayah}
+              {Users?.pekerjaan_ayah}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Pekerjaan Ibu</span>
-              {profile?.pekerjaan_ibu}
+              {Users?.pekerjaan_ibu}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Penghasilan Orang Tua</span>
-              {profile?.penghasilan_ortu}
+              {Users?.penghasilan_ortu}
             </li>
           </ul>
         </div>
@@ -159,10 +130,20 @@ export default function Profil() {
       {/* End Form */}
 
       <div className="py-4 px-6 flex justify-end items-center">
-        <Button type="primary" className="bg-[#273b83]">
-          Edit Data
+        <Button
+          type="primary"
+          className="bg-[#273b83]"
+          onClick={() => setOpenModalStatus(true)}
+        >
+          Edit Status Kelulusan
         </Button>
       </div>
+
+      <ModalStatus
+        open={openModalStatus}
+        onOk={() => setOpenModalStatus(false)}
+        onCancel={() => setOpenModalStatus(false)}
+      />
     </div>
   );
 }
