@@ -10,5 +10,6 @@ export const API_ENDPOINT = {
 
   LOGIN_ADMIN:"/api/v1/admin/signin",
   GET_ALL_USER:'/api/v1/admin/users',
-  GET_DETAIL_USER:'/api/v1/admin/user'
+  GET_DETAIL_USER:'/api/v1/admin/user',
+  EDIT_STATUS_USER:'/api/v1/admin/users'
 };

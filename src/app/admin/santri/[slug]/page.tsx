@@ -141,8 +141,10 @@ export default function DetailSantri() {
 
       <ModalStatus
         open={openModalStatus}
-        onOk={() => setOpenModalStatus(false)}
-        onCancel={() => setOpenModalStatus(false)}
+        openModalStatus={openModalStatus}
+        setOpenModalStatus={setOpenModalStatus}
+        // onOk={() => setOpenModalStatus(false)}
+        // onCancel={() => setOpenModalStatus(false)}
       />
     </div>
   );
