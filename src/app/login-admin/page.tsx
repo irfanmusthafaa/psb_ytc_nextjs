@@ -39,6 +39,9 @@ export default function Login() {
     }
   }, [status]);
 
+  console.log(email, "email");
+  console.log(password, "password");
+
   const handleSubmit = () => {
     if (!email) {
       toast.error("Email wajib diisi");

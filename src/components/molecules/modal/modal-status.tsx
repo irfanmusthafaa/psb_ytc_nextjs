@@ -4,23 +4,12 @@ import { toast } from "react-toastify";
 import { editStatusUser } from "@/services/admin/users/put-status";
 import { useParams } from "next/navigation";
 
-const datas = [
-  "Menghafal Al Quran 30 juz (selama 6 bulan)",
-  "Tasmi' pekanan/ bulanan/ akhir program",
-  "Murojaah hafalan setiap malam",
-  "Kajian Kitab At- Tibyan Fii Hamalatil Quran",
-  "Pembekalan bahasa arab dasar",
-  "Pembekalan Tahsin Kitab Thufatul Athfal",
-  "Kajian Tematik Bulanan",
-  "Pelatihan Softskill/ Training Leadership/ Public Speaking",
-];
-
 interface ModalStatusProps {
   open: boolean;
   onCancel?: () => void;
   onOk: () => void;
   openModalStatus: () => void;
-  setOpenModalStatus: () => void;
+  setOpenModalStatus: (status: boolean) => void;
 }
 
 const ModalStatus: React.FC<ModalStatusProps> = ({
@@ -51,6 +40,8 @@ const ModalStatus: React.FC<ModalStatusProps> = ({
     console.log(`selected ${value}`);
     setStatus(value);
   };
+  console.log(Nilai, "nilai");
+  console.log(Status, "Status");
 
   const handleUpdateStatus = () => {
     if (!Nilai) {
@@ -66,17 +57,19 @@ const ModalStatus: React.FC<ModalStatusProps> = ({
       status: Status,
     });
 
-    toast.success("Update Seleksi Berhasil");
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 1000);
+    toast.success("Update Nilai Berhasil");
+    setOpenModalStatus(false);
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   };
 
   return (
     <Modal
       centered
       width={500}
-      open={open}
+      footer={null}
+      visible={open}
       onOk={() => setOpenModalStatus(false)}
       onCancel={() => setOpenModalStatus(false)}
     >
@@ -104,7 +97,14 @@ const ModalStatus: React.FC<ModalStatusProps> = ({
             ]}
           />
         </div>
-        <Button type="primary">Simpan</Button>
+        <Button
+          type="primary"
+          onClick={() => {
+            handleUpdateStatus();
+          }}
+        >
+          Simpan
+        </Button>
       </div>
     </Modal>
   );

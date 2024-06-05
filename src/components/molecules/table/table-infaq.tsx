@@ -70,14 +70,7 @@ const columns: TableProps<DataType>["columns"] = [
     key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <Button
-          // onClick={() => {
-          //   handleUpdatePayment();
-          //   setOpenUpdate(true);
-          //   setRecord(record);
-          // }}
-          className="bg-blue-500 w-[12rem] text-white border-none hover:bg-blue-700 hover:text-white hover:border-none rounded-full"
-        >
+        <Button className="bg-blue-500 w-[12rem] text-white border-none hover:bg-blue-700 hover:text-white hover:border-none rounded-full">
           <CheckCircleOutlined />
           Konfirmasi Pembayaran
         </Button>
