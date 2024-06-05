@@ -15,4 +15,9 @@ export const API_ENDPOINT = {
   CREATE_SOAL_SELEKSI:'/api/v1/soal/create',
   EDIT_SOAL_SELEKSI:'/api/v1/soal/edit',
   DELETE_SOAL_SELEKSI:'/api/v1/soal/delete',
+
+  GET_SYARAT_PENDAFTARAN:'/api/v1/syarat-pendaftaran',
+  CREATE_SYARAT_PENDAFTARAN:'/api/v1/syarat-pendaftaran/create',
+  EDIT_SYARAT_PENDAFTARAN:'/api/v1/syarat-pendaftaran/edit',
+  DELETE_SYARAT_PENDAFTARAN:'/api/v1/syarat-pendaftaran/delete',
 };

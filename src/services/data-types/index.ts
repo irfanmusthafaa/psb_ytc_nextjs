@@ -103,3 +103,44 @@ export interface SoalTypes {
   updatedAt: Date;
   __v: number;
 }
+
+export interface SyaratPendaftaranTypes {
+  _id: string;
+  syarat_pendaftaran: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+
+export interface AlurPendaftaranTypes {
+  _id: string;
+  alur_pendaftaran: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+
+export interface ProgramTypes {
+  _id: string;
+  program: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+
+export interface FasilitasTypes {
+  _id: string;
+  fasilitas: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+
+export interface CabangTypes {
+  _id: string;
+  cabang: string;
+  alamat: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
