@@ -20,4 +20,24 @@ export const API_ENDPOINT = {
   CREATE_SYARAT_PENDAFTARAN:'/api/v1/syarat-pendaftaran/create',
   EDIT_SYARAT_PENDAFTARAN:'/api/v1/syarat-pendaftaran/edit',
   DELETE_SYARAT_PENDAFTARAN:'/api/v1/syarat-pendaftaran/delete',
+
+  GET_ALUR_PENDAFTARAN:'/api/v1/alur-pendaftaran',
+  CREATE_ALUR_PENDAFTARAN:'/api/v1/alur-pendaftaran/create',
+  EDIT_ALUR_PENDAFTARAN:'/api/v1/alur-pendaftaran/edit',
+  DELETE_ALUR_PENDAFTARAN:'/api/v1/alur-pendaftaran/delete',
+
+  GET_PROGRAM:'/api/v1/program',
+  CREATE_PROGRAM:'/api/v1/program/create',
+  EDIT_PROGRAM:'/api/v1/program/edit',
+  DELETE_PROGRAM:'/api/v1/program/delete',
+
+  GET_FASILITAS:'/api/v1/fasilitas',
+  CREATE_FASILITAS:'/api/v1/fasilitas/create',
+  EDIT_FASILITAS:'/api/v1/fasilitas/edit',
+  DELETE_FASILITAS:'/api/v1/fasilitas/delete',
+
+  GET_CABANG:'/api/v1/cabang',
+  CREATE_CABANG:'/api/v1/cabang/create',
+  EDIT_CABANG:'/api/v1/cabang/edit',
+  DELETE_CABANG:'/api/v1/cabang/delete',
 };
