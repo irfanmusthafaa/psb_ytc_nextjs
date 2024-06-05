@@ -214,7 +214,7 @@ export default function TableSyaratPendaftaran() {
           <Input
             id="Label"
             onChange={handleInput}
-            placeholder="Tambah Soal Seleksi"
+            placeholder="Tambah Syarat Pendaftaran"
             value={Label}
           />
           {modeEdit ? (
