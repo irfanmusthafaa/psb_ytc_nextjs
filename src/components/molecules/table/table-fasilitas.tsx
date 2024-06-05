@@ -1,89 +1,248 @@
-import React from "react";
-import { Button, Input, Space, Table, Tag } from "antd";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { Button, Input, Modal, Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
-import { Expand, FilePenLine, Trash2 } from "lucide-react";
-import { CheckCircleOutlined, FileAddOutlined } from "@ant-design/icons";
+import { Expand, Eye, FilePenLine, Maximize2, Trash2 } from "lucide-react";
+import {
+  AlurPendaftaranTypes,
+  FasilitasTypes,
+  ProgramTypes,
+  SyaratPendaftaranTypes,
+} from "@/services/data-types";
+import { toast } from "react-toastify";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+import { useGetSyaratPendaftaran } from "@/services/admin/syarat-pendaftaran/get-syarat-pendafataran";
+import { createSyaratPendaftaran } from "@/services/admin/syarat-pendaftaran/create-syarat-pendaftaran";
+import { editSyaratPendaftaran } from "@/services/admin/syarat-pendaftaran/edit-syarat-pendaftaran";
+import { usedeleteSyaratPendaftaran } from "@/services/admin/syarat-pendaftaran/delete-syarat-pendaftaran";
+import { useGetAlurPendaftaran } from "@/services/admin/alur-pendaftaran/get-alur-pendaftaran";
+import { usedeleteAlurPendaftaran } from "@/services/admin/alur-pendaftaran/delete-alur-pendaftaran";
+import { createAlurPendaftaran } from "@/services/admin/alur-pendaftaran/create-alur-pendaftaran";
+import { editAlurPendaftaran } from "@/services/admin/alur-pendaftaran/edit-alur-pendaftaran";
+import { useGetProgram } from "@/services/admin/program/get-syarat-pendafataran";
+import { usedeleteProgram } from "@/services/admin/program/delete-syarat-pendaftaran";
+import { createProgram } from "@/services/admin/program/create-syarat-pendaftaran";
+import { editProgram } from "@/services/admin/program/edit-syarat-pendaftaran";
+import { useGetFasilitas } from "@/services/admin/fasilitas/get-fasilitas";
+import { usedeleteFasilitas } from "@/services/admin/fasilitas/delete-fasilitas";
+import { createFasilitas } from "@/services/admin/fasilitas/create-fasilitas";
+import { editFasilitas } from "@/services/admin/fasilitas/edit-fasilitas";
+
+const { confirm } = Modal;
 
 interface DataType {
-  key: string;
+  key?: string;
+  id?: string;
   fasilitas: string;
 }
 
-const columns: TableProps<DataType>["columns"] = [
-  {
-    title: "No",
-    dataIndex: "key",
-    key: "key",
-    render: (text) => <>{text}</>,
-  },
-  {
-    title: "Fasilitas",
-    dataIndex: "fasilitas",
-    key: "fasilitas",
-    render: (text) => <>{text}</>,
-  },
+export default function TableFasilitas() {
+  const [data, setData] = useState<FasilitasTypes[] | null>(null);
+  const [modeEdit, setModeEdit] = useState(false);
+  const [editedId, setEditedId] = useState<string | undefined>(undefined);
+  const [deletedId, setDeletedId] = useState<string | null>(null);
+  const [Label, setLabel] = useState("");
 
-  {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <Space size="middle">
-        <Button
-          className="flex justify-center items-center  gap-2  text-gray-700  border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full"
-          //   onClick={() => setOpenModalStatus(true)}
-        >
-          {/* <Expand /> */}
-          {/* Edit Status */}
-          <FilePenLine />
-        </Button>
-        <Button className=" text-gray-700 hover:bg-red-900 rounded-none border-none">
-          {/* <DeleteOutlined /> */}
-          {/* Hapus */}
-          <Trash2 />
-        </Button>
-      </Space>
-    ),
-  },
-];
+  const { data: dataFasilitas, isLoading, isError } = useGetFasilitas();
 
-const data: DataType[] = [
-  {
-    key: "1",
-    fasilitas: "Gratis Biaya Pendaftaran, Asrama dan Makan Minum (100%)",
-  },
-  {
-    key: "2",
-    fasilitas: "Mushaf Al Quran dan Perangkat Menghafal",
-  },
-  {
-    key: "3",
-    fasilitas: "Pengajar/ Pembimbing Berpengalaman",
-  },
-  {
-    key: "4",
-    fasilitas: "Riyadhoh dan Rihlah",
-  },
-  {
-    key: "5",
-    fasilitas: "Sertifikat/ Syahadah",
-  },
-  {
-    key: "6",
-    fasilitas: "Haflatul Ikhtitam (Wisuda Khataman)",
-  },
-];
+  useEffect(() => {
+    if (!isLoading && !isError) {
+      setData(dataFasilitas || []);
+    }
+  }, [dataFasilitas, isLoading, isError]);
 
-const TableFasilitas: React.FC = () => (
-  <>
-    <div className="pt-3">
-      <div className="w-full flex justify-between gap-3 mb-3">
-        <Input placeholder="Tambah Fasilitas" />
-        <Button type="primary">Tambah Data</Button>
+  const { mutate } = usedeleteFasilitas();
+
+  console.log(data, "data");
+
+  const columns: TableProps<DataType>["columns"] = [
+    {
+      title: "No",
+      dataIndex: "key",
+      key: "key",
+      render: (text) => <>{text}</>,
+    },
+    {
+      title: "Fasilitas",
+      dataIndex: "fasilitas",
+      key: "fasilitas",
+      render: (text) => <>{text}</>,
+    },
+
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space size="middle">
+          <Button
+            type="dashed"
+            className="flex justify-center items-center  gap-2  text-gray-700  border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full"
+            onClick={() => handleEdit(record.id, record.fasilitas)}
+          >
+            <FilePenLine />
+          </Button>
+          <Button
+            onClick={() => showDeleteConfirm(record.id)}
+            type="dashed"
+            className="flex justify-center items-center  gap-2  text-gray-700  border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full"
+          >
+            <Trash2 />
+          </Button>
+        </Space>
+      ),
+    },
+  ];
+
+  const dataSource: DataType[] = data
+    ? data.map((item, index) => ({
+        key: (index + 1).toString(),
+        id: item._id,
+        fasilitas: item.fasilitas,
+      }))
+    : [];
+
+  const handleInput = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (e) {
+      const { id, value } = e.target;
+      if (id === "Label") setLabel(value);
+    }
+  };
+
+  const handleCreate = () => {
+    if (!Label) {
+      toast.error("Fasilitas wajib diisi");
+      return;
+    }
+
+    createFasilitas({
+      fasilitas: Label,
+    });
+
+    toast.success("Tambah Data Berhasil");
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  };
+
+  // Edit Soal
+  const handleEdit = (id: string | undefined, soal: string) => {
+    setModeEdit(true);
+    setLabel(soal);
+    setEditedId(id);
+  };
+
+  const handleCancelEdit = () => {
+    setModeEdit(false);
+    setLabel("");
+    setEditedId(undefined);
+  };
+
+  const handleUpdate = () => {
+    if (!Label) {
+      toast.error("Fasilitas wajib diisi");
+      return;
+    }
+
+    if (!editedId) {
+      toast.error("ID tidak ditemukan");
+      return;
+    }
+
+    editFasilitas(editedId, {
+      fasilitas: Label,
+    })
+      .then(() => {
+        setData((prevData) => {
+          if (prevData !== null) {
+            return prevData.map((item) => {
+              if (item._id === editedId) {
+                return { ...item, fasilitas: Label }; // Update data yang diubah
+              } else {
+                return item;
+              }
+            });
+          } else {
+            return null;
+          }
+        });
+        toast.success("Update Data Berhasil");
+        handleCancelEdit();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("Gagal memperbarui data");
+      });
+  };
+
+  // Delete
+  const handleDelete = (id: string | undefined) => {
+    if (id) {
+      mutate(id);
+      setDeletedId(id);
+      toast.success("Berhasil menghapus data");
+
+      //agar data update tanpa reload
+      setData((prevData: FasilitasTypes[] | null) => {
+        if (prevData) {
+          return prevData.filter((item) => item._id !== id);
+        } else {
+          return null;
+        }
+      });
+    } else {
+      toast.error("ID tidak valid");
+    }
+  };
+
+  const showDeleteConfirm = (id: string | undefined) => {
+    confirm({
+      title: "Apakah yakin akan menghapus data ini?",
+      icon: <ExclamationCircleFilled />,
+      content: "Some descriptions",
+      okText: "Hapus",
+      okType: "danger",
+      cancelText: "Batal",
+      onOk() {
+        handleDelete(id);
+      },
+      onCancel() {
+        return null;
+      },
+    });
+  };
+
+  return (
+    <>
+      <div className="pt-3">
+        <div className="w-full flex justify-between gap-3 mb-3">
+          <Input
+            id="Label"
+            onChange={handleInput}
+            placeholder="Tambah Fasilitas"
+            value={Label}
+          />
+          {modeEdit ? (
+            <Space>
+              <Button type="primary" onClick={handleUpdate}>
+                Simpan
+              </Button>
+              <Button onClick={handleCancelEdit}>Batal</Button>
+            </Space>
+          ) : (
+            <Button
+              type="primary"
+              onClick={() => {
+                handleCreate();
+              }}
+            >
+              Tambah Data
+            </Button>
+          )}
+        </div>
+
+        <Table columns={columns} dataSource={dataSource} className="w-full" />
       </div>
-
-      <Table columns={columns} dataSource={data} className="w-full" />
-    </div>
-  </>
-);
-
-export default TableFasilitas;
+    </>
+  );
+}
