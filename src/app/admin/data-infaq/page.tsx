@@ -1,12 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TableInfaq from "@/components/molecules/table/table-infaq";
 import TableBank from "@/components/molecules/table/table-bank";
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import { useGetAllUser } from "@/services/admin/users/get-all-user";
 
 export default function DataSantri() {
+  const [Users, setUsers] = useState([]);
+
+  const { data: dataUsers, isLoading, isError } = useGetAllUser();
+
+  useEffect(() => {
+    if (!isLoading && !isError) {
+      setUsers(dataUsers?.data || []);
+    }
+  }, [dataUsers, isLoading, isError]);
+
+  console.log(Users, "Users");
   return (
     <div className="bg-white h-auto min-h-[500px] m-8 box-border w-max-full rounded-xl">
       {/* <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
@@ -18,7 +30,7 @@ export default function DataSantri() {
         <div className="w-1/3">
           <Input placeholder="Cari data infaq" prefix={<SearchOutlined />} />
         </div>
-        <TableInfaq />
+        <TableInfaq data={Users} />
       </div>
     </div>
   );

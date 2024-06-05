@@ -119,11 +119,10 @@ export default function TableSantri(props: DataSantriProps) {
 
       <ModalStatus
         open={openModalStatus}
+        setOpenModalStatus={setOpenModalStatus}
         onOk={() => setOpenModalStatus(false)}
         onCancel={() => setOpenModalStatus(false)}
       />
     </>
   );
 }
-
-// export default TableSantri;

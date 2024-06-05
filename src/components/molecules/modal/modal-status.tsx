@@ -5,10 +5,10 @@ import { editStatusUser } from "@/services/admin/users/put-status";
 import { useParams } from "next/navigation";
 
 interface ModalStatusProps {
-  open: boolean;
+  open?: boolean;
   onCancel?: () => void;
-  onOk: () => void;
-  openModalStatus: () => void;
+  onOk?: () => void;
+  openModalStatus?: () => void;
   setOpenModalStatus: (status: boolean) => void;
 }
 

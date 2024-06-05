@@ -23,9 +23,9 @@ export interface SantriTypes {
   pekerjaan_ibu: string;
   penghasilan_ortu: number;
   alamat_ortu: string;
-  infaq_id: InfaqTypes[];
-  document_id: DocumentTypes[];
-  seleksi_id: SeleksiTypes[];
+  infaq_id: InfaqTypes;
+  document_id: DocumentTypes;
+  seleksi_id: SeleksiTypes;
 }
 
 
@@ -55,9 +55,9 @@ export interface DataAllSantriTypes {
     pekerjaan_ibu: string;
     penghasilan_ortu: number;
     alamat_ortu: string;
-    infaq_id: InfaqTypes[];
-    document_id: DocumentTypes[];
-    seleksi_id: SeleksiTypes[];
+    infaq_id: InfaqTypes;
+    document_id: DocumentTypes;
+    seleksi_id: SeleksiTypes;
     }
 
     ]
@@ -90,6 +90,15 @@ export interface SeleksiTypes {
   _id: string;
   soal_seleksi: string;
   link_rekaman: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
+
+
+export interface SoalTypes {
+  _id: string;
+  soal: string;
   createdAt: Date;
   updatedAt: Date;
   __v: number;

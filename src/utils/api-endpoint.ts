@@ -11,5 +11,8 @@ export const API_ENDPOINT = {
   LOGIN_ADMIN:"/api/v1/admin/signin",
   GET_ALL_USER:'/api/v1/admin/users',
   GET_DETAIL_USER:'/api/v1/admin/user',
-  EDIT_STATUS_USER:'/api/v1/admin/users'
+  EDIT_STATUS_USER:'/api/v1/admin/users',
+  CREATE_SOAL_SELEKSI:'/api/v1/soal/create',
+  EDIT_SOAL_SELEKSI:'/api/v1/soal/edit',
+  DELETE_SOAL_SELEKSI:'/api/v1/soal/delete',
 };

@@ -1,140 +1,103 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { Button, Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
-import { Expand } from "lucide-react";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import { Expand, Eye, FilePenLine, Maximize2, Trash2 } from "lucide-react";
+import ModalStatus from "../modal/modal-status";
+import { SantriTypes } from "@/services/data-types";
+import { useRouter } from "next/navigation";
+
+interface DataSantriProps {
+  data: SantriTypes[];
+}
 
 interface DataType {
   key: string;
+  id?: string;
+  rekening_tujuan: string;
   atas_nama: string;
   total_transfer: number;
   bukti_pembayaran: string;
-  status: string[];
+  nama_santri: string;
 }
 
-const formatRupiah = (number: number) => {
-  return number.toLocaleString("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  });
-};
+export default function TableInfaq(props: DataSantriProps) {
+  const { data } = props;
+  const [openModalStatus, setOpenModalStatus] = useState(false);
 
-const columns: TableProps<DataType>["columns"] = [
-  {
-    title: "No",
-    dataIndex: "key",
-    key: "key",
-    render: (text) => <>{text}</>,
-  },
-  {
-    title: "Atas Nama",
-    dataIndex: "atas_nama",
-    key: "atas_nama",
-    render: (text) => <>{text}</>,
-  },
-  {
-    title: "Total Transfer",
-    dataIndex: "total_transfer",
-    key: "total_transfer",
-    render: (text) => <>{formatRupiah(text)}</>,
-  },
-  {
-    title: "Bukti Pembayaran",
-    dataIndex: "bukti_pembayaran",
-    key: "bukti_pembayaran",
-    render: (text) => (
-      <img src={text} alt="img" className="w-[150px] h-[80px] object-cover" />
-    ),
-  },
+  const router = useRouter();
 
-  {
-    title: "Status",
-    key: "status",
-    dataIndex: "status",
-    render: (_, { status }) => (
-      <>
-        {status.map((tag) => {
-          let color =
-            tag === "Sudah Konfirmasi Pembayaran" ? "green" : "geekblue";
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <Space size="middle">
-        <Button className="bg-blue-500 w-[12rem] text-white border-none hover:bg-blue-700 hover:text-white hover:border-none rounded-full">
-          <CheckCircleOutlined />
-          Konfirmasi Pembayaran
-        </Button>
-      </Space>
-    ),
-  },
-];
+  console.log(data, "data");
 
-const data: DataType[] = [
-  {
-    key: "1",
-    atas_nama: "Muhammad Ramdani",
-    total_transfer: 250000,
-    bukti_pembayaran:
-      "https://help.xendit.co/hc/article_attachments/23877909212953",
-    status: ["Sudah Konfirmasi Pembayaran"],
-  },
-  {
-    key: "2",
-    atas_nama: "Aisyah",
-    total_transfer: 250000,
-    bukti_pembayaran:
-      "https://help.xendit.co/hc/article_attachments/23877909212953",
-    status: ["Sudah Konfirmasi Pembayaran"],
-  },
-  {
-    key: "3",
-    atas_nama: "Annisa",
-    total_transfer: 250000,
-    bukti_pembayaran:
-      "https://help.xendit.co/hc/article_attachments/23877909212953",
-    status: ["Sudah Konfirmasi Pembayaran"],
-  },
-  {
-    key: "4",
-    atas_nama: "Ahmad Fajar",
-    total_transfer: 250000,
-    bukti_pembayaran:
-      "https://help.xendit.co/hc/article_attachments/23877909212953",
+  const columns: TableProps<DataType>["columns"] = [
+    {
+      title: "No",
+      dataIndex: "key",
+      key: "key",
+      render: (text) => <p>{text || "-"}</p>,
+    },
+    {
+      title: "Nama Santri",
+      dataIndex: "nama_santri",
+      key: "nama_santri",
+      render: (text) => <p>{text || "-"}</p>,
+    },
+    {
+      title: "Rekening Tujuan",
+      dataIndex: "rekening_tujuan",
+      key: "rekening_tujuan",
+      render: (text) => <p>{text || "-"}</p>,
+    },
+    {
+      title: "Atas Nama",
+      dataIndex: "atas_nama",
+      key: "atas_nama",
+      render: (text) => <p>{text || "-"}</p>,
+    },
+    {
+      title: "Total Transfer",
+      dataIndex: "total_transfer",
+      key: "total_transfer",
+      render: (text) => <p>{text || "-"}</p>,
+    },
+    {
+      title: "Bukti Pembayaran",
+      dataIndex: "bukti_pembayaran",
+      key: "bukti_pembayaran",
+      render: (text) =>
+        text ? (
+          <img
+            src={text}
+            alt="img"
+            className="w-[150px] h-[80px] object-cover"
+          />
+        ) : (
+          <p>-</p>
+        ),
+    },
+  ];
 
-    status: ["Belum Konfirmasi Pembayaran"],
-  },
-  {
-    key: "5",
-    atas_nama: "Ridwan",
-    total_transfer: 300000,
-    bukti_pembayaran:
-      "https://help.xendit.co/hc/article_attachments/23877909212953",
+  const dataSource: DataType[] = data?.map((item, index) => ({
+    key: (index + 1).toString(),
+    id: item._id,
+    nama_santri: item.name,
+    rekening_tujuan: item.infaq_id?.rekening_tujuan,
+    total_transfer: item.infaq_id?.total_transfer,
+    atas_nama: item.infaq_id?.atas_nama,
+    bukti_pembayaran: `${process.env.NEXT_PUBLIC_IMG}/${item.infaq_id?.bukti_pembayaran}`,
+  }));
 
-    status: ["Belum Konfirmasi Pembayaran"],
-  },
-  {
-    key: "6",
-    atas_nama: "Firdaus",
-    total_transfer: 250000,
-    bukti_pembayaran:
-      "https://help.xendit.co/hc/article_attachments/23877909212953",
+  return (
+    <>
+      <Table columns={columns} dataSource={dataSource} className="w-full" />
 
-    status: ["Belum Konfirmasi Pembayaran"],
-  },
-];
-
-const TableInfaq: React.FC = () => (
-  <Table columns={columns} dataSource={data} className="w-full" />
-);
-
-export default TableInfaq;
+      <ModalStatus
+        open={openModalStatus}
+        setOpenModalStatus={setOpenModalStatus}
+        onOk={() => setOpenModalStatus(false)}
+        onCancel={() => setOpenModalStatus(false)}
+      />
+    </>
+  );
+}
