@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
-import { Button, Input, Space, Table, Tag } from "antd";
+import { Button, Input, Modal, Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
 import { Expand, Eye, FilePenLine, Maximize2, Trash2 } from "lucide-react";
 import ModalStatus from "../modal/modal-status";
@@ -9,6 +9,9 @@ import { toast } from "react-toastify";
 import { createSoalSeleksi } from "@/services/admin/soal/create-soal";
 import { editSoalSeleksi } from "@/services/admin/soal/edit-soal";
 import { usedeleteSoalSeleksi } from "@/services/admin/soal/delete-soal";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+
+const { confirm } = Modal;
 
 interface DataSoalProps {
   data: SoalTypes[];
@@ -22,7 +25,6 @@ interface DataType {
 
 export default function TableSantri(props: DataSoalProps) {
   const { data } = props;
-  const [openModalStatus, setOpenModalStatus] = useState(false);
   const [modeEdit, setModeEdit] = useState(false);
   const [editedId, setEditedId] = useState<string | undefined>(undefined);
   const [Label, setLabel] = useState("");
@@ -30,8 +32,6 @@ export default function TableSantri(props: DataSoalProps) {
   const [deletedId, setDeletedId] = useState<string | null>(null);
 
   const { mutate } = usedeleteSoalSeleksi();
-
-  const router = useRouter();
 
   console.log(data, "data");
 
@@ -55,14 +55,22 @@ export default function TableSantri(props: DataSoalProps) {
       render: (_, record) => (
         <Space size="middle">
           <Button
+            type="dashed"
             className="flex justify-center items-center  gap-2  text-gray-700  border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full"
-            onClick={() => handleEdit(record.id, record.soal)} // Mengirim id bersama data saat tombol "Edit" diklik
+            onClick={() => handleEdit(record.id, record.soal)}
           >
             <FilePenLine />
           </Button>
-          <Button
+          {/* <Button
             className=" text-gray-700 hover:bg-red-900 rounded-none border-none"
             onClick={() => handleDelete(record.id)}
+          >
+            <Trash2 />
+          </Button> */}
+          <Button
+            onClick={() => showDeleteConfirm(record.id)}
+            type="dashed"
+            className="flex justify-center items-center  gap-2  text-gray-700  border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full"
           >
             <Trash2 />
           </Button>
@@ -137,6 +145,7 @@ export default function TableSantri(props: DataSoalProps) {
     }, 500);
   };
 
+  // Delete
   const handleDelete = (id: string | undefined) => {
     if (id) {
       mutate(id);
@@ -149,7 +158,23 @@ export default function TableSantri(props: DataSoalProps) {
       toast.error("ID tidak valid");
     }
   };
-  console.log(Label, "SOal lab");
+
+  const showDeleteConfirm = (id: string | undefined) => {
+    confirm({
+      title: "Apakah yakin akan menghapus data ini?",
+      icon: <ExclamationCircleFilled />,
+      content: "Some descriptions",
+      okText: "Hapus",
+      okType: "danger",
+      cancelText: "Batal",
+      onOk() {
+        handleDelete(id);
+      },
+      onCancel() {
+        return null;
+      },
+    });
+  };
 
   return (
     <>
