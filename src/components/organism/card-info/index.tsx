@@ -25,7 +25,7 @@ export default function CardInfo() {
   const [OpenModalCabang, setOpenModalCabang] = useState(false);
 
   return (
-    <div className="bg-gray-100 flex flex-col gap-3 ">
+    <div id="info-psb" className="bg-gray-100 flex flex-col gap-3 ">
       <div className=" ">
         <h2 className=" text-center text-2xl text-gray-800 font-semibold">
           Informasi PSB
@@ -34,8 +34,8 @@ export default function CardInfo() {
       <div className="w-full bg-gray-100 flex justify-center items-center flex-wrap gap-5 px-5 h-auto pb-24">
         <CardKecil
           title="Syarat Pendaftaran"
-          description="Pelajari apa saja syarat untuk mendaftar menjadi santri baru di Young Tahfizh Center Indonesia."
-          icons={<ListChecks className="w-12 h-12 mb-4 text-gray-900" />}
+          description="Pelajari apa saja syarat pendaftaran santri baru di Young Tahfizh Center Indonesia."
+          icons={<ListChecks className="w-12 h-12 mb-4" />}
           onClick={() => setOpen(true)}
         />
 

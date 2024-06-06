@@ -9,8 +9,8 @@ import Link from "next/link";
 const navigation = [
   { name: "Home", href: "#" },
   // { name: "Gallery", href: "#" },
-  { name: "Info PSB", href: "#" },
-  { name: "Tentang Kami", href: "#" },
+  { name: "Info PSB", href: "#info-psb" },
+  { name: "Tentang Kami", href: "#tentang-kami" },
 ];
 
 export const Header = () => {

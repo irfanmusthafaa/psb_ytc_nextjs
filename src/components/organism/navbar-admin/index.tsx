@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
+import { CookiesKey, CookiesStorage } from "@/utils/cookies";
 
 const navigation = [
   { name: "Admin", href: "/psb/profil", current: true },
@@ -18,6 +19,12 @@ function classNames(...classes: any) {
 
 export const NavbarAdmin = () => {
   const pathname = usePathname();
+
+  const handleLogout = () => {
+    CookiesStorage.remove(CookiesKey.TokenAdmin);
+    CookiesStorage.remove(CookiesKey.Admin);
+    window.location.href = "/login-admin";
+  };
 
   return (
     <Disclosure as="nav" className="bg-white">
@@ -128,13 +135,13 @@ export const NavbarAdmin = () => {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="/"
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
-                            Your Profile
+                            Home
                           </a>
                         )}
                       </Menu.Item>
@@ -146,19 +153,7 @@ export const NavbarAdmin = () => {
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
+                            onClick={handleLogout}
                           >
                             Sign out
                           </a>

@@ -3,12 +3,11 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { CookiesKey, CookiesStorage } from "@/utils/cookies";
 
 const navigation = [
   { name: "Akun Profile", href: "/psb/profil", current: true },
   { name: "Home", href: "/", current: false },
-  // { name: "Projects", href: "#", current: false },
-  // { name: "Calendar", href: "#", current: false },
 ];
 
 function classNames(...classes: any) {
@@ -16,6 +15,12 @@ function classNames(...classes: any) {
 }
 
 export const Navbar = () => {
+  const handleLogout = () => {
+    CookiesStorage.remove(CookiesKey.AuthToken);
+    CookiesStorage.remove(CookiesKey.User);
+    window.location.href = "/login";
+  };
+
   return (
     <Disclosure as="nav" className="bg-white">
       {({ open }) => (
@@ -98,13 +103,13 @@ export const Navbar = () => {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                            href="/"
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
-                            Your Profile
+                            Home
                           </a>
                         )}
                       </Menu.Item>
@@ -116,19 +121,7 @@ export const Navbar = () => {
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
+                            onClick={handleLogout}
                           >
                             Sign out
                           </a>
