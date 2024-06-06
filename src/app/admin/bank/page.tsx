@@ -11,10 +11,7 @@ export default function Bank() {
   return (
     <div className="bg-white h-auto min-h-[500px] m-8 box-border w-max-full rounded-xl">
       <div className="pt-7 px-6 w-full flex flex-col justify-center items-start gap-3">
-        <div className="w-full flex justify-between">
-          <Button type="primary">Tambah Data</Button>
-          {/* <Input placeholder="Cari santri" prefix={<SearchOutlined />} /> */}
-        </div>
+        <div className="w-full flex justify-between"></div>
         <TableBank />
       </div>
     </div>

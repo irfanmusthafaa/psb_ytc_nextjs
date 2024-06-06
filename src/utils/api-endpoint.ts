@@ -40,4 +40,8 @@ export const API_ENDPOINT = {
   CREATE_CABANG:'/api/v1/cabang/create',
   EDIT_CABANG:'/api/v1/cabang/edit',
   DELETE_CABANG:'/api/v1/cabang/delete',
+  
+  CREATE_BANK:'/api/v1/bank/create',
+  EDIT_BANK:'/api/v1/bank/edit',
+  DELETE_BANK:'/api/v1/bank/delete',
 };

@@ -144,3 +144,13 @@ export interface CabangTypes {
   updatedAt: Date;
   __v: number;
 }
+
+export interface BankTypes {
+  _id: string;
+  name: string;
+  bankName: string;
+  noRekening: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
