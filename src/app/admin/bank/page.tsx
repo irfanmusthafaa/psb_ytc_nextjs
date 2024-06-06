@@ -9,10 +9,11 @@ import TableBank from "@/components/molecules/table/table-bank";
 
 export default function Bank() {
   return (
-    <div className="bg-white h-auto min-h-[500px] m-8 box-border w-max-full rounded-xl">
+    <div className="bg-white h-auto min-h-[600px] m-8 box-border w-max-full rounded-xl">
       <div className="pt-7 px-6 w-full flex flex-col justify-center items-start gap-3">
-        <div className="w-full flex justify-between"></div>
-        <TableBank />
+        <div className="w-full">
+          <TableBank />
+        </div>
       </div>
     </div>
   );

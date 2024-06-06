@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Button, Input, Modal, Space, Table, Tag } from "antd";
 import type { TableProps } from "antd";
 import { Expand, Eye, FilePenLine, Maximize2, Trash2 } from "lucide-react";
@@ -10,12 +10,9 @@ import { createSoalSeleksi } from "@/services/admin/soal/create-soal";
 import { editSoalSeleksi } from "@/services/admin/soal/edit-soal";
 import { usedeleteSoalSeleksi } from "@/services/admin/soal/delete-soal";
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import { useGetSoalSeleksi } from "@/services/admin/soal/get-soal";
 
 const { confirm } = Modal;
-
-interface DataSoalProps {
-  data: SoalTypes[];
-}
 
 interface DataType {
   key: string;
@@ -23,13 +20,21 @@ interface DataType {
   soal: string;
 }
 
-export default function TableSantri(props: DataSoalProps) {
-  const { data } = props;
+export default function TableSoal() {
+  const [data, setData] = useState<SoalTypes[] | null>(null);
   const [modeEdit, setModeEdit] = useState(false);
   const [editedId, setEditedId] = useState<string | undefined>(undefined);
   const [Label, setLabel] = useState("");
 
   const [deletedId, setDeletedId] = useState<string | null>(null);
+
+  const { data: dataSoal, isLoading, isError } = useGetSoalSeleksi();
+
+  useEffect(() => {
+    if (!isLoading && !isError) {
+      setData(dataSoal || []);
+    }
+  }, [dataSoal, isLoading, isError]);
 
   const { mutate } = usedeleteSoalSeleksi();
 
@@ -61,12 +66,6 @@ export default function TableSantri(props: DataSoalProps) {
           >
             <FilePenLine />
           </Button>
-          {/* <Button
-            className=" text-gray-700 hover:bg-red-900 rounded-none border-none"
-            onClick={() => handleDelete(record.id)}
-          >
-            <Trash2 />
-          </Button> */}
           <Button
             onClick={() => showDeleteConfirm(record.id)}
             type="dashed"
@@ -79,11 +78,13 @@ export default function TableSantri(props: DataSoalProps) {
     },
   ];
 
-  const dataSource: DataType[] = data?.map((item, index) => ({
-    key: (index + 1).toString(),
-    id: item._id,
-    soal: item.soal,
-  }));
+  const dataSource: DataType[] = data
+    ? data.map((item, index) => ({
+        key: (index + 1).toString(),
+        id: item._id,
+        soal: item.soal,
+      }))
+    : [];
 
   const handleInput = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -102,12 +103,25 @@ export default function TableSantri(props: DataSoalProps) {
 
     createSoalSeleksi({
       soal: Label,
-    });
-
-    toast.success("Tambah Soal Berhasil");
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+    })
+      .then(() => {
+        toast.success("Tambah Data Berhasil");
+        setLabel("");
+        setData((prevData: any) => {
+          if (prevData !== null) {
+            return [
+              ...prevData,
+              { _id: Math.random().toString(), soal: Label },
+            ];
+          } else {
+            return null;
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("Gagal menambah data");
+      });
   };
 
   // Edit Soal
@@ -136,13 +150,28 @@ export default function TableSantri(props: DataSoalProps) {
 
     editSoalSeleksi(editedId, {
       soal: Label,
-    });
-
-    toast.success("Update Soal Berhasil");
-    handleCancelEdit();
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+    })
+      .then(() => {
+        setData((prevData) => {
+          if (prevData !== null) {
+            return prevData.map((item) => {
+              if (item._id === editedId) {
+                return { ...item, soal: Label }; // Update data yang diubah
+              } else {
+                return item;
+              }
+            });
+          } else {
+            return null;
+          }
+        });
+        toast.success("Update Soal Berhasil");
+        handleCancelEdit();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("Gagal memperbarui data");
+      });
   };
 
   // Delete
@@ -150,10 +179,16 @@ export default function TableSantri(props: DataSoalProps) {
     if (id) {
       mutate(id);
       setDeletedId(id);
-      toast.success("Berhasil menghapus soal");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      toast.success("Berhasil menghapus data");
+
+      //agar data update tanpa reload
+      setData((prevData: SoalTypes[] | null) => {
+        if (prevData) {
+          return prevData.filter((item) => item._id !== id);
+        } else {
+          return null;
+        }
+      });
     } else {
       toast.error("ID tidak valid");
     }

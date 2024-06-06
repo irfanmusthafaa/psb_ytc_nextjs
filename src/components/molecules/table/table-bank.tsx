@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { Button, Input, Modal, Space, Table, Tag } from "antd";
+import { Button, Input, Modal, Space, Table, Tag, Typography } from "antd";
 import type { TableProps } from "antd";
 import { Expand, Eye, FilePenLine, Maximize2, Trash2 } from "lucide-react";
 import {
@@ -154,17 +154,33 @@ export default function TableBank() {
       toast.error("Nama wajib diisi");
       return;
     }
-
-    createBank({
+    createCabang({
       name: Name,
       bankName: BankName,
       noRekening: NoRekening,
-    });
-
-    toast.success("Tambah Data Berhasil");
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+    })
+      .then(() => {
+        toast.success("Tambah Data Berhasil");
+        setData((prevData: any) => {
+          if (prevData !== null) {
+            return [
+              ...prevData,
+              {
+                _id: Math.random().toString(),
+                name: Name,
+                bankName: BankName,
+                noRekening: NoRekening,
+              },
+            ];
+          } else {
+            return null;
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("Gagal menambah data");
+      });
   };
 
   // Edit Soal
@@ -280,43 +296,55 @@ export default function TableBank() {
 
   return (
     <>
-      <div className="pt-3">
-        <div className="w-full flex justify-between gap-3 mb-3">
-          <Input
-            id="NoRekening"
-            onChange={handleInput}
-            placeholder="Tambah NoRekening"
-            value={NoRekening}
-          />
-          <Input
-            id="BankName"
-            onChange={handleInput}
-            placeholder="Tambah BankName"
-            value={BankName}
-          />
-          <Input
-            id="Name"
-            onChange={handleInput}
-            placeholder="Tambah Atas Nama"
-            value={Name}
-          />
-          {modeEdit ? (
-            <Space>
-              <Button type="primary" onClick={handleUpdate}>
-                Simpan
+      <div>
+        <div className="w-full flex justify-between gap-3 mb-5">
+          <div className="w-1/4 flex flex-col gap-1">
+            <Typography>No Rekening: </Typography>
+            <Input
+              id="NoRekening"
+              onChange={handleInput}
+              placeholder="Tambah NoRekening"
+              value={NoRekening}
+            />
+          </div>
+          <div className="w-1/4 flex flex-col gap-1">
+            <Typography>Bank: </Typography>
+            <Input
+              id="BankName"
+              onChange={handleInput}
+              placeholder="Tambah BankName"
+              value={BankName}
+            />
+          </div>
+          <div className="w-1/4 flex flex-col gap-1">
+            <Typography>Atas Nama: </Typography>{" "}
+            <Input
+              id="Name"
+              onChange={handleInput}
+              placeholder="Tambah Atas Nama"
+              value={Name}
+            />
+          </div>
+
+          <div className="flex justify-end  items-end">
+            {modeEdit ? (
+              <Space>
+                <Button type="primary" onClick={handleUpdate}>
+                  Simpan
+                </Button>
+                <Button onClick={handleCancelEdit}>Batal</Button>
+              </Space>
+            ) : (
+              <Button
+                type="primary"
+                onClick={() => {
+                  handleCreate();
+                }}
+              >
+                Tambah Data
               </Button>
-              <Button onClick={handleCancelEdit}>Batal</Button>
-            </Space>
-          ) : (
-            <Button
-              type="primary"
-              onClick={() => {
-                handleCreate();
-              }}
-            >
-              Tambah Data
-            </Button>
-          )}
+            )}
+          </div>
         </div>
 
         <Table columns={columns} dataSource={dataSource} className="w-full" />

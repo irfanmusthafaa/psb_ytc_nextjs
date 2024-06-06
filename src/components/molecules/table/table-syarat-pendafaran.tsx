@@ -20,11 +20,11 @@ interface DataType {
 
 export default function TableSyaratPendaftaran() {
   const [data, setData] = useState<SyaratPendaftaranTypes[] | null>(null);
-  // const [data, setData] = useState<SyaratPendaftaranTypes[]>([]);
   const [modeEdit, setModeEdit] = useState(false);
   const [editedId, setEditedId] = useState<string | undefined>(undefined);
   const [deletedId, setDeletedId] = useState<string | null>(null);
   const [Label, setLabel] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const {
     data: dataSyaratPendaftaran,
@@ -107,13 +107,42 @@ export default function TableSyaratPendaftaran() {
 
     createSyaratPendaftaran({
       syarat_pendaftaran: Label,
-    });
-
-    toast.success("Tambah Data Berhasil");
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+    })
+      .then(() => {
+        toast.success("Tambah Data Berhasil");
+        setLabel("");
+        setData((prevData: any) => {
+          if (prevData !== null) {
+            return [
+              ...prevData,
+              { _id: Math.random().toString(), syarat_pendaftaran: Label },
+            ];
+          } else {
+            return null;
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("Gagal menambah data");
+      });
   };
+
+  // const handleCreate = () => {
+  //   if (!Label) {
+  //     toast.error("Syarat Pendaftaran wajib diisi");
+  //     return;
+  //   }
+
+  //   createSyaratPendaftaran({
+  //     syarat_pendaftaran: Label,
+  //   });
+
+  //   toast.success("Tambah Data Berhasil");
+  //   setTimeout(() => {
+  //     window.location.reload();
+  //   }, 500);
+  // };
 
   // Edit Soal
   const handleEdit = (id: string | undefined, soal: string) => {

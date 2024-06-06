@@ -128,12 +128,26 @@ export default function TableCabang() {
     createCabang({
       cabang: Cabang,
       alamat: Alamat,
-    });
-
-    toast.success("Tambah Data Berhasil");
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+    })
+      .then(() => {
+        toast.success("Tambah Data Berhasil");
+        setCabang("");
+        setAlamat("");
+        setData((prevData: any) => {
+          if (prevData !== null) {
+            return [
+              ...prevData,
+              { _id: Math.random().toString(), cabang: Cabang, alamat: Alamat },
+            ];
+          } else {
+            return null;
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("Gagal menambah data");
+      });
   };
 
   // Edit Soal

@@ -117,12 +117,25 @@ export default function TableFasilitas() {
 
     createFasilitas({
       fasilitas: Label,
-    });
-
-    toast.success("Tambah Data Berhasil");
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+    })
+      .then(() => {
+        toast.success("Tambah Data Berhasil");
+        setLabel("");
+        setData((prevData: any) => {
+          if (prevData !== null) {
+            return [
+              ...prevData,
+              { _id: Math.random().toString(), fasilitas: Label },
+            ];
+          } else {
+            return null;
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("Gagal menambah data");
+      });
   };
 
   // Edit Soal

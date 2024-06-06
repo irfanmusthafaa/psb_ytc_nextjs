@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { Button, Input, Modal, Space, Table, Tag } from "antd";
+import { Button, Input, Modal, Space, Table, Tag, Typography } from "antd";
 import type { TableProps } from "antd";
 import { Expand, Eye, FilePenLine, Maximize2, Trash2 } from "lucide-react";
 import {
@@ -114,12 +114,24 @@ export default function TableAlurPendaftaran() {
 
     createAlurPendaftaran({
       alur_pendaftaran: Label,
-    });
-
-    toast.success("Tambah Data Berhasil");
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+    })
+      .then(() => {
+        toast.success("Tambah Data Berhasil");
+        setData((prevData: any) => {
+          if (prevData !== null) {
+            return [
+              ...prevData,
+              { _id: Math.random().toString(), alur_pendaftaran: Label },
+            ];
+          } else {
+            return null;
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("Gagal menambah data");
+      });
   };
 
   // Edit Soal
