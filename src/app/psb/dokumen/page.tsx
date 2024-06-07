@@ -12,49 +12,6 @@ const { TextArea } = Input;
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-  console.log(date, dateString);
-};
-
-interface ProfileData {
-  id: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  avatar: string;
-  nik: string;
-  tanggal_lahir: string;
-  jenis_kelamin: string;
-  pendidikan_terakhir: string;
-  kota_asal: string;
-  alamat: string;
-  status: string;
-  nama_ayah: string;
-  nama_ibu: string;
-  no_telp_ortu: string;
-  pekerjaan_ayah: string;
-  pekerjaan_ibu: string;
-  penghasilan_ortu: number;
-  infaq_id: {
-    _id: string;
-    atas_nama: string;
-    total_transfer: number;
-    bukti_pembayaran: string;
-    createdAt: string;
-    updatedAt: string;
-  } | null;
-  document_id: {
-    _id: string;
-    ktp: string;
-    kk: string;
-    ijazah: string;
-    sertifikat: string;
-    createdAt: string;
-    updatedAt: string;
-  } | null;
-  seleksi_id: string | null;
-}
-
 export default function Dokumen() {
   const [Profile, setProfile] = useState<SantriTypes | null>(null);
 
@@ -102,19 +59,19 @@ export default function Dokumen() {
 
   const handleUpdateDocument = async () => {
     if (!SelectedFileKTP) {
-      toast.error("Nama wajib diisi");
+      toast.error("KTP wajib diisi");
       return;
     }
     if (!SelectedFileKK) {
-      toast.error("Tanggal Lahir wajib diisi");
+      toast.error("KK wajib diisi");
       return;
     }
     if (!SelectedFileIjazah) {
-      toast.error("Kota Asal wajib diisi");
+      toast.error("Ijazah wajib diisi");
       return;
     }
     if (!SelectedFileSertifikat) {
-      toast.error("Alamat wajib diisi");
+      toast.error("Sertifikat wajib diisi");
       return;
     }
 
@@ -164,18 +121,19 @@ export default function Dokumen() {
                 <Upload className="w-4 h-4 mr-4 text-gray-400" />
                 <Input
                   type="file"
-                  value={Profile?.document_id.ktp}
                   accept=".png, .jpg, .jpeg, .pdf"
                   onChange={handleFileChangeKTP}
                   placeholder="Upload KTP"
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
                 {SelectedFileKTP ? (
-                  <p className="text-sm text-black ">
-                    Selected file: {SelectedFileKTP.name}
+                  <p className="text-sm text-black">{SelectedFileKTP.name}</p>
+                ) : Profile?.document_id?.ktp ? (
+                  <p className="text-sm text-black">
+                    {Profile.document_id.ktp}
                   </p>
                 ) : (
-                  <p className="text-sm text-gray-400 font-light">Upload KTP</p>
+                  <p className="text-sm text-gray-400 font-light">Upload KK</p>
                 )}
               </label>
             </div>
@@ -191,9 +149,9 @@ export default function Dokumen() {
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
                 {SelectedFileKK ? (
-                  <p className="text-sm text-black ">
-                    Selected file: {SelectedFileKK.name}
-                  </p>
+                  <p className="text-sm text-black">{SelectedFileKK.name}</p>
+                ) : Profile?.document_id?.kk ? (
+                  <p className="text-sm text-black">{Profile.document_id.kk}</p>
                 ) : (
                   <p className="text-sm text-gray-400 font-light">Upload KK</p>
                 )}
@@ -211,8 +169,12 @@ export default function Dokumen() {
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
                 {SelectedFileIjazah ? (
-                  <p className="text-sm text-black ">
-                    Selected file: {SelectedFileIjazah.name}
+                  <p className="text-sm text-black">
+                    {SelectedFileIjazah.name}
+                  </p>
+                ) : Profile?.document_id?.ijazah ? (
+                  <p className="text-sm text-black">
+                    {Profile.document_id.ijazah}
                   </p>
                 ) : (
                   <p className="text-sm text-gray-400 font-light">
@@ -222,7 +184,6 @@ export default function Dokumen() {
               </label>
             </div>
             <div className="flex flex-col gap-2">
-              {" "}
               <label className="text-sm font-medium">Sertifikat</label>
               <label className="flex items-center relative border border-gray-300 rounded-md p-2 h-[32px] box-border">
                 <Upload className="w-4 h-4 mr-4 text-gray-400" />
@@ -234,8 +195,12 @@ export default function Dokumen() {
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
                 {SelectedFileSertifikat ? (
-                  <p className="text-sm text-black ">
-                    Selected file: {SelectedFileSertifikat.name}
+                  <p className="text-sm text-black">
+                    {SelectedFileSertifikat.name}
+                  </p>
+                ) : Profile?.document_id?.sertifikat ? (
+                  <p className="text-sm text-black">
+                    {Profile.document_id.sertifikat}
                   </p>
                 ) : (
                   <p className="text-sm text-gray-400 font-light">
