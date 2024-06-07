@@ -1,5 +1,6 @@
 "use client";
 
+import { SantriTypes } from "@/services/data-types";
 import { createDocument } from "@/services/user/document/create-document";
 import { useGetProfileUser } from "@/services/user/profil/get-profil";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
@@ -55,7 +56,7 @@ interface ProfileData {
 }
 
 export default function Dokumen() {
-  const [Profile, setProfile] = useState<ProfileData | null>(null);
+  const [Profile, setProfile] = useState<SantriTypes | null>(null);
 
   const [SelectedFileSertifikat, setSelectedFileSertifikat] =
     useState<File | null>(null);
@@ -163,6 +164,7 @@ export default function Dokumen() {
                 <Upload className="w-4 h-4 mr-4 text-gray-400" />
                 <Input
                   type="file"
+                  value={Profile?.document_id.ktp}
                   accept=".png, .jpg, .jpeg, .pdf"
                   onChange={handleFileChangeKTP}
                   placeholder="Upload KTP"

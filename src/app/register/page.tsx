@@ -8,7 +8,7 @@ import { Button, DatePicker, Input, Radio, Select } from "antd";
 import { Upload } from "lucide-react";
 const { TextArea } = Input;
 import { ChangeEvent, useEffect, useState } from "react";
-import { createRegister } from "@/services/user/auth/register";
+import { useRegisterUser } from "@/services/user/auth/register";
 import { toast } from "react-toastify";
 
 export default function Register() {
@@ -28,19 +28,19 @@ export default function Register() {
 
   const router = useRouter();
 
-  // const {
-  //   mutate: dataRegister,
-  //   status,
-  //   isSuccess,
-  //   isError,
-  // } = useRegisterUser();
+  const {
+    mutate: dataRegister,
+    status,
+    isSuccess,
+    isError,
+  } = useRegisterUser();
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     toast.success("Register Berhasil");
-  //     router.push("/login");
-  //   }
-  // }, [status]);
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Register Berhasil");
+      router.push("/login");
+    }
+  }, [status]);
 
   const handleInput = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -141,25 +141,30 @@ export default function Register() {
     }
 
     try {
-      await createRegister(formData);
-      toast.success("Update Profile Success");
-      router.push("/login");
+      await dataRegister(formData);
     } catch (error) {
-      toast.error("Update Profile Failed");
+      return null;
     }
+
+    // try {
+    //   await createRegister(formData);
+    //   toast.success("Update Profile Success");
+    // } catch (error) {
+    //   toast.error("Update Profile Failed");
+    // }
   };
 
-  console.log(Name, "Name");
-  console.log(Email, "Email");
-  console.log(Password, "Password");
-  console.log(TanggalLahir, "TanggalLahir");
-  console.log(JenisKelamin, "JenisKelamin");
-  console.log(KotaAsal, "KotaAsal");
-  console.log(Alamat, "Alamat");
-  console.log(PendidikanTerakhir, "PendidikanTerakhir");
-  console.log(Nik, "Nik");
-  console.log(NoTelp, "NoTelp");
-  console.log(selectedFileAvatar, "Avatar");
+  // console.log(Name, "Name");
+  // console.log(Email, "Email");
+  // console.log(Password, "Password");
+  // console.log(TanggalLahir, "TanggalLahir");
+  // console.log(JenisKelamin, "JenisKelamin");
+  // console.log(KotaAsal, "KotaAsal");
+  // console.log(Alamat, "Alamat");
+  // console.log(PendidikanTerakhir, "PendidikanTerakhir");
+  // console.log(Nik, "Nik");
+  // console.log(NoTelp, "NoTelp");
+  // console.log(selectedFileAvatar, "Avatar");
 
   return (
     <section className="w-full text-gray-800 flex bg-gray-100 h-screen">

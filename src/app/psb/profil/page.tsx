@@ -3,49 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, Divider, List, Typography } from "antd";
 import { useGetProfileUser } from "@/services/user/profil/get-profil";
-
-interface ProfileData {
-  id: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  avatar: string;
-  nik: string;
-  tanggal_lahir: string;
-  jenis_kelamin: string;
-  pendidikan_terakhir: string;
-  kota_asal: string;
-  alamat: string;
-  status: string;
-  nama_ayah: string;
-  nama_ibu: string;
-  no_telp_ortu: string;
-  pekerjaan_ayah: string;
-  pekerjaan_ibu: string;
-  alamat_ortu: string;
-  penghasilan_ortu: number;
-  infaq_id: {
-    _id: string;
-    atas_nama: string;
-    total_transfer: number;
-    bukti_pembayaran: string;
-    createdAt: string;
-    updatedAt: string;
-  } | null;
-  document_id: {
-    _id: string;
-    ktp: string;
-    kk: string;
-    ijazah: string;
-    sertifikat: string;
-    createdAt: string;
-    updatedAt: string;
-  } | null;
-  seleksi_id: string | null;
-}
+import { Router } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { SantriTypes } from "@/services/data-types";
 
 export default function Profil() {
-  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [profile, setProfile] = useState<SantriTypes | null>(null);
+
+  const router = useRouter();
 
   const { data: dataProfile, isLoading, isError } = useGetProfileUser();
 
@@ -159,7 +124,13 @@ export default function Profil() {
       {/* End Form */}
 
       <div className="py-4 px-6 flex justify-end items-center">
-        <Button type="primary" className="bg-[#273b83]">
+        <Button
+          type="primary"
+          className="bg-[#273b83]"
+          onClick={() => {
+            router.push("/psb/edit-profil");
+          }}
+        >
           Edit Data
         </Button>
       </div>

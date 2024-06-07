@@ -13,6 +13,7 @@ import { useGetProfileUser } from "@/services/user/profil/get-profil";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import moment from "moment";
+import { useRouter } from "next/navigation";
 
 dayjs.extend(customParseFormat);
 
@@ -76,6 +77,8 @@ export default function EditProfil() {
   const [selectedFileAvatar, setSelectedFileAvatar] = useState<File | null>(
     null
   );
+
+  const router = useRouter();
 
   const { data: dataProfile, isLoading, isError } = useGetProfileUser();
 
@@ -250,6 +253,7 @@ export default function EditProfil() {
     try {
       await UpdateProfile(formData);
       toast.success("Update Profile Success");
+      router.push("/psb/profil");
     } catch (error) {
       toast.error("Update Profile Failed");
     }
@@ -494,7 +498,7 @@ export default function EditProfil() {
       <div className="py-4 px-6 flex justify-end items-center">
         <Button
           type="primary"
-          className="bg-[#273b83]"
+          className="bg-[#273b83] hover:bg-red-100"
           onClick={() => {
             handleUpdateProfile();
           }}
