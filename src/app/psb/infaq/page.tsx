@@ -1,7 +1,9 @@
 "use client";
 
+import { SantriTypes } from "@/services/data-types";
 import { useGetBank } from "@/services/user/bank/get-bank";
 import { createInfaq } from "@/services/user/infaq/create-infaq";
+import { EditInfaq } from "@/services/user/infaq/edit-infaq";
 import { useGetProfileUser } from "@/services/user/profil/get-profil";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import type { DatePickerProps } from "antd";
@@ -11,52 +13,6 @@ import { Upload } from "lucide-react";
 const { TextArea } = Input;
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
-const data = [
-  {
-    title: "Bank Syariah Indonesia",
-    description: "7179088511",
-  },
-];
-
-interface ProfileData {
-  id: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  avatar: string;
-  nik: string;
-  tanggal_lahir: string;
-  jenis_kelamin: string;
-  pendidikan_terakhir: string;
-  kota_asal: string;
-  alamat: string;
-  status: string;
-  nama_ayah: string;
-  nama_ibu: string;
-  no_telp_ortu: string;
-  pekerjaan_ayah: string;
-  pekerjaan_ibu: string;
-  penghasilan_ortu: number;
-  infaq_id: {
-    _id: string;
-    atas_nama: string;
-    total_transfer: number;
-    bukti_pembayaran: string;
-    createdAt: string;
-    updatedAt: string;
-  } | null;
-  document_id: {
-    _id: string;
-    ktp: string;
-    kk: string;
-    ijazah: string;
-    sertifikat: string;
-    createdAt: string;
-    updatedAt: string;
-  } | null;
-  seleksi_id: string | null;
-}
 
 interface BankData {
   name: string;
@@ -68,12 +24,13 @@ interface BankData {
 }
 
 export default function Infaq() {
-  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [Profile, setProfile] = useState<SantriTypes | null>(null);
 
   const [RekeningTujuan, setRekeningTujuan] = useState("");
   const [AtasNama, setAtasNama] = useState("");
   const [TotalTransfer, setTotalTransfer] = useState("");
   const [SelectedFileInfaq, setSelectedFileInfaq] = useState<File | null>(null);
+  const [editedId, setEditedId] = useState<string | undefined>(undefined);
 
   const [Bank, setBank] = useState<BankData[]>([]);
 
@@ -91,6 +48,29 @@ export default function Infaq() {
   useEffect(() => {
     if (!isLoadingProfile && !isErrorProfile && dataProfile) {
       setProfile(dataProfile || []);
+
+      if (dataProfile?.infaq_id?.rekening_tujuan) {
+        const rekening = dataProfile?.infaq_id?.rekening_tujuan;
+        setRekeningTujuan(rekening);
+      }
+      if (dataProfile?.infaq_id?.atas_nama) {
+        const nama = dataProfile?.infaq_id?.atas_nama;
+        setAtasNama(nama);
+      }
+      if (dataProfile?.infaq_id?.total_transfer) {
+        const total = dataProfile?.infaq_id?.total_transfer;
+        setTotalTransfer(total);
+      }
+
+      if (dataProfile.infaq_id?.bukti_pembayaran) {
+        const buktiFile = dataProfile.infaq_id?.bukti_pembayaran;
+        const file = new File([], buktiFile);
+        setSelectedFileInfaq(file);
+      }
+      if (dataProfile?.infaq_id?._id) {
+        const id = dataProfile?.infaq_id?._id;
+        setEditedId(id);
+      }
     }
     setBank(dataBank);
   }, [
@@ -101,7 +81,11 @@ export default function Infaq() {
     isErrorBank,
   ]);
 
-  console.log(profile, "Profils");
+  console.log(Profile, "Profils");
+  console.log(RekeningTujuan, "rek");
+  console.log(AtasNama, "atasNama");
+  console.log(TotalTransfer, "total");
+  console.log(SelectedFileInfaq, "bukti");
 
   const bankOptions =
     Bank?.map((item) => ({
@@ -132,7 +116,7 @@ export default function Infaq() {
     setRekeningTujuan(value);
   };
 
-  const handleCreateInfaq = async () => {
+  const handleSubmit = async () => {
     if (!RekeningTujuan) {
       toast.error("Rekening Tujuan wajib diisi");
       return;
@@ -160,15 +144,22 @@ export default function Infaq() {
     }
 
     try {
-      await createInfaq(formData);
-      toast.success("Update Infaq Success");
+      if (editedId) {
+        await EditInfaq(editedId, formData);
+        toast.success("Edit Infaq Success");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } else {
+        await createInfaq(formData);
+        toast.success("Create Infaq Success");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
     } catch (error) {
       toast.error("Update Infaq Failed");
     }
-
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 1000);
   };
 
   return (
@@ -194,6 +185,7 @@ export default function Infaq() {
               <label className="text-sm font-medium">Atas Nama</label>
               <Input
                 id="AtasNama"
+                value={AtasNama}
                 onChange={handleInput}
                 placeholder="Atas Nama"
               />
@@ -202,6 +194,7 @@ export default function Infaq() {
               <label className="text-sm font-medium">Total Transfer</label>
               <Input
                 id="TotalTransfer"
+                value={TotalTransfer}
                 onChange={handleInput}
                 placeholder="Total Transfer"
                 type="number"
@@ -220,7 +213,7 @@ export default function Infaq() {
                 />
                 {SelectedFileInfaq ? (
                   <p className="text-sm text-black ">
-                    Selected file: {SelectedFileInfaq.name}
+                    {SelectedFileInfaq.name}
                   </p>
                 ) : (
                   <p className="text-sm text-gray-400 font-extralight ">
@@ -239,7 +232,7 @@ export default function Infaq() {
           type="primary"
           className="bg-[#273b83]"
           onClick={() => {
-            handleCreateInfaq();
+            handleSubmit();
           }}
         >
           Simpan Perubahan

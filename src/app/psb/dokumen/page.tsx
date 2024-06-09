@@ -2,6 +2,7 @@
 
 import { SantriTypes } from "@/services/data-types";
 import { createDocument } from "@/services/user/document/create-document";
+import { EditDocument } from "@/services/user/document/edit-document";
 import { useGetProfileUser } from "@/services/user/profil/get-profil";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import type { DatePickerProps } from "antd";
@@ -23,11 +24,37 @@ export default function Dokumen() {
     null
   );
 
+  const [editedId, setEditedId] = useState<string | undefined>(undefined);
+
   const { data: dataProfile, isLoading, isError } = useGetProfileUser();
 
   useEffect(() => {
     if (!isLoading && !isError && dataProfile) {
       setProfile(dataProfile);
+
+      if (dataProfile.document_id?.ktp) {
+        const ktpFileName = dataProfile.document_id.ktp;
+        const file = new File([], ktpFileName);
+        setSelectedFileKTP(file);
+      }
+      if (dataProfile.document_id?.kk) {
+        const kkFileName = dataProfile.document_id.kk;
+        const file = new File([], kkFileName);
+        setSelectedFileKK(file);
+      }
+      if (dataProfile.document_id?.ijazah) {
+        const ijazahFileName = dataProfile.document_id.ijazah;
+        const file = new File([], ijazahFileName);
+        setSelectedFileIjazah(file);
+      }
+      if (dataProfile.document_id?.sertifikat) {
+        const sertifikatFileName = dataProfile.document_id.sertifikat;
+        const file = new File([], sertifikatFileName);
+        setSelectedFileSertifikat(file);
+      }
+      if (dataProfile.document_id._id) {
+        setEditedId(dataProfile.document_id._id);
+      }
     }
   }, [dataProfile, isLoading, isError]);
 
@@ -57,7 +84,7 @@ export default function Dokumen() {
     }
   };
 
-  const handleUpdateDocument = async () => {
+  const handleSubmit = async () => {
     if (!SelectedFileKTP) {
       toast.error("KTP wajib diisi");
       return;
@@ -91,16 +118,34 @@ export default function Dokumen() {
     }
 
     try {
-      await createDocument(formData);
-      toast.success("Update Document Success");
+      if (editedId) {
+        await EditDocument(editedId, formData);
+        toast.success("Edit Document Success");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } else {
+        await createDocument(formData);
+        toast.success("Create Document Success");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
     } catch (error) {
       toast.error("Update Document Failed");
     }
-
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 1000);
   };
+
+  const isEditMode =
+    SelectedFileKTP ||
+    SelectedFileKK ||
+    SelectedFileIjazah ||
+    SelectedFileSertifikat;
+
+  console.log(SelectedFileKTP, "ktp");
+  console.log(SelectedFileKK, "kk");
+  console.log(SelectedFileIjazah, "ijazah");
+  console.log(SelectedFileSertifikat, "sertif");
 
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl text-black">
@@ -128,12 +173,8 @@ export default function Dokumen() {
                 />
                 {SelectedFileKTP ? (
                   <p className="text-sm text-black">{SelectedFileKTP.name}</p>
-                ) : Profile?.document_id?.ktp ? (
-                  <p className="text-sm text-black">
-                    {Profile.document_id.ktp}
-                  </p>
                 ) : (
-                  <p className="text-sm text-gray-400 font-light">Upload KK</p>
+                  <p className="text-sm text-gray-400 font-light">Upload KTP</p>
                 )}
               </label>
             </div>
@@ -150,8 +191,6 @@ export default function Dokumen() {
                 />
                 {SelectedFileKK ? (
                   <p className="text-sm text-black">{SelectedFileKK.name}</p>
-                ) : Profile?.document_id?.kk ? (
-                  <p className="text-sm text-black">{Profile.document_id.kk}</p>
                 ) : (
                   <p className="text-sm text-gray-400 font-light">Upload KK</p>
                 )}
@@ -171,10 +210,6 @@ export default function Dokumen() {
                 {SelectedFileIjazah ? (
                   <p className="text-sm text-black">
                     {SelectedFileIjazah.name}
-                  </p>
-                ) : Profile?.document_id?.ijazah ? (
-                  <p className="text-sm text-black">
-                    {Profile.document_id.ijazah}
                   </p>
                 ) : (
                   <p className="text-sm text-gray-400 font-light">
@@ -198,10 +233,6 @@ export default function Dokumen() {
                   <p className="text-sm text-black">
                     {SelectedFileSertifikat.name}
                   </p>
-                ) : Profile?.document_id?.sertifikat ? (
-                  <p className="text-sm text-black">
-                    {Profile.document_id.sertifikat}
-                  </p>
                 ) : (
                   <p className="text-sm text-gray-400 font-light">
                     Upload Sertifikat
@@ -219,10 +250,10 @@ export default function Dokumen() {
           type="primary"
           className="bg-[#273b83]"
           onClick={() => {
-            handleUpdateDocument();
+            handleSubmit();
           }}
         >
-          Simpan Perubahan
+          {isEditMode ? "Edit Dokumen" : "Submit Dokumen"}
         </Button>
       </div>
     </div>

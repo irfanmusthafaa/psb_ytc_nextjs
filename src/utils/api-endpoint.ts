@@ -3,10 +3,13 @@ export const API_ENDPOINT = {
   LOGIN_USER: "/api/v1/auth/signin",
   PROFILE: "/api/v1/user/profile",
   CREATE_INFAQ: "/api/v1/infaq/create",
+  EDIT_INFAQ: "/api/v1/infaq/edit",
   CREATE_SELEKSI: "/api/v1/seleksi/create",
+  EDIT_SELEKSI: "/api/v1/seleksi/edit",
   GET_SOAL_SELEKSI: "/api/v1/soal",
   GET_BANK: "/api/v1/bank",
   CREATE_DOCUMENT: "/api/v1/document/create",
+  EDIT_DOCUMENT: "/api/v1/document/edit",
 
   LOGIN_ADMIN:"/api/v1/admin/signin",
   GET_ALL_USER:'/api/v1/admin/users',
