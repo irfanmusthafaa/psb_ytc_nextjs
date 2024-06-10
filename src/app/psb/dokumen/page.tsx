@@ -60,30 +60,40 @@ export default function Dokumen() {
 
   console.log(Profile, "profile");
 
-  const handleFileChangeKTP = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    setSelectedFile: React.Dispatch<React.SetStateAction<File | null>>
+  ) => {
     if (event.target.files && event.target.files.length > 0) {
-      setSelectedFileKTP(event.target.files[0]);
+      const file = event.target.files[0];
+      if (file.type !== "application/pdf") {
+        toast.error("File harus dalam format PDF");
+      } else {
+        setSelectedFile(file);
+      }
     }
   };
 
-  const handleFileChangeKK = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setSelectedFileKK(event.target.files[0]);
-    }
-  };
+  
 
-  const handleFileChangeIjazah = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setSelectedFileIjazah(event.target.files[0]);
-    }
-  };
+  // const handleFileChangeKTP = (event: ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files && event.target.files.length > 0) {
+  //     setSelectedFileKTP(event.target.files[0]);
+  //   }
+  // };
+  const handleFileChangeKTP = (event: ChangeEvent<HTMLInputElement>) =>
+    handleFileChange(event, setSelectedFileKTP);
 
-  const handleFileChangeSertifikat = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setSelectedFileSertifikat(event.target.files[0]);
-    }
-  };
+  const handleFileChangeKK = (event: ChangeEvent<HTMLInputElement>) =>
+    handleFileChange(event, setSelectedFileKK);
 
+  const handleFileChangeIjazah = (event: ChangeEvent<HTMLInputElement>) =>
+    handleFileChange(event, setSelectedFileIjazah);
+
+  const handleFileChangeSertifikat = (event: ChangeEvent<HTMLInputElement>) =>
+    handleFileChange(event, setSelectedFileSertifikat);
+
+  
   const handleSubmit = async () => {
     if (!SelectedFileKTP) {
       toast.error("KTP wajib diisi");

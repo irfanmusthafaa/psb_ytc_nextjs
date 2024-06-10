@@ -105,11 +105,28 @@ export default function Infaq() {
     }
   };
 
-  const handleFileChangeInfaq = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    setSelectedFile: React.Dispatch<React.SetStateAction<File | null>>
+  ) => {
     if (event.target.files && event.target.files.length > 0) {
-      setSelectedFileInfaq(event.target.files[0]);
+      const file = event.target.files[0];
+      if (file.type !== "application/pdf") {
+        toast.error("File harus dalam format PDF");
+      } else {
+        setSelectedFile(file);
+      }
     }
   };
+
+  const handleFileChangeInfaq = (event: ChangeEvent<HTMLInputElement>) =>
+    handleFileChange(event, setSelectedFileInfaq);
+
+  // const handleFileChangeInfaq = (event: ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files && event.target.files.length > 0) {
+  //     setSelectedFileInfaq(event.target.files[0]);
+  //   }
+  // };
 
   const handleChangeRekening = (value: string) => {
     console.log(`selected ${value}`);
