@@ -38,7 +38,8 @@ export default function Register() {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Register Berhasil");
-      router.push("/login");
+      // router.push("/login");
+      window.location.href = "/login";
     }
   }, [status]);
 

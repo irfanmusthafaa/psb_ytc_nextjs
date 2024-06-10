@@ -29,7 +29,7 @@ export default function SidebarUser() {
       </a>
       <div className="w-full px-2">
         <div className="flex flex-col items-center w-full mt-3 border-t border-gray-700">
-          <Link
+          <a
             href="/psb/profil"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/psb/profil"
@@ -39,8 +39,8 @@ export default function SidebarUser() {
           >
             <User />
             <span className="ml-2 text-sm font-medium">Profil</span>
-          </Link>
-          <Link
+          </a>
+          <a
             href="/psb/edit-profil"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/psb/edit-profil"
@@ -50,8 +50,8 @@ export default function SidebarUser() {
           >
             <UserCog />
             <span className="ml-2 text-sm font-medium">Edit Profil</span>
-          </Link>
-          <Link
+          </a>
+          <a
             href="/psb/dokumen"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/psb/dokumen"
@@ -61,8 +61,8 @@ export default function SidebarUser() {
           >
             <FilePlus />
             <span className="ml-2 text-sm font-medium">Dokumen</span>
-          </Link>
-          <Link
+          </a>
+          <a
             href="/psb/infaq"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/psb/infaq"
@@ -72,10 +72,10 @@ export default function SidebarUser() {
           >
             <CreditCard />
             <span className="ml-2 text-sm font-medium">Infaq</span>
-          </Link>
+          </a>
         </div>
         <div className="flex flex-col items-center w-full mt-2 border-t border-gray-700">
-          <Link
+          <a
             href="/psb/test-seleksi"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/psb/test-seleksi"
@@ -86,9 +86,9 @@ export default function SidebarUser() {
             <ClipboardPen />
 
             <span className="ml-2 text-sm font-medium">Test Seleksi</span>
-          </Link>
+          </a>
 
-          <Link
+          <a
             href="/psb/hasil-seleksi"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/psb/hasil-seleksi"
@@ -98,7 +98,7 @@ export default function SidebarUser() {
           >
             <TextSelect />
             <span className="ml-2 text-sm font-medium">Hasil Seleksi</span>
-          </Link>
+          </a>
         </div>
       </div>
     </div>

@@ -31,7 +31,7 @@ export default function SidebarAdmin() {
       </a>
       <div className="w-full px-2">
         <div className="flex flex-col items-center w-full mt-3 border-t border-gray-700">
-          <Link
+          <a
             href="/admin/dashboard"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/admin/dashboard"
@@ -41,7 +41,7 @@ export default function SidebarAdmin() {
           >
             <LayoutDashboard />
             <span className="ml-2 text-sm font-medium">Dashboard</span>
-          </Link>
+          </a>
 
           {/* <Link
             href="/admin/data-santri"
@@ -54,7 +54,7 @@ export default function SidebarAdmin() {
             <UserCog />
             <span className="ml-2 text-sm font-medium">Data Santri</span>
           </Link> */}
-          <Link
+          <a
             href="/admin/data-infaq"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/admin/data-infaq"
@@ -64,10 +64,10 @@ export default function SidebarAdmin() {
           >
             <Files />
             <span className="ml-2 text-sm font-medium">Data Infaq</span>
-          </Link>
+          </a>
         </div>
         <div className="flex flex-col items-center w-full mt-2 border-t border-gray-700">
-          <Link
+          <a
             href="/admin/informasi-psb"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/admin/informasi-psb"
@@ -77,8 +77,8 @@ export default function SidebarAdmin() {
           >
             <BookText />
             <span className="ml-2 text-sm font-medium">Informasi PSB</span>
-          </Link>
-          <Link
+          </a>
+          <a
             href="/admin/soal-seleksi"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/psb/soal-seleksi"
@@ -88,8 +88,8 @@ export default function SidebarAdmin() {
           >
             <TextSelect />
             <span className="ml-2 text-sm font-medium">Soal Seleksi</span>
-          </Link>
-          <Link
+          </a>
+          <a
             href="/admin/bank"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/admin/bank"
@@ -99,7 +99,7 @@ export default function SidebarAdmin() {
           >
             <CreditCard />
             <span className="ml-2 text-sm font-medium">Bank</span>
-          </Link>
+          </a>
         </div>
       </div>
     </div>

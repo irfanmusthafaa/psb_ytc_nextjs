@@ -100,6 +100,12 @@ export default function EditProfil() {
       setPekerjaanAyah(dataProfile.pekerjaan_ayah || "");
       setPekerjaanIbu(dataProfile.pekerjaan_ibu || "");
       setPenghasilanOrtu(dataProfile.penghasilan_ortu?.toString() || "");
+      // setSelectedFileAvatar(dataProfile.avatar);
+      if (dataProfile.avatar) {
+        setSelectedFileAvatar(
+          new File([dataProfile.avatar], dataProfile.avatar)
+        );
+      }
     }
   }, [
     dataProfile,
@@ -392,11 +398,11 @@ export default function EditProfil() {
                 />
                 {selectedFileAvatar ? (
                   <p className="text-sm text-black ">
-                    Selected file: {selectedFileAvatar.name}
+                    {selectedFileAvatar.name}
                   </p>
                 ) : (
-                  <p className="text-sm text-gray-400 font-light">
-                    Upload Foto 3x4 (png/jpg)
+                  <p className="text-sm text-gray-400 font-extralight ">
+                    Upload Foto Profil
                   </p>
                 )}
               </label>
