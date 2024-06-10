@@ -8,7 +8,7 @@ interface ModalStatusProps {
   open?: boolean;
   onCancel?: () => void;
   onOk?: () => void;
-  openModalStatus?: () => void;
+  // openModalStatus?: (status: boolean) => void;
   setOpenModalStatus: (status: boolean) => void;
 }
 
@@ -16,7 +16,7 @@ const ModalStatus: React.FC<ModalStatusProps> = ({
   open,
   onCancel,
   onOk,
-  openModalStatus,
+  // openModalStatus,
   setOpenModalStatus,
 }) => {
   const [Status, setStatus] = useState("");
@@ -69,7 +69,7 @@ const ModalStatus: React.FC<ModalStatusProps> = ({
       centered
       width={500}
       footer={null}
-      visible={open}
+      open={open}
       onOk={() => setOpenModalStatus(false)}
       onCancel={() => setOpenModalStatus(false)}
     >
@@ -92,8 +92,8 @@ const ModalStatus: React.FC<ModalStatusProps> = ({
             defaultValue="Pilih Status"
             onChange={handleChangeStatus}
             options={[
-              { value: "Lulus", label: "Lulus" },
-              { value: "Tidak Lulus", label: "Tidak Lulus" },
+              { value: "lulus", label: "Lulus" },
+              { value: "tidak lulus", label: "Tidak Lulus" },
             ]}
           />
         </div>

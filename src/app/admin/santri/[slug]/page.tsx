@@ -28,6 +28,23 @@ export default function DetailSantri() {
 
   console.log(Users, "Users");
 
+  const handleDownload = (url: any) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = url.split("/").pop(); // Use the file name from the URL
+    link.target = "_blank";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const formatRupiah = (number: any) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
+
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
@@ -74,10 +91,6 @@ export default function DetailSantri() {
               <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
                 <span className="min-w-48">No Telepon</span>
                 {Users?.phoneNumber}
-              </li>
-              <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
-                <span className="min-w-48">Status</span>
-                {Users?.status}
               </li>
             </ul>
           </div>
@@ -126,6 +139,135 @@ export default function DetailSantri() {
             </li>
           </ul>
         </div>
+
+        {/* Data Dokumen */}
+        <div className="w-[70%] mt-5 flex flex-col gap-4 bg-white">
+          <h2 className="px-4 font-semibold text-md  text-black">
+            Data Dokumen
+          </h2>
+          <ul className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg ">
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">KTP</span>
+              <div className="flex justify-between w-full">
+                {Users?.document_id?.ktp}
+                <Button
+                  onClick={() =>
+                    handleDownload(
+                      `${process.env.NEXT_PUBLIC_IMG}/${Users?.document_id?.ktp}`
+                    )
+                  }
+                >
+                  Download
+                </Button>
+              </div>
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">KK</span>
+              <div className="flex justify-between w-full">
+                {Users?.document_id?.kk}
+                <Button
+                  onClick={() =>
+                    handleDownload(
+                      `${process.env.NEXT_PUBLIC_IMG}/${Users?.document_id?.kk}`
+                    )
+                  }
+                >
+                  Download
+                </Button>
+              </div>
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">Ijazah</span>
+              <div className="flex justify-between w-full">
+                {Users?.document_id?.ijazah}
+                <Button
+                  onClick={() =>
+                    handleDownload(
+                      `${process.env.NEXT_PUBLIC_IMG}/${Users?.document_id?.ijazah}`
+                    )
+                  }
+                >
+                  Download
+                </Button>
+              </div>
+            </li>
+
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">Sertifikat</span>
+              <div className="flex justify-between w-full">
+                {Users?.document_id?.sertifikat}
+                <Button
+                  onClick={() =>
+                    handleDownload(
+                      `${process.env.NEXT_PUBLIC_IMG}/${Users?.document_id?.sertifikat}`
+                    )
+                  }
+                >
+                  Download
+                </Button>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        {/* Data Infaq */}
+        <div className="w-[70%] mt-5 flex flex-col gap-4 bg-white">
+          <h2 className="px-4 font-semibold text-md  text-black">Data Infaq</h2>
+          <ul className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg ">
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">Rekening Tujuan</span>
+              {Users?.infaq_id?.rekening_tujuan}
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">Total Transfer</span>
+              {formatRupiah(Users?.infaq_id?.total_transfer)}
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">Atas Nama</span>
+              {Users?.infaq_id?.atas_nama}
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">Bukti Transfer</span>
+              <div className="flex justify-between w-full">
+                {Users?.infaq_id?.bukti_pembayaran}
+                <Button
+                  onClick={() =>
+                    handleDownload(
+                      `${process.env.NEXT_PUBLIC_IMG}/${Users?.infaq_id?.bukti_pembayaran}`
+                    )
+                  }
+                >
+                  Download
+                </Button>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        {/* Data Seleksi */}
+        <div className="w-[70%] mt-5 flex flex-col gap-4 bg-white">
+          <h2 className="px-4 font-semibold text-md  text-black">
+            Data Seleksi
+          </h2>
+          <ul className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg ">
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">Soal Seleksi</span>
+              {Users?.seleksi_id?.soal_seleksi}
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">Link Rekaman</span>
+              {Users?.seleksi_id?.link_rekaman}
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">Nilai</span>
+              {Users?.nilai}
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">Status</span>
+              {Users?.status}
+            </li>
+          </ul>
+        </div>
       </div>
       {/* End Form */}
 
@@ -141,7 +283,7 @@ export default function DetailSantri() {
 
       <ModalStatus
         open={openModalStatus}
-        openModalStatus={openModalStatus}
+        // openModalStatus={openModalStatus}
         setOpenModalStatus={setOpenModalStatus}
         // onOk={() => setOpenModalStatus(false)}
         // onCancel={() => setOpenModalStatus(false)}

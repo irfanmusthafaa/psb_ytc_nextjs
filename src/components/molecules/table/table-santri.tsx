@@ -92,12 +92,12 @@ export default function TableSantri(props: DataSantriProps) {
             Lihat Detail
             {/* <Eye width={20} height={20} /> */}
           </Button>
-          <Button
+          {/* <Button
             type="dashed"
             className="text-gray-700 hover:bg-red-900 rounded-none border-none"
           >
             <Trash2 />
-          </Button>
+          </Button> */}
         </Space>
       ),
     },

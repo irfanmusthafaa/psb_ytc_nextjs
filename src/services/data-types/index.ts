@@ -12,6 +12,7 @@ export interface SantriTypes {
   pendidikan_terakhir: string;
   kota_asal: string;
   alamat: string;
+  nilai: number;
   status: string;
   createdAt: Date;
   updatedAt: Date;

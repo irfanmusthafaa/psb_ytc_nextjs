@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Badge, Card, Input, Space } from "antd";
+import { Badge, Button, Card, Dropdown, Input, MenuProps, Space } from "antd";
 import Apex from "@/components/molecules/chart";
 import TableSantri from "@/components/molecules/table/table-santri";
-import { SearchOutlined } from "@ant-design/icons";
+import { DownOutlined, SearchOutlined } from "@ant-design/icons";
 import { useGetAllUser } from "@/services/admin/users/get-all-user";
+import { SantriTypes } from "@/services/data-types";
+import { Files, UserCheck, UsersIcon } from "lucide-react";
 
 interface UserStatus {
   totalUsers: number;
@@ -15,10 +17,21 @@ interface UserStatus {
 }
 
 export default function Dashboard() {
-  const [Users, setUsers] = useState([]);
+  // const [Users, setUsers] = useState([]);
+  const [Users, setUsers] = useState<SantriTypes[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<SantriTypes[]>([]);
   const [UserStatus, setUserStatus] = useState<UserStatus | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [status, setStatus] = useState("");
 
-  const { data: dataUsers, isLoading, isError } = useGetAllUser();
+  const {
+    data: dataUsers,
+    isLoading,
+    isError,
+  } = useGetAllUser({
+    latest: true,
+    status: status,
+  });
 
   useEffect(() => {
     if (!isLoading && !isError) {
@@ -27,9 +40,44 @@ export default function Dashboard() {
     }
   }, [dataUsers, isLoading, isError]);
 
+  useEffect(() => {
+    const filtered: SantriTypes[] = Users.filter((user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredUsers(filtered);
+  }, [searchTerm, Users]);
+
   console.log(Users, "Users");
 
   console.log(UserStatus, "Users status");
+
+  const handleMenuClick: MenuProps["onClick"] = (e) => {
+    setStatus(e.key);
+  };
+
+  const items: MenuProps["items"] = [
+    {
+      label: "lulus",
+      key: "lulus",
+    },
+    {
+      label: "tidak lulus",
+      key: "tidak lulus",
+    },
+    {
+      label: "belum diproses",
+      key: "belum diproses",
+    },
+    {
+      label: "hapus filter",
+      key: "",
+    },
+  ];
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
+  };
 
   return (
     <div className="bg-white h-auto min-h-[500px] m-8 box-border w-max-full rounded-xl">
@@ -40,20 +88,7 @@ export default function Dashboard() {
           <div className="w-full flex justify-between items-center gap-4  ">
             <div className="w-1/3 flex items-center bg-white border rounded-sm overflow-hidden shadow">
               <div className="p-4 bg-green-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                  ></path>
-                </svg>
+                <UsersIcon className="h-12 w-12 text-white" />
               </div>
               <div className="px-4 text-gray-700">
                 <h3 className="text-sm tracking-wider">Total Pendaftar</h3>
@@ -62,20 +97,7 @@ export default function Dashboard() {
             </div>
             <div className="w-1/3 flex items-center bg-white border rounded-sm overflow-hidden shadow">
               <div className="p-4 bg-blue-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
-                  ></path>
-                </svg>
+                <UserCheck className="h-12 w-12 text-white" />
               </div>
               <div className="px-4 text-gray-700">
                 <h3 className="text-sm tracking-wider">Total Santri Lulus</h3>
@@ -84,20 +106,7 @@ export default function Dashboard() {
             </div>
             <div className="w-1/3 flex items-center bg-white border rounded-sm overflow-hidden shadow">
               <div className="p-4 bg-indigo-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-12 w-12 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
-                  ></path>
-                </svg>
+                <Files className="h-12 w-12 text-white" />
               </div>
               <div className="px-4 text-gray-700">
                 <h3 className="text-sm tracking-wider">
@@ -112,9 +121,22 @@ export default function Dashboard() {
 
         <div className="mt-7 w-full flex flex-col justify-center items-start gap-3">
           <div className="w-1/3">
-            <Input placeholder="Cari santri" prefix={<SearchOutlined />} />
+            <Input
+              placeholder="Cari santri"
+              prefix={<SearchOutlined />}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-          <TableSantri data={Users} />
+          <Dropdown menu={menuProps}>
+            <Button>
+              <Space>
+                Filter
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+          <TableSantri data={filteredUsers} />
         </div>
       </div>
     </div>
