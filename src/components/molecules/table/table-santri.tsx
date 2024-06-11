@@ -90,14 +90,7 @@ export default function TableSantri(props: DataSantriProps) {
             onClick={() => router.push(`/admin/santri/${record.id}`)}
           >
             Lihat Detail
-            {/* <Eye width={20} height={20} /> */}
           </Button>
-          {/* <Button
-            type="dashed"
-            className="text-gray-700 hover:bg-red-900 rounded-none border-none"
-          >
-            <Trash2 />
-          </Button> */}
         </Space>
       ),
     },

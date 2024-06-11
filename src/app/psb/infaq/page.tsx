@@ -111,8 +111,10 @@ export default function Infaq() {
   ) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      if (file.type !== "application/pdf") {
-        toast.error("File harus dalam format PDF");
+      const allowedFormats = ["image/jpeg", "image/png", "application/pdf"];
+
+      if (!allowedFormats.includes(file.type)) {
+        toast.error("File harus dalam format JPG, PNG, atau PDF");
       } else {
         setSelectedFile(file);
       }

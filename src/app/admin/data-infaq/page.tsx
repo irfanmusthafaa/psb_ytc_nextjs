@@ -6,9 +6,13 @@ import TableBank from "@/components/molecules/table/table-bank";
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useGetAllUser } from "@/services/admin/users/get-all-user";
+import { SantriTypes } from "@/services/data-types";
 
 export default function DataSantri() {
-  const [Users, setUsers] = useState([]);
+  const [Users, setUsers] = useState<SantriTypes[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<SantriTypes[]>([]);
+  useState([]);
 
   const { data: dataUsers, isLoading, isError } = useGetAllUser();
 
@@ -18,19 +22,27 @@ export default function DataSantri() {
     }
   }, [dataUsers, isLoading, isError]);
 
+  useEffect(() => {
+    const results = Users.filter((user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(results);
+  }, [searchTerm, Users]);
+
   console.log(Users, "Users");
   return (
     <div className="bg-white h-auto min-h-[500px] m-8 box-border w-max-full rounded-xl">
-      {/* <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
-        <p className="text-black font-semibold text-xl">Data Infaq</p>
-      </div> */}
-
       {/* Form */}
       <div className="mt-7 pt-7 px-6 w-full flex flex-col justify-center items-start gap-3">
         <div className="w-1/3">
-          <Input placeholder="Cari data infaq" prefix={<SearchOutlined />} />
+          <Input
+            placeholder="Cari data infaq"
+            prefix={<SearchOutlined />}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
-        <TableInfaq data={Users} />
+        <TableInfaq data={searchResults} />
+        {/* <TableInfaq data={Users} /> */}
       </div>
     </div>
   );

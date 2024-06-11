@@ -170,7 +170,7 @@ export default function Profil() {
                       )
                     }
                   >
-                    Download
+                    Lihat File
                   </Button>
                 </div>
               ) : (
@@ -189,7 +189,7 @@ export default function Profil() {
                       )
                     }
                   >
-                    Download
+                    Lihat File
                   </Button>
                 </div>
               ) : (
@@ -208,7 +208,7 @@ export default function Profil() {
                       )
                     }
                   >
-                    Download
+                    Lihat File
                   </Button>
                 </div>
               ) : (
@@ -228,7 +228,7 @@ export default function Profil() {
                       )
                     }
                   >
-                    Download
+                    Lihat File
                   </Button>
                 </div>
               ) : (
@@ -274,7 +274,7 @@ export default function Profil() {
                       )
                     }
                   >
-                    Download
+                    Lihat File
                   </Button>
                 </div>
               ) : (

@@ -175,7 +175,7 @@ export default function DetailSantri() {
                       )
                     }
                   >
-                    Download
+                    Lihat File
                   </Button>
                 </div>
               ) : (
@@ -194,7 +194,7 @@ export default function DetailSantri() {
                       )
                     }
                   >
-                    Download
+                    Lihat File
                   </Button>
                 </div>
               ) : (
@@ -213,7 +213,7 @@ export default function DetailSantri() {
                       )
                     }
                   >
-                    Download
+                    Lihat File
                   </Button>
                 </div>
               ) : (
@@ -233,7 +233,7 @@ export default function DetailSantri() {
                       )
                     }
                   >
-                    Download
+                    Lihat File
                   </Button>
                 </div>
               ) : (
@@ -279,7 +279,7 @@ export default function DetailSantri() {
                       )
                     }
                   >
-                    Download
+                    Lihat File
                   </Button>
                 </div>
               ) : (

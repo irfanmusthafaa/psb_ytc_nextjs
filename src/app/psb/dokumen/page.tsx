@@ -66,8 +66,10 @@ export default function Dokumen() {
   ) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      if (file.type !== "application/pdf") {
-        toast.error("File harus dalam format PDF");
+      const allowedFormats = ["image/jpeg", "image/png", "application/pdf"];
+
+      if (!allowedFormats.includes(file.type)) {
+        toast.error("File harus dalam format JPG, PNG, atau PDF");
       } else {
         setSelectedFile(file);
       }
@@ -247,7 +249,9 @@ export default function Dokumen() {
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
                 {SelectedFileSertifikat ? (
-                  <p className="text-sm text-black ">{SelectedFileSertifikat.name}</p>
+                  <p className="text-sm text-black ">
+                    {SelectedFileSertifikat.name}
+                  </p>
                 ) : Profile?.document_id?.sertifikat ? (
                   <p className="text-sm text-black">
                     {Profile?.document_id?.sertifikat}

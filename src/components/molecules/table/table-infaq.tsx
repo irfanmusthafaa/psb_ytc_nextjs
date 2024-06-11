@@ -77,9 +77,7 @@ export default function TableInfaq(props: DataSantriProps) {
       //   ),
       render: (text) =>
         text ? (
-          <Button type="primary" onClick={() => window.open(text, "_blank")}>
-            Lihat
-          </Button>
+          <Button onClick={() => window.open(text, "_blank")}>Lihat</Button>
         ) : (
           <p>-</p>
         ),
