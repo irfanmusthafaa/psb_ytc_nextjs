@@ -32,28 +32,28 @@ export default function Dokumen() {
     if (!isLoading && !isError && dataProfile) {
       setProfile(dataProfile);
 
-      if (dataProfile.document_id?.ktp) {
-        const ktpFileName = dataProfile.document_id.ktp;
-        const file = new File([], ktpFileName);
-        setSelectedFileKTP(file);
-      }
-      if (dataProfile.document_id?.kk) {
-        const kkFileName = dataProfile.document_id.kk;
-        const file = new File([], kkFileName);
-        setSelectedFileKK(file);
-      }
-      if (dataProfile.document_id?.ijazah) {
-        const ijazahFileName = dataProfile.document_id.ijazah;
-        const file = new File([], ijazahFileName);
-        setSelectedFileIjazah(file);
-      }
-      if (dataProfile.document_id?.sertifikat) {
-        const sertifikatFileName = dataProfile.document_id.sertifikat;
-        const file = new File([], sertifikatFileName);
-        setSelectedFileSertifikat(file);
-      }
-      if (dataProfile.document_id._id) {
-        setEditedId(dataProfile.document_id._id);
+      // if (dataProfile?.document_id?.ktp) {
+      //   const ktpFileName = dataProfile?.document_id?.ktp;
+      //   const file = new File([], ktpFileName);
+      //   setSelectedFileKTP(file);
+      // }
+      // if (dataProfile?.document_id?.kk) {
+      //   const kkFileName = dataProfile?.document_id?.kk;
+      //   const file = new File([], kkFileName);
+      //   setSelectedFileKK(file);
+      // }
+      // if (dataProfile?.document_id?.ijazah) {
+      //   const ijazahFileName = dataProfile.document_id.ijazah;
+      //   const file = new File([], ijazahFileName);
+      //   setSelectedFileIjazah(file);
+      // }
+      // if (dataProfile?.document_id?.sertifikat) {
+      //   const sertifikatFileName = dataProfile.document_id.sertifikat;
+      //   const file = new File([], sertifikatFileName);
+      //   setSelectedFileSertifikat(file);
+      // }
+      if (dataProfile?.document_id?._id) {
+        setEditedId(dataProfile?.document_id?._id);
       }
     }
   }, [dataProfile, isLoading, isError]);
@@ -74,8 +74,6 @@ export default function Dokumen() {
     }
   };
 
-  
-
   // const handleFileChangeKTP = (event: ChangeEvent<HTMLInputElement>) => {
   //   if (event.target.files && event.target.files.length > 0) {
   //     setSelectedFileKTP(event.target.files[0]);
@@ -93,21 +91,20 @@ export default function Dokumen() {
   const handleFileChangeSertifikat = (event: ChangeEvent<HTMLInputElement>) =>
     handleFileChange(event, setSelectedFileSertifikat);
 
-  
   const handleSubmit = async () => {
-    if (!SelectedFileKTP) {
+    if (!editedId && !SelectedFileKTP) {
       toast.error("KTP wajib diisi");
       return;
     }
-    if (!SelectedFileKK) {
+    if (!editedId && !SelectedFileKK) {
       toast.error("KK wajib diisi");
       return;
     }
-    if (!SelectedFileIjazah) {
+    if (!editedId && !SelectedFileIjazah) {
       toast.error("Ijazah wajib diisi");
       return;
     }
-    if (!SelectedFileSertifikat) {
+    if (!editedId && !SelectedFileSertifikat) {
       toast.error("Sertifikat wajib diisi");
       return;
     }
@@ -146,12 +143,6 @@ export default function Dokumen() {
     }
   };
 
-  const isEditMode =
-    SelectedFileKTP ||
-    SelectedFileKK ||
-    SelectedFileIjazah ||
-    SelectedFileSertifikat;
-
   console.log(SelectedFileKTP, "ktp");
   console.log(SelectedFileKK, "kk");
   console.log(SelectedFileIjazah, "ijazah");
@@ -182,9 +173,15 @@ export default function Dokumen() {
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
                 {SelectedFileKTP ? (
-                  <p className="text-sm text-black">{SelectedFileKTP.name}</p>
+                  <p className="text-sm text-black ">{SelectedFileKTP.name}</p>
+                ) : Profile?.document_id?.ktp ? (
+                  <p className="text-sm text-black">
+                    {Profile?.document_id?.ktp}
+                  </p>
                 ) : (
-                  <p className="text-sm text-gray-400 font-light">Upload KTP</p>
+                  <p className="text-sm text-gray-400 font-extralight ">
+                    Upload KTP
+                  </p>
                 )}
               </label>
             </div>
@@ -200,9 +197,15 @@ export default function Dokumen() {
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
                 {SelectedFileKK ? (
-                  <p className="text-sm text-black">{SelectedFileKK.name}</p>
+                  <p className="text-sm text-black ">{SelectedFileKK.name}</p>
+                ) : Profile?.document_id?.kk ? (
+                  <p className="text-sm text-black">
+                    {Profile?.document_id?.kk}
+                  </p>
                 ) : (
-                  <p className="text-sm text-gray-400 font-light">Upload KK</p>
+                  <p className="text-sm text-gray-400 font-extralight ">
+                    Upload KK
+                  </p>
                 )}
               </label>
             </div>
@@ -218,11 +221,15 @@ export default function Dokumen() {
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
                 {SelectedFileIjazah ? (
-                  <p className="text-sm text-black">
+                  <p className="text-sm text-black ">
                     {SelectedFileIjazah.name}
                   </p>
+                ) : Profile?.document_id?.ijazah ? (
+                  <p className="text-sm text-black">
+                    {Profile?.document_id?.ijazah}
+                  </p>
                 ) : (
-                  <p className="text-sm text-gray-400 font-light">
+                  <p className="text-sm text-gray-400 font-extralight ">
                     Upload Ijazah
                   </p>
                 )}
@@ -240,11 +247,13 @@ export default function Dokumen() {
                   className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
                 />
                 {SelectedFileSertifikat ? (
+                  <p className="text-sm text-black ">{SelectedFileSertifikat.name}</p>
+                ) : Profile?.document_id?.sertifikat ? (
                   <p className="text-sm text-black">
-                    {SelectedFileSertifikat.name}
+                    {Profile?.document_id?.sertifikat}
                   </p>
                 ) : (
-                  <p className="text-sm text-gray-400 font-light">
+                  <p className="text-sm text-gray-400 font-extralight ">
                     Upload Sertifikat
                   </p>
                 )}
@@ -263,7 +272,7 @@ export default function Dokumen() {
             handleSubmit();
           }}
         >
-          {isEditMode ? "Edit Dokumen" : "Submit Dokumen"}
+          Submit Dokumen
         </Button>
       </div>
     </div>

@@ -107,7 +107,7 @@ export default function Seleksi() {
           soal_seleksi: SoalSeleksi,
           link_rekaman: LinkRekaman,
         });
-        toast.success("Edit Infaq Success");
+        toast.success("Edit Seleksi Success");
         setTimeout(() => {
           window.location.reload();
         }, 1000);
@@ -116,13 +116,13 @@ export default function Seleksi() {
           soal_seleksi: SoalSeleksi,
           link_rekaman: LinkRekaman,
         });
-        toast.success("Create Infaq Success");
+        toast.success("Create Seleksi Success");
         setTimeout(() => {
           window.location.reload();
         }, 1000);
       }
     } catch (error) {
-      toast.error("Update Infaq Failed");
+      toast.error("Update Seleksi Failed");
     }
     // createSeleksi({
     //   soal_seleksi: SoalSeleksi,
@@ -182,7 +182,7 @@ export default function Seleksi() {
             handleSubmit();
           }}
         >
-          Submit Infaq
+          Submit Seleksi
           {/* {isEditMode ? "Edit Infaq" : "Submit Infaq"} */}
         </Button>
       </div>

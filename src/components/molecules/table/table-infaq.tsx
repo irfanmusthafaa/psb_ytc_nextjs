@@ -65,28 +65,48 @@ export default function TableInfaq(props: DataSantriProps) {
       title: "Bukti Pembayaran",
       dataIndex: "bukti_pembayaran",
       key: "bukti_pembayaran",
+      // render: (text) =>
+      //   text ? (
+      //     <img
+      //       src={text}
+      //       alt="img"
+      //       className="w-[150px] h-[80px] object-cover"
+      //     />
+      //   ) : (
+      //     <p>-</p>
+      //   ),
       render: (text) =>
         text ? (
-          <img
-            src={text}
-            alt="img"
-            className="w-[150px] h-[80px] object-cover"
-          />
+          <Button type="primary" onClick={() => window.open(text, "_blank")}>
+            Lihat
+          </Button>
         ) : (
           <p>-</p>
         ),
     },
   ];
 
-  const dataSource: DataType[] = data?.map((item, index) => ({
-    key: (index + 1).toString(),
-    id: item._id,
-    nama_santri: item.name,
-    rekening_tujuan: item.infaq_id?.rekening_tujuan,
-    total_transfer: item.infaq_id?.total_transfer,
-    atas_nama: item.infaq_id?.atas_nama,
-    bukti_pembayaran: `${process.env.NEXT_PUBLIC_IMG}/${item.infaq_id?.bukti_pembayaran}`,
-  }));
+  // const dataSource: DataType[] = data?.map((item, index) => ({
+  //   key: (index + 1).toString(),
+  //   id: item._id,
+  //   nama_santri: item.name,
+  //   rekening_tujuan: item.infaq_id?.rekening_tujuan,
+  //   total_transfer: item.infaq_id?.total_transfer,
+  //   atas_nama: item.infaq_id?.atas_nama,
+  //   bukti_pembayaran: `${process.env.NEXT_PUBLIC_IMG}/${item.infaq_id?.bukti_pembayaran}`,
+  // }));
+
+  const dataSource: DataType[] = data
+    ?.filter((item) => item.infaq_id !== undefined)
+    .map((item, index) => ({
+      key: (index + 1).toString(),
+      id: item._id,
+      nama_santri: item.name,
+      rekening_tujuan: item.infaq_id.rekening_tujuan,
+      total_transfer: item.infaq_id.total_transfer,
+      atas_nama: item.infaq_id.atas_nama,
+      bukti_pembayaran: `${process.env.NEXT_PUBLIC_IMG}/${item.infaq_id.bukti_pembayaran}`,
+    }));
 
   return (
     <>

@@ -101,11 +101,9 @@ export default function EditProfil() {
       setPekerjaanIbu(dataProfile.pekerjaan_ibu || "");
       setPenghasilanOrtu(dataProfile.penghasilan_ortu?.toString() || "");
       // setSelectedFileAvatar(dataProfile.avatar);
-      if (dataProfile.avatar) {
-        setSelectedFileAvatar(
-          new File([dataProfile.avatar], dataProfile.avatar)
-        );
-      }
+      // if (dataProfile.avatar) {
+      //   setSelectedFileAvatar(dataProfile.avatar);
+      // }
     }
   }, [
     dataProfile,
@@ -286,6 +284,8 @@ export default function EditProfil() {
   console.log(PenghasilanOrtu, "PenghasilanOrtu");
   console.log(selectedFileAvatar, "Avatar");
   const dateFormat = "YYYY-MM-DD";
+
+  console.log(profile?.avatar, "vvv");
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl text-black">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
@@ -402,7 +402,7 @@ export default function EditProfil() {
                   </p>
                 ) : (
                   <p className="text-sm text-gray-400 font-extralight ">
-                    Upload Foto Profil
+                    {profile?.avatar}
                   </p>
                 )}
               </label>

@@ -62,11 +62,11 @@ export default function Infaq() {
         setTotalTransfer(total);
       }
 
-      if (dataProfile.infaq_id?.bukti_pembayaran) {
-        const buktiFile = dataProfile.infaq_id?.bukti_pembayaran;
-        const file = new File([], buktiFile);
-        setSelectedFileInfaq(file);
-      }
+      // if (dataProfile.infaq_id?.bukti_pembayaran) {
+      //   const buktiFile = dataProfile.infaq_id?.bukti_pembayaran;
+      //   const file = new File([], buktiFile);
+      //   setSelectedFileInfaq(file);
+      // }
       if (dataProfile?.infaq_id?._id) {
         const id = dataProfile?.infaq_id?._id;
         setEditedId(id);
@@ -122,12 +122,6 @@ export default function Infaq() {
   const handleFileChangeInfaq = (event: ChangeEvent<HTMLInputElement>) =>
     handleFileChange(event, setSelectedFileInfaq);
 
-  // const handleFileChangeInfaq = (event: ChangeEvent<HTMLInputElement>) => {
-  //   if (event.target.files && event.target.files.length > 0) {
-  //     setSelectedFileInfaq(event.target.files[0]);
-  //   }
-  // };
-
   const handleChangeRekening = (value: string) => {
     console.log(`selected ${value}`);
     setRekeningTujuan(value);
@@ -146,7 +140,7 @@ export default function Infaq() {
       toast.error("Total Transfer wajib diisi");
       return;
     }
-    if (!SelectedFileInfaq) {
+    if (!editedId && !SelectedFileInfaq) {
       toast.error("Bukti Pembayaran wajib diisi");
       return;
     }
@@ -231,6 +225,10 @@ export default function Infaq() {
                 {SelectedFileInfaq ? (
                   <p className="text-sm text-black ">
                     {SelectedFileInfaq.name}
+                  </p>
+                ) : Profile?.infaq_id?.bukti_pembayaran ? (
+                  <p className="text-sm text-black">
+                    {Profile?.infaq_id?.bukti_pembayaran}
                   </p>
                 ) : (
                   <p className="text-sm text-gray-400 font-extralight ">

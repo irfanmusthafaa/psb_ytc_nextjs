@@ -327,6 +327,15 @@ export default function Register() {
             >
               Register
             </button>
+            <p className="text-sm text-center font-light text-gray-800">
+              Sudah punya akun?{" "}
+              <a
+                href="/login"
+                className="font-medium text-primary-600 hover:underline hover:text-[#273b83] dark:text-primary-500"
+              >
+                Login disini
+              </a>
+            </p>
           </div>
         </div>
       </div>

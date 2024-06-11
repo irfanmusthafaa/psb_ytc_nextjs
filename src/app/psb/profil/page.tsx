@@ -87,10 +87,6 @@ export default function Profil() {
                 <span className="min-w-48">No Telepon</span>
                 {profile?.phoneNumber}
               </li>
-              <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
-                <span className="min-w-48">Status</span>
-                {profile?.status}
-              </li>
             </ul>
           </div>
 
@@ -110,31 +106,48 @@ export default function Profil() {
           </h2>
           <ul className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg ">
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
-              <span className="min-w-48">Nama Ayah</span> {profile?.nama_ayah}
+              <span className="min-w-48">Nama Ayah</span>
+              {profile?.nama_ayah || (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Nama Ibu</span>
-              {profile?.nama_ibu}
+              {profile?.nama_ibu || (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">No Telepon</span>
-              {profile?.no_telp_ortu}
+              {profile?.no_telp_ortu || (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Alamat Lengkap</span>
-              {profile?.alamat_ortu}
+              {profile?.alamat_ortu || (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Pekerjaan Ayah</span>
-              {profile?.pekerjaan_ayah}
+              {profile?.pekerjaan_ayah || (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Pekerjaan Ibu</span>
-              {profile?.pekerjaan_ibu}
+              {profile?.pekerjaan_ibu || (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Penghasilan Orang Tua</span>
-              {formatRupiah(profile?.penghasilan_ortu)}
+              {profile?.penghasilan_ortu ? (
+                formatRupiah(profile?.penghasilan_ortu)
+              ) : (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
           </ul>
         </div>
@@ -147,64 +160,80 @@ export default function Profil() {
           <ul className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg ">
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">KTP</span>
-              <div className="flex justify-between w-full">
-                {profile?.document_id?.ktp}
-                <Button
-                  onClick={() =>
-                    handleDownload(
-                      `${process.env.NEXT_PUBLIC_IMG}/${profile?.document_id?.ktp}`
-                    )
-                  }
-                >
-                  Download
-                </Button>
-              </div>
+              {profile?.document_id?.ktp ? (
+                <div className="flex justify-between w-full">
+                  {profile?.document_id?.ktp}
+                  <Button
+                    onClick={() =>
+                      handleDownload(
+                        `${process.env.NEXT_PUBLIC_IMG}/${profile?.document_id?.ktp}`
+                      )
+                    }
+                  >
+                    Download
+                  </Button>
+                </div>
+              ) : (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">KK</span>
-              <div className="flex justify-between w-full">
-                {profile?.document_id?.kk}
-                <Button
-                  onClick={() =>
-                    handleDownload(
-                      `${process.env.NEXT_PUBLIC_IMG}/${profile?.document_id?.kk}`
-                    )
-                  }
-                >
-                  Download
-                </Button>
-              </div>
+              {profile?.document_id?.kk ? (
+                <div className="flex justify-between w-full">
+                  {profile?.document_id?.kk}
+                  <Button
+                    onClick={() =>
+                      handleDownload(
+                        `${process.env.NEXT_PUBLIC_IMG}/${profile?.document_id?.kk}`
+                      )
+                    }
+                  >
+                    Download
+                  </Button>
+                </div>
+              ) : (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Ijazah</span>
-              <div className="flex justify-between w-full">
-                {profile?.document_id?.ijazah}
-                <Button
-                  onClick={() =>
-                    handleDownload(
-                      `${process.env.NEXT_PUBLIC_IMG}/${profile?.document_id?.ijazah}`
-                    )
-                  }
-                >
-                  Download
-                </Button>
-              </div>
+              {profile?.document_id?.ijazah ? (
+                <div className="flex justify-between w-full">
+                  {profile?.document_id?.ijazah}
+                  <Button
+                    onClick={() =>
+                      handleDownload(
+                        `${process.env.NEXT_PUBLIC_IMG}/${profile?.document_id?.ijazah}`
+                      )
+                    }
+                  >
+                    Download
+                  </Button>
+                </div>
+              ) : (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
 
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Sertifikat</span>
-              <div className="flex justify-between w-full">
-                {profile?.document_id?.sertifikat}
-                <Button
-                  onClick={() =>
-                    handleDownload(
-                      `${process.env.NEXT_PUBLIC_IMG}/${profile?.document_id?.sertifikat}`
-                    )
-                  }
-                >
-                  Download
-                </Button>
-              </div>
+              {profile?.document_id?.sertifikat ? (
+                <div className="flex justify-between w-full">
+                  {profile?.document_id?.sertifikat}
+                  <Button
+                    onClick={() =>
+                      handleDownload(
+                        `${process.env.NEXT_PUBLIC_IMG}/${profile?.document_id?.sertifikat}`
+                      )
+                    }
+                  >
+                    Download
+                  </Button>
+                </div>
+              ) : (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
           </ul>
         </div>
@@ -215,30 +244,42 @@ export default function Profil() {
           <ul className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg ">
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Rekening Tujuan</span>
-              {profile?.infaq_id?.rekening_tujuan}
+              {profile?.infaq_id?.rekening_tujuan || (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Total Transfer</span>
-              {formatRupiah(profile?.infaq_id?.total_transfer)}
+              {profile?.infaq_id?.total_transfer ? (
+                formatRupiah(profile?.infaq_id?.total_transfer)
+              ) : (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Atas Nama</span>
-              {profile?.infaq_id?.atas_nama}
+              {profile?.infaq_id?.atas_nama || (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Bukti Transfer</span>
-              <div className="flex justify-between w-full">
-                {profile?.infaq_id?.bukti_pembayaran}
-                <Button
-                  onClick={() =>
-                    handleDownload(
-                      `${process.env.NEXT_PUBLIC_IMG}/${profile?.infaq_id?.bukti_pembayaran}`
-                    )
-                  }
-                >
-                  Download
-                </Button>
-              </div>
+              {profile?.infaq_id?.bukti_pembayaran ? (
+                <div className="flex justify-between w-full">
+                  {profile?.infaq_id?.bukti_pembayaran}
+                  <Button
+                    onClick={() =>
+                      handleDownload(
+                        `${process.env.NEXT_PUBLIC_IMG}/${profile?.infaq_id?.bukti_pembayaran}`
+                      )
+                    }
+                  >
+                    Download
+                  </Button>
+                </div>
+              ) : (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
           </ul>
         </div>
@@ -251,15 +292,29 @@ export default function Profil() {
           <ul className="w-full text-sm font-medium text-gray-900 bg-white rounded-lg ">
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Soal Seleksi</span>
-              {profile?.seleksi_id?.soal_seleksi}
+              {profile?.seleksi_id?.soal_seleksi || (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Link Rekaman</span>
-              {profile?.seleksi_id?.link_rekaman}
+              {profile?.seleksi_id?.link_rekaman ? (
+                <a
+                  className="cursor-pointer underline text-blue-500"
+                  href={profile?.seleksi_id?.link_rekaman}
+                  target="_blank"
+                >
+                  Lihat
+                </a>
+              ) : (
+                <span className="text-red-500">data belum di isi</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Nilai</span>
-              {profile?.nilai}
+              {profile?.nilai || (
+                <span className="text-red-500">belum diproses</span>
+              )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Status</span>
