@@ -5,6 +5,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import { CookiesKey, CookiesStorage } from "@/utils/cookies";
+import { User } from "lucide-react";
 
 const navigation = [
   { name: "Admin", href: "/psb/profil", current: true },
@@ -115,11 +116,12 @@ export const NavbarAdmin = () => {
                     <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
-                      <img
+                      <User />
+                      {/* <img
                         className="h-8 w-8 rounded-full"
                         src="/images/foto.jpg"
                         alt=""
-                      />
+                      /> */}
                     </Menu.Button>
                   </div>
                   <Transition
