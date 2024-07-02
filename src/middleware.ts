@@ -5,7 +5,6 @@ export function middleware(request: NextRequest) {
   const cookie = cookies();
   const token = cookie.get("TokenUser");
 
-  console.log(token, "token");
   if (!token) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
@@ -15,7 +14,7 @@ export const config = {
   matcher: [
     "/psb/profil",
     "/psb/infaq",
-    "/psb/dokumen",
+    // "/psb/dokumen",
     "/psb/hasil-seleksi",
     "/psb/test-seleksi",
     "/psb/edit-profil",

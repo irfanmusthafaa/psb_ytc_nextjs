@@ -35,7 +35,8 @@ export default function Login() {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Login Berhasil");
-      router.push("/admin/dashboard");
+      window.location.href = "/admin/dashboard";
+      // router.push("/admin/dashboard");
     }
   }, [status]);
 
