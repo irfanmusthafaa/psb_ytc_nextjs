@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/molecules/chart/index.jsx", "src/app/providers.tsx", "src/utils/http.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/molecules/chart/index.jsx", "src/app/providers.tsx", "src/utils/http.ts", "src/components/molecules/apex-chart/donut-chart.jsx"],
   "exclude": ["node_modules"]
 }

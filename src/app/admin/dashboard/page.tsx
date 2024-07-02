@@ -8,6 +8,8 @@ import { DownOutlined, SearchOutlined } from "@ant-design/icons";
 import { useGetAllUser } from "@/services/admin/users/get-all-user";
 import { SantriTypes } from "@/services/data-types";
 import { Files, UserCheck, UsersIcon } from "lucide-react";
+import DonutChart from "@/components/molecules/apex-chart/donut-chart/donut-chart";
+import PieChart from "@/components/molecules/apex-chart/pie-chart/pie-chart";
 
 interface UserStatus {
   totalUsers: number;
@@ -119,7 +121,16 @@ export default function Dashboard() {
           {/* End Card */}
         </div>
 
-        <div className="mt-7 w-full flex flex-col justify-center items-start gap-3">
+        <div className="w-full mt-10 flex justify-between items-center gap-3">
+          <div className="w-1/2">
+            <DonutChart data={UserStatus} />
+          </div>
+          <div className="w-1/2">
+            <PieChart data={UserStatus} />
+          </div>
+        </div>
+
+        {/* <div className="mt-7 w-full flex flex-col justify-center items-start gap-3">
           <div className="w-1/3">
             <Input
               placeholder="Cari santri"
@@ -137,7 +148,7 @@ export default function Dashboard() {
             </Button>
           </Dropdown>
           <TableSantri data={filteredUsers} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

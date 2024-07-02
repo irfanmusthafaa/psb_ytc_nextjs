@@ -58,6 +58,8 @@ export const NavbarAdmin = () => {
                     <p className="text-black font-semibold text-xl">
                       {pathname === "/admin/dashboard"
                         ? "Dashboard"
+                        : pathname === "/admin/data-santri"
+                        ? "Data Santri"
                         : pathname === "/admin/data-infaq"
                         ? "Data Infaq"
                         : pathname === "/admin/soal-seleksi"

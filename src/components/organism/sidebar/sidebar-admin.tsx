@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   TextSelect,
   User,
+  User2,
   UserCog,
 } from "lucide-react";
 import Link from "next/link";
@@ -42,8 +43,7 @@ export default function SidebarAdmin() {
             <LayoutDashboard />
             <span className="ml-2 text-sm font-medium">Dashboard</span>
           </a>
-
-          {/* <Link
+          <a
             href="/admin/data-santri"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
               pathname === "/admin/data-santri"
@@ -51,9 +51,10 @@ export default function SidebarAdmin() {
                 : "hover:bg-indigo-700"
             }`}
           >
-            <UserCog />
+            <User2 />
             <span className="ml-2 text-sm font-medium">Data Santri</span>
-          </Link> */}
+          </a>
+
           <a
             href="/admin/data-infaq"
             className={`flex items-center w-full h-12 px-3 mt-2 rounded ${
