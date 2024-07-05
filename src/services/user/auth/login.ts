@@ -12,11 +12,11 @@ const LoginUser = async (input: any) => {
     CookiesStorage.set(CookiesKey.User, decodeURIComponent(result.data.data.email));
     return result;
   } catch (error:any) {
-    if (error.response && error.response.data && error.response.data.message) {
-      toast.error(error.response.data.message);
-    } else {
-      toast.error("An error occurred while logging in.");
-    }
+    // if (error) {
+    //   toast.error(error.response.data.data.message);
+    // } else {
+    //   toast.error("An error occurred while logging in.");
+    // }
     throw error; // Jangan lupa untuk melempar kembali kesalahan agar dapat ditangani di tempat lain jika perlu.
   }
 };
