@@ -1,13 +1,9 @@
 "use client";
 
 import { useLoginUser } from "@/services/user/auth/login";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Toaster } from "react-hot-toast";
-import { ToastContainer, toast } from "react-toastify";
-import Cookies from "js-cookie";
-import { CookiesKey, CookiesStorage } from "@/utils/cookies";
+import { toast } from "react-toastify";
 
 interface ErrorResponse {
   response?: {
