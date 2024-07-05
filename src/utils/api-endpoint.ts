@@ -1,6 +1,12 @@
 export const API_ENDPOINT = {
   REGISTER: "/api/v1/auth/signup",
   LOGIN_USER: "/api/v1/auth/signin",
+  VERIFY_OTP: "/api/v1/auth/verify-otp",
+  RESEND_OTP:"/api/v1/auth/resend-otp",
+  RESEND_OTP_FORGOT_PASSWORD: "/api/v1/auth/resend-otp-forgot-password",
+  FORGOT_PASSWORD: "/api/v1/auth/forgot-password",
+
+
   PROFILE: "/api/v1/user/profile",
   CREATE_INFAQ: "/api/v1/infaq/create",
   EDIT_INFAQ: "/api/v1/infaq/edit",

@@ -1,15 +1,100 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { InputOTP } from "antd-input-otp";
-import { Button, Form } from "antd";
+import { Button, Form, Input } from "antd";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import type { GetProp } from "antd";
+import type { OTPProps } from "antd/es/input/OTP";
+import { useVerifyOtp } from "@/services/user/auth/verify-otp";
+import OTP from "antd/es/input/OTP";
+import { useResendOtp } from "@/services/user/auth/resend-otp";
 
 export default function OtpPage() {
-  const [form] = Form.useForm();
+  const [Otp, setOtp] = useState("");
+  const [Email, setEmail] = useState("");
 
-  const handleFinish = (values: any) => {
-    // Your logic
+  const router = useRouter();
+
+  const {
+    mutate: dataVerifyOTP,
+    status: isStatusVerifyOTP,
+    isSuccess: isSuccessVerifiyOTP,
+    isError: isErrorVerifyOTP,
+  } = useVerifyOtp();
+  const {
+    mutate: dataResendOTP,
+    status: isStatusResendOTP,
+    isSuccess: isSuccessResendOTP,
+    isError: isErrorResendOTP,
+  } = useResendOtp();
+
+  useEffect(() => {
+    const registeredEmail = localStorage.getItem("registeredEmail");
+    if (registeredEmail) {
+      setEmail(registeredEmail);
+    } else {
+      toast.error("Email tidak ditemukan. Silakan daftar ulang.");
+      setTimeout(() => {
+        router.push("/register");
+      }, 1000);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isSuccessVerifiyOTP) {
+      toast.success("Verfikasi OTP Sukses");
+      // router.push("/login");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1000);
+    }
+  }, [isStatusVerifyOTP]);
+
+  useEffect(() => {
+    if (isSuccessResendOTP) {
+      toast.success("OTP Berhasil Dikirim ulang");
+    }
+  }, [isStatusResendOTP]);
+
+  const onChange: GetProp<typeof Input.OTP, "onChange"> = (text) => {
+    setOtp(text);
+    console.log("onChange:", text);
   };
+
+  const sharedProps: OTPProps = {
+    onChange,
+  };
+
+  const handleSubmit = () => {
+    if (!Email) {
+      toast.error("Email wajib diisi");
+      return;
+    }
+    if (!Otp) {
+      toast.error("OTP wajib diisi");
+      return;
+    }
+    dataVerifyOTP({
+      email: Email,
+      otp: Otp,
+    });
+  };
+
+  const handleResendOTP = () => {
+    if (!Email) {
+      toast.error("Email wajib diisi");
+      return;
+    }
+    dataResendOTP({
+      email: Email,
+    });
+  };
+
+  console.log(Email, "Email");
+  console.log(Otp, "OTP");
+
   return (
     <section className="bg-[#273b83] ">
       <div className="flex flex-col items-center  px-6  mx-auto h-screen lg:py-0">
@@ -39,38 +124,38 @@ export default function OtpPage() {
                 Masukkan kode OTP yang telah dikirim ke
               </p>
               <p className="text-xs text-center">
-                email :{" "}
-                <span className="font-bold">irfanmustafa2307@gmail.com</span>
+                email : <span className="font-bold">{Email}</span>
               </p>
             </div>
 
             <div>
-              <Form
-                onFinish={handleFinish}
-                form={form}
-                className="flex flex-col  gap-3 w-full "
-              >
-                <InputOTP autoSubmit={form} inputType="numeric" />
+              <div className="flex flex-col  gap-3 w-full ">
+                <Input.OTP
+                  formatter={(str) => str.toUpperCase()}
+                  {...sharedProps}
+                />
 
                 <div>
                   <p className="text-xs text-center">
                     Kode OTP tidak terkirim?{" "}
-                    <span className="font-bold text-[#273b83] hover:text-[#111e4e]  cursor-pointer">
+                    <span
+                      className="font-bold text-[#273b83] hover:text-[#111e4e]  cursor-pointer"
+                      onClick={handleResendOTP}
+                    >
                       Resend
                     </span>
                   </p>
                 </div>
-                <Form.Item className="w-full mt-5">
-                  {/* <Button htmlType="submit">Submit</Button> */}
+                <div className="w-full mt-5">
                   <button
                     type="submit"
                     className="w-full text-white bg-[#273b83] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                    // onClick={() => router.push("/psb/edit-profil")}
+                    onClick={handleSubmit}
                   >
                     Submit
                   </button>
-                </Form.Item>
-              </Form>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -38,8 +38,9 @@ export default function Register() {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Register Berhasil");
+      localStorage.setItem("registeredEmail", Email);
       // router.push("/login");
-      window.location.href = "/login";
+      window.location.href = "/otp";
     }
   }, [status]);
 
