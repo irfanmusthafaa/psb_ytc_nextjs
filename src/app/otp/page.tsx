@@ -11,9 +11,21 @@ import { useVerifyOtp } from "@/services/user/auth/verify-otp";
 import OTP from "antd/es/input/OTP";
 import { useResendOtp } from "@/services/user/auth/resend-otp";
 
+interface ErrorResponse {
+  response?: {
+    data?: {
+      data?: {
+        message?: string;
+      };
+    };
+  };
+  message?: string;
+}
+
 export default function OtpPage() {
   const [Otp, setOtp] = useState("");
   const [Email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -22,6 +34,7 @@ export default function OtpPage() {
     status: isStatusVerifyOTP,
     isSuccess: isSuccessVerifiyOTP,
     isError: isErrorVerifyOTP,
+    error: errorVerifyOTP,
   } = useVerifyOtp();
   const {
     mutate: dataResendOTP,
@@ -45,10 +58,18 @@ export default function OtpPage() {
   useEffect(() => {
     if (isSuccessVerifiyOTP) {
       toast.success("Verfikasi OTP Sukses");
-      // router.push("/login");
+      localStorage.removeItem("registeredEmail");
       setTimeout(() => {
-        window.location.href = "/login";
+        router.push("/login");
       }, 1000);
+    }
+
+    if (isErrorVerifyOTP) {
+      const err = errorVerifyOTP as ErrorResponse;
+      const errorMessage =
+        err.response?.data?.data?.message || "Terjadi kesalahan";
+      setIsLoading(false);
+      toast.error(errorMessage);
     }
   }, [isStatusVerifyOTP]);
 
@@ -67,7 +88,8 @@ export default function OtpPage() {
     onChange,
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!Email) {
       toast.error("Email wajib diisi");
       return;
@@ -76,6 +98,7 @@ export default function OtpPage() {
       toast.error("OTP wajib diisi");
       return;
     }
+    setIsLoading(true);
     dataVerifyOTP({
       email: Email,
       otp: Otp,
@@ -92,8 +115,8 @@ export default function OtpPage() {
     });
   };
 
-  console.log(Email, "Email");
-  console.log(Otp, "OTP");
+  // console.log(Email, "Email");
+  // console.log(Otp, "OTP");
 
   return (
     <section className="bg-[#273b83] ">
@@ -128,7 +151,7 @@ export default function OtpPage() {
               </p>
             </div>
 
-            <div>
+            <form onSubmit={handleSubmit}>
               <div className="flex flex-col  gap-3 w-full ">
                 <Input.OTP
                   formatter={(str) => str.toUpperCase()}
@@ -150,13 +173,13 @@ export default function OtpPage() {
                   <button
                     type="submit"
                     className="w-full text-white bg-[#273b83] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                    onClick={handleSubmit}
+                    disabled={isLoading}
                   >
-                    Submit
+                    {isLoading ? "Loading..." : "Submit"}
                   </button>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

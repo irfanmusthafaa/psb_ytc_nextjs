@@ -9,9 +9,9 @@ const RegisterUser = async (input: any) => {
     const result = await http.post(API_ENDPOINT.REGISTER, input);
     return result;
   } catch (error:any) {
-    if (error) {
-      toast.error(error.response.data.data.message);
-    } 
+    // if (error) {
+    //   toast.error(error.response.data.data.message);
+    // } 
     throw error;
   }
 };

@@ -10,12 +10,12 @@ const VerifyOtp = async (input: any) => {
     console.log(result, "result");
     return result;
   } catch (error:any) {
-    if (error) {
-        console.log(error, "error")
-      toast.error(error.response.data.data.message);
-    } else {
-      toast.error("Register Failed");
-    }
+    // if (error) {
+    //     console.log(error, "error")
+    //   toast.error(error.response.data.data.message);
+    // } else {
+    //   toast.error("Register Failed");
+    // }
     throw error; // Jangan lupa untuk melempar kembali kesalahan agar dapat ditangani di tempat lain jika perlu.
   }
 };

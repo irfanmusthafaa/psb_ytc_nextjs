@@ -11,6 +11,17 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useRegisterUser } from "@/services/user/auth/register";
 import { toast } from "react-toastify";
 
+interface ErrorResponse {
+  response?: {
+    data?: {
+      data?: {
+        message?: string;
+      };
+    };
+  };
+  message?: string;
+}
+
 export default function Register() {
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");
@@ -26,6 +37,8 @@ export default function Register() {
     null
   );
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const {
@@ -33,14 +46,23 @@ export default function Register() {
     status,
     isSuccess,
     isError,
+    error,
   } = useRegisterUser();
 
   useEffect(() => {
     if (isSuccess) {
       toast.success("Register Berhasil");
       localStorage.setItem("registeredEmail", Email);
-      // router.push("/login");
-      window.location.href = "/otp";
+      router.push("otp");
+    }
+
+    if (isError) {
+      const err = error as ErrorResponse;
+      const errorMessage =
+        err.response?.data?.data?.message || "Terjadi kesalahan";
+      setIsLoading(false);
+      toast.error(errorMessage);
+      console.log(err, "error ada");
     }
   }, [status]);
 
@@ -85,7 +107,8 @@ export default function Register() {
     }
   };
 
-  const handleRegister = async () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!Name) {
       toast.error("Nama wajib diisi");
       return;
@@ -141,18 +164,12 @@ export default function Register() {
     if (selectedFileAvatar) {
       formData.append("image", selectedFileAvatar);
     }
-
-    try {
-      await dataRegister(formData);
-    } catch (error) {
-      return null;
-    }
-
+    setIsLoading(true);
+    dataRegister(formData);
     // try {
-    //   await createRegister(formData);
-    //   toast.success("Update Profile Success");
+    //   await dataRegister(formData);
     // } catch (error) {
-    //   toast.error("Update Profile Failed");
+    //   return null;
     // }
   };
 
@@ -189,145 +206,153 @@ export default function Register() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
               Register
             </h1>
-            <div className="w-full flex justify-center items-start gap-10">
-              <div className="w-1/2 flex flex-col gap-4">
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium">Nama Lengkap</label>
-                  <Input
-                    id="Name"
-                    onChange={handleInput}
-                    placeholder="Nama Lengkap"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium">Email</label>
-                  <Input
-                    id="Email"
-                    onChange={handleInput}
-                    placeholder="Email"
-                    type="email"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium">No Telepon</label>
-                  <Input
-                    id="NoTelp"
-                    onChange={handleInput}
-                    placeholder="No Telepon"
-                    maxLength={13}
-                    type="number"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium">Password</label>
-                  <Input
-                    id="Password"
-                    onChange={handleInput}
-                    placeholder="Password"
-                    type="password"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2 ">
-                  <label className="text-sm font-medium">Tanggal Lahir</label>
-                  <DatePicker
-                    id="TanggalLahir"
-                    placeholder="Pilih Tanggal Lahir"
-                    // defaultValue={dayjs(formatTanggal, dateFormat)}
-                    onChange={onChangeTL}
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium">Jenis Kelamin</label>
-                  <Radio.Group onChange={onChangeJk} value={JenisKelamin}>
-                    <Radio value={"Laki-laki"}>Laki- laki</Radio>
-                    <Radio value={"Perempuan"}>Perempuan</Radio>
-                  </Radio.Group>
-                </div>
-              </div>
-
-              <div className="w-1/2 flex flex-col gap-4">
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium">NIK</label>
-                  <Input
-                    id="Nik"
-                    onChange={handleInput}
-                    placeholder="NIK"
-                    maxLength={17}
-                    type="number"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium">
-                    Pendidikan Terakhir
-                  </label>
-                  <Select
-                    placeholder="Pilih Pendidikan Terakhir"
-                    onChange={handleChangePendidikan}
-                    options={[
-                      { value: "SD / SEDERAJAT", label: "SD / SEDERAJAT" },
-                      { value: "SLTP / SEDERAJAT", label: "SLTP / SEDERAJAT" },
-                      { value: "SLTA / SEDERAJAT", label: "SLTA / SEDERAJAT" },
-                      {
-                        value: "DIPLOMA IV/ STRATA I",
-                        label: "DIPLOMA IV/ STRATA I",
-                      },
-                      { value: "STRATA II", label: "STRATA II" },
-                      { value: "STRATA III", label: "STRATA III" },
-                    ]}
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium">Kota Asal</label>
-                  <Input
-                    id="KotaAsal"
-                    onChange={handleInput}
-                    placeholder="Kota Asal"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium">Alamat Lengkap</label>
-                  <TextArea
-                    id="Alamat"
-                    onChange={handleInput}
-                    rows={4}
-                    placeholder="Alamat Lengkap"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium">Foto</label>
-                  <label className="flex items-center relative border border-gray-300 rounded-md p-2 h-[32px] box-border">
-                    <Upload className="w-4 h-4 mr-4 text-gray-400" />
+            <form onSubmit={handleSubmit}>
+              <div className="w-full flex justify-center items-start gap-10">
+                <div className="w-1/2 flex flex-col gap-4">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">Nama Lengkap</label>
                     <Input
-                      type="file"
-                      accept=".png, .jpg, .jpeg, .pdf"
-                      onChange={handleFileChangeAvatar}
-                      placeholder="Upload Foto 3x4"
-                      className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                      id="Name"
+                      onChange={handleInput}
+                      placeholder="Nama Lengkap"
                     />
-                    {selectedFileAvatar ? (
-                      <p className="text-sm text-black ">
-                        Selected file: {selectedFileAvatar.name}
-                      </p>
-                    ) : (
-                      <p className="text-sm text-gray-400 font-light">
-                        Upload Foto 3x4 (png/jpg)
-                      </p>
-                    )}
-                  </label>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">Email</label>
+                    <Input
+                      id="Email"
+                      onChange={handleInput}
+                      placeholder="Email"
+                      type="email"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">No Telepon</label>
+                    <Input
+                      id="NoTelp"
+                      onChange={handleInput}
+                      placeholder="No Telepon"
+                      maxLength={13}
+                      type="number"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">Password</label>
+                    <Input
+                      id="Password"
+                      onChange={handleInput}
+                      placeholder="Password"
+                      type="password"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2 ">
+                    <label className="text-sm font-medium">Tanggal Lahir</label>
+                    <DatePicker
+                      id="TanggalLahir"
+                      placeholder="Pilih Tanggal Lahir"
+                      // defaultValue={dayjs(formatTanggal, dateFormat)}
+                      onChange={onChangeTL}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">Jenis Kelamin</label>
+                    <Radio.Group onChange={onChangeJk} value={JenisKelamin}>
+                      <Radio value={"Laki-laki"}>Laki- laki</Radio>
+                      <Radio value={"Perempuan"}>Perempuan</Radio>
+                    </Radio.Group>
+                  </div>
+                </div>
+
+                <div className="w-1/2 flex flex-col gap-4">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">NIK</label>
+                    <Input
+                      id="Nik"
+                      onChange={handleInput}
+                      placeholder="NIK"
+                      maxLength={17}
+                      type="number"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">
+                      Pendidikan Terakhir
+                    </label>
+                    <Select
+                      placeholder="Pilih Pendidikan Terakhir"
+                      onChange={handleChangePendidikan}
+                      options={[
+                        { value: "SD / SEDERAJAT", label: "SD / SEDERAJAT" },
+                        {
+                          value: "SLTP / SEDERAJAT",
+                          label: "SLTP / SEDERAJAT",
+                        },
+                        {
+                          value: "SLTA / SEDERAJAT",
+                          label: "SLTA / SEDERAJAT",
+                        },
+                        {
+                          value: "DIPLOMA IV/ STRATA I",
+                          label: "DIPLOMA IV/ STRATA I",
+                        },
+                        { value: "STRATA II", label: "STRATA II" },
+                        { value: "STRATA III", label: "STRATA III" },
+                      ]}
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">Kota Asal</label>
+                    <Input
+                      id="KotaAsal"
+                      onChange={handleInput}
+                      placeholder="Kota Asal"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">
+                      Alamat Lengkap
+                    </label>
+                    <TextArea
+                      id="Alamat"
+                      onChange={handleInput}
+                      rows={4}
+                      placeholder="Alamat Lengkap"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-medium">Foto</label>
+                    <label className="flex items-center relative border border-gray-300 rounded-md p-2 h-[32px] box-border">
+                      <Upload className="w-4 h-4 mr-4 text-gray-400" />
+                      <Input
+                        type="file"
+                        accept=".png, .jpg, .jpeg, .pdf"
+                        onChange={handleFileChangeAvatar}
+                        placeholder="Upload Foto 3x4"
+                        className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                      />
+                      {selectedFileAvatar ? (
+                        <p className="text-sm text-black ">
+                          Selected file: {selectedFileAvatar.name}
+                        </p>
+                      ) : (
+                        <p className="text-sm text-gray-400 font-light">
+                          Upload Foto 3x4 (png/jpg)
+                        </p>
+                      )}
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
-            <button
-              type="submit"
-              className="w-full text-white  bg-[#273b83] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              onClick={() => {
-                handleRegister();
-              }}
-            >
-              Register
-            </button>
+              <button
+                type="submit"
+                className="w-full text-white  bg-[#273b83] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              >
+                {isLoading ? "Loading..." : "Register"}
+              </button>
+            </form>
+
             <p className="text-sm text-center font-light text-gray-800">
               Sudah punya akun?{" "}
               <a
