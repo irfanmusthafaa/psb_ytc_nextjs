@@ -48,9 +48,8 @@ export default function Login() {
 
   useEffect(() => {
     if (isSuccess) {
-      setIsLoading(false);
       toast.success("Login Berhasil");
-      window.location.href = "/psb/profil";
+      router.push("/psb/profil");
     }
 
     if (isError) {
@@ -63,7 +62,8 @@ export default function Login() {
     }
   }, [status]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!email) {
       toast.error("Email wajib diisi");
       return;
@@ -103,7 +103,7 @@ export default function Login() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Login
             </h1>
-            <div className="space-y-4 md:space-y-6">
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="email"
@@ -149,7 +149,6 @@ export default function Login() {
               <button
                 type="submit"
                 className="w-full text-white bg-[#273b83] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                onClick={handleSubmit}
                 disabled={isLoading}
               >
                 {isLoading ? "Loading..." : "Login"}
@@ -163,7 +162,7 @@ export default function Login() {
                   Daftar disini
                 </a>
               </p>
-            </div>
+            </form>
           </div>
         </div>
       </div>
