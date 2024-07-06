@@ -1,11 +1,12 @@
 "use client";
 
-import { SantriTypes } from "@/services/data-types";
+import { SantriTypes, ConfigQuizTypes } from "@/services/data-types";
 import { useGetProfileUser } from "@/services/user/profil/get-profil";
+import { useGetConfigQuiiz } from "@/services/user/quiz/get-config-quiz";
 import { createSeleksi } from "@/services/user/seleksi/create-seleksi";
 import { EditSeleksi } from "@/services/user/seleksi/edit-seleksi";
 import { useGetSoalSeleksi } from "@/services/user/seleksi/get-soal-seleksi";
-import { Button, Input, Select } from "antd";
+import { Button, Input, Select, Tooltip } from "antd";
 import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -23,6 +24,7 @@ export default function Seleksi() {
   const [Soal, setSoal] = useState<SoalSeleksiData[]>([]);
   const [SelectedSoal, setSelectedSoal] = useState("");
   const [editedId, setEditedId] = useState<string | undefined>(undefined);
+  const [ConfigQuiz, setConfigQuiz] = useState<ConfigQuizTypes | null>(null);
 
   const [SoalSeleksi, setSoalSeleksi] = useState("");
   const [LinkRekaman, setLinkRekaman] = useState("");
@@ -34,11 +36,18 @@ export default function Seleksi() {
     isLoading: isLoadingProfile,
     isError: isErrorProfile,
   } = useGetProfileUser();
+
   const {
     data: dataSoal,
     isLoading: isLoadingSoal,
     isError: isErrorSoal,
   } = useGetSoalSeleksi();
+
+  const {
+    data: dataConfigQuiz,
+    isLoading: isLoadingConfigQuiz,
+    isError: isErrorConfigQuiz,
+  } = useGetConfigQuiiz();
 
   useEffect(() => {
     if (!isLoadingProfile && !isErrorProfile && dataProfile) {
@@ -58,22 +67,34 @@ export default function Seleksi() {
         setEditedId(dataProfile?.seleksi_id?._id);
       }
     }
+
+    if (!isLoadingConfigQuiz && !isErrorConfigQuiz) {
+      if (dataConfigQuiz) {
+        dataConfigQuiz.startDate = new Date(dataConfigQuiz.startDate);
+        dataConfigQuiz.endDate = new Date(dataConfigQuiz.endDate);
+        setConfigQuiz(dataConfigQuiz);
+      }
+    }
     setSoal(dataSoal);
   }, [
     dataSoal,
     dataProfile,
+    dataConfigQuiz,
     // dataProfile?.seleksi_id?.soal_seleksi,
     dataProfile?.seleksi_id?.link_rekaman,
     isLoadingProfile,
     isErrorProfile,
     isLoadingSoal,
     isErrorSoal,
+    isLoadingConfigQuiz,
+    isErrorConfigQuiz,
   ]);
 
-  console.log(editedId, "id");
-  console.log(SoalSeleksi, "soal");
-  console.log(LinkRekaman, "link");
-  console.log(Profile, "profi");
+  // console.log(editedId, "id");
+  // console.log(SoalSeleksi, "soal");
+  // console.log(LinkRekaman, "link");
+  // console.log(Profile, "profi");
+  console.log(ConfigQuiz, " configq");
 
   const soalOptions =
     Soal?.map((item) => ({
@@ -130,6 +151,15 @@ export default function Seleksi() {
     }
   };
 
+  function formatDate(date: Date) {
+    const options: Intl.DateTimeFormatOptions = {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    };
+    return date.toLocaleDateString("id-ID", options);
+  }
+
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl text-black">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
@@ -140,18 +170,32 @@ export default function Seleksi() {
         <p className="font-semibold">Quiz Pilihan Ganda</p>
         <ul className="my-2 space-y-1 text-gray-900 text-xs list-inside dark:text-gray-400">
           <li>1. Quiz ini terdiri dari pertanyaan pilihan ganda.</li>
-          <li>2. Quiz dapat dikerjakan mulai tanggal 1 hingga 7 Juli 2024.</li>
+          <li>
+            2. Quiz dapat dikerjakan mulai tanggal{" "}
+            {ConfigQuiz && formatDate(ConfigQuiz.startDate)} hingga{" "}
+            {ConfigQuiz && formatDate(ConfigQuiz.endDate)}.
+          </li>
           <li>3. Quiz hanya dapat dilakukan satu kali saja.</li>
-          <li>4. Kerjakan quiz dengan teliti dan maksimal.</li>
+          <li>4. Quiz dapat dikerjakan selama {ConfigQuiz?.time} menit.</li>
+          <li>5. Kerjakan quiz dengan teliti dan maksimal.</li>
         </ul>
-        <Button
+        <Tooltip title={ConfigQuiz?.access_quiz ? "" : ConfigQuiz?.message}>
+          <Button
+            type="primary"
+            className="mt-5 bg-[#273b83]"
+            onClick={() => router.push("/psb/quiz")}
+            disabled={!ConfigQuiz?.access_quiz}
+          >
+            Kerjakan Quiz
+          </Button>
+        </Tooltip>
+        {/* <Button
           type="primary"
           className="mt-5 bg-[#273b83]"
           onClick={() => router.push("/psb/quiz")}
         >
           Kerjakan Quiz
-          {/* {isEditMode ? "Edit Infaq" : "Submit Infaq"} */}
-        </Button>
+        </Button> */}
       </div>
 
       {/* Form */}

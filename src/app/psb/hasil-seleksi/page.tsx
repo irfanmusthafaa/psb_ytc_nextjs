@@ -7,6 +7,8 @@ import { useGetProfileUser } from "@/services/user/profil/get-profil";
 interface ProfileData {
   id: string;
   status: string;
+  score_quiz: number;
+  nilai: number;
 }
 
 export default function Status() {
@@ -20,9 +22,11 @@ export default function Status() {
     }
   }, [dataProfile, isLoading, isError]);
 
-  console.log(profile?.status, "status");
+  console.log(profile, "profil");
 
   const status = profile?.status;
+  const nilai_quiz = profile?.score_quiz;
+  const nilai_bacaan = profile?.nilai;
 
   const renderStatusRibbon = () => {
     if (status === "lulus") {
@@ -54,6 +58,28 @@ export default function Status() {
     }
   };
 
+  const renderNilaiQuiz = () => {
+    if (nilai_quiz !== null) {
+      return (
+        <Card title="Pemberitahuan Nilai Quiz" size="small">
+          Anda telah menyelesaikan soal quiz dengan nilai{" "}
+          <span className="font-bold">{profile?.score_quiz}</span>
+        </Card>
+      );
+    }
+  };
+
+  const renderNilaiBacaan = () => {
+    if (nilai_bacaan !== null) {
+      return (
+        <Card title="Pemberitahuan Nilai Bacaan Quran" size="small">
+          Anda telah menyelesaikan soal quiz dengan nilai{" "}
+          <span className="font-bold">{profile?.nilai}</span>
+        </Card>
+      );
+    }
+  };
+
   return (
     <div className="bg-white h-auto min-h-[500px] m-8 box-border w-max-full rounded-xl text-black">
       <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
@@ -66,6 +92,8 @@ export default function Status() {
           <div className="w-full flex flex-col gap-4">
             {/* Component status */}
             {renderStatusRibbon()}
+            {renderNilaiQuiz()}
+            {renderNilaiBacaan()}
           </div>
         </div>
       </div>

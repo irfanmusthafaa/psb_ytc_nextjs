@@ -161,3 +161,12 @@ export interface QuestionTypes {
   question: string;
   answer?: boolean;
 }
+
+export interface ConfigQuizTypes {
+  _id: string;
+  startDate: Date;
+  endDate: Date;
+  time: number,
+  access_quiz: boolean;
+  message: string;
+}

@@ -32,6 +32,7 @@ const QuizPage: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [score, setScore] = useState<number | null>(null);
   const [question, setQuestion] = useState<QuestionTypes[] | null>(null);
+  const [time, setTime] = useState(10 * 60); // Set the time to 10 minutes in seconds
 
   const router = useRouter();
 
@@ -51,13 +52,13 @@ const QuizPage: React.FC = () => {
 
   useEffect(() => {
     if (!isLoadingQuestion && !isErrorQuestion) {
-      setQuestion(dataQuestion || []);
+      setQuestion(dataQuestion?.data || []);
+      setTime(dataQuestion?.time * 60); // Assuming dataQuestion.time is in minutes, convert to seconds
     }
   }, [dataQuestion, isLoadingQuestion, isErrorQuestion]);
 
   useEffect(() => {
     if (isSuccessSubmitQuiz) {
-      // toast.success("Submit Quiz Berhasil");
       setIsSubmitted(true);
     }
 
@@ -69,7 +70,26 @@ const QuizPage: React.FC = () => {
     }
   }, [statusQuiz, isSuccessSubmitQuiz, isErrorSubmitQuiz, error]);
 
-  console.log(question, "question");
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime((prevTime) => {
+        if (prevTime > 0) {
+          return prevTime - 1;
+        } else {
+          clearInterval(timer);
+          return 0;
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (time === 0) {
+      handleAutoSubmit();
+    }
+  }, [time]);
 
   const onChange = (questionId: string, value: boolean) => {
     setAnswers((prev) => ({
@@ -86,19 +106,50 @@ const QuizPage: React.FC = () => {
           answer,
         })),
       };
-      console.log(data);
       dataSubmitQuiz(data, {
         onSuccess: (response) => {
           setScore(response.data.score);
         },
       });
+      // console.log(data, "data sum");
     } else {
       toast.warning("Please answer all questions.");
     }
   };
 
+  const handleAutoSubmit = () => {
+    if (Object.keys(answers).length !== question?.length) {
+      toast.warning(
+        "Tidak semua pertanyaan telah dijawab. Mengirim jawaban yang ada."
+      );
+    }
+
+    const data = {
+      answers: Object.entries(answers).map(([questionId, answer]) => ({
+        questionId: questionId,
+        answer,
+      })),
+    };
+
+    // console.log(data, "data sebelum submit otomatis");
+
+    dataSubmitQuiz(data, {
+      onSuccess: (response) => {
+        setScore(response.data.score);
+      },
+    });
+
+    // console.log(data, "data submit otomatis");
+  };
+
   const handleOk = () => {
     router.push("/psb/seleksi");
+  };
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
   const successModal = (
@@ -106,7 +157,6 @@ const QuizPage: React.FC = () => {
       open={isSubmitted}
       centered
       onOk={handleOk}
-      // okText="Kembali ke Halaman Test Seleksi"
       cancelButtonProps={{ style: { display: "none" } }}
       okButtonProps={{ style: { display: "none" } }}
       closable={false}
@@ -124,7 +174,7 @@ const QuizPage: React.FC = () => {
         </p>
         <button
           type="button"
-          className="mt-5 text-white  bg-[#273b83] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          className="mt-5 text-white bg-[#273b83] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           onClick={() => router.push("/psb/test-seleksi")}
         >
           Selesai
@@ -144,6 +194,9 @@ const QuizPage: React.FC = () => {
             </h3>
             <p className="text-xs mt-7">
               Jawablah soal - soal berikut dengan cermat dan teliti
+            </p>
+            <p className="text-right mt-5 font-semibold">
+              Waktu sisa : {formatTime(time)}
             </p>
           </div>
 
@@ -169,7 +222,7 @@ const QuizPage: React.FC = () => {
           <div className="mt-5 flex justify-end">
             <button
               type="button"
-              className="w-full text-white  bg-[#273b83] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              className="w-full text-white bg-[#273b83] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               onClick={handleSubmit}
             >
               Submit Quiz
