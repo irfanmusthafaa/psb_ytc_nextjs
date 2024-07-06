@@ -33,21 +33,6 @@ export default function InformasiPsb() {
 
   return (
     <div className="bg-white h-auto min-h-[500px] m-8 box-border w-max-full rounded-xl">
-      {/* <div className=" border-b border-b-gray-200 px-6 py-4 rounded-t-xl">
-        <p className="text-black font-semibold text-xl">Informasi PSB</p>
-      </div> */}
-
-      {/* Form */}
-      {/* <textarea
-        value={inputText}
-        onKeyDown={handleKeyDown}
-        onChange={(e) => setInputText(e.target.value)}
-        rows={15}
-        className="border"
-      /> */}
-
-      {/* Tabs */}
-
       <div className="px-6 mt-7 pt-7">
         <Tabs
           defaultActiveKey="1"

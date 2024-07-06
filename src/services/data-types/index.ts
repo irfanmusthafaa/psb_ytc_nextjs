@@ -155,3 +155,9 @@ export interface BankTypes {
   updatedAt: Date;
   __v: number;
 }
+
+export interface QuestionTypes {
+  _id: string;
+  question: string;
+  answer?: boolean;
+}
