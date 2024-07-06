@@ -25,7 +25,7 @@ export default function SoalSeleksi() {
   return (
     <div className="bg-white h-auto min-h-[500px] m-8 box-border w-max-full rounded-xl">
       <div className="pt-3 px-6 ">
-        <TableSoal data={Soal} />
+        <TableSoal />
       </div>
     </div>
   );

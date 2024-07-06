@@ -154,7 +154,7 @@ export default function TableBank() {
       toast.error("Nama wajib diisi");
       return;
     }
-    createCabang({
+    createBank({
       name: Name,
       bankName: BankName,
       noRekening: NoRekening,
