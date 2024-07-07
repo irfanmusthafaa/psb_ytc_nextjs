@@ -12,6 +12,13 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import "dayjs/locale/id"; // Pastikan untuk mengimpor lokal id-ID jika belum
+
+dayjs.extend(utc);
+dayjs.locale("id");
+
 interface SoalSeleksiData {
   soal: string;
   _id: any;
@@ -151,14 +158,22 @@ export default function Seleksi() {
     }
   };
 
-  function formatDate(date: Date) {
-    const options: Intl.DateTimeFormatOptions = {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    };
-    return date.toLocaleDateString("id-ID", options);
-  }
+  // function formatDate(date: Date) {
+  //   const options: Intl.DateTimeFormatOptions = {
+  //     day: "2-digit",
+  //     month: "long",
+  //     year: "numeric",
+  //   };
+  //   return date.toLocaleDateString("id-ID", options);
+  // }
+
+  const formatDate = (date: string | null) => {
+    if (!date) return "-";
+
+    const formattedDate = dayjs.utc(date).locale("id").format("D MMMM YYYY");
+
+    return formattedDate;
+  };
 
   return (
     <div className="bg-white h-auto m-8 box-border w-max-full rounded-xl text-black">

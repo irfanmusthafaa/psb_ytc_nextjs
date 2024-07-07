@@ -55,6 +55,10 @@ export const API_ENDPOINT = {
   DELETE_BANK:'/api/v1/bank/delete',
 
   GET_ALL_QUESTION: '/api/v1/questions',
+  CREATE_QUESTION: '/api/v1/questions/create',
+  EDIT_QUESTION: '/api/v1/questions/edit',
+  DELETE_QUESTION: '/api/v1/questions/delete',
   SUBMIT_QUIZ: '/api/v1/questions/submit-quiz',
-  GET_CONFIG_SUBMIT: '/api/v1/questions/config/quiz-dates'
+  GET_CONFIG_SUBMIT: '/api/v1/questions/config/quiz-dates',
+  GET_CONFIG_SUBMIT_ADMIN:'/api/v1/questions/config/quiz-dates/admin',
 };

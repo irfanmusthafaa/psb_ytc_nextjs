@@ -159,13 +159,13 @@ export interface BankTypes {
 export interface QuestionTypes {
   _id: string;
   question: string;
-  answer?: boolean;
+  answer: boolean;
 }
 
 export interface ConfigQuizTypes {
   _id: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: string;
+  endDate: string;
   time: number,
   access_quiz: boolean;
   message: string;
