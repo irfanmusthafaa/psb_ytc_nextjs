@@ -315,6 +315,7 @@ export default function DetailSantri() {
                 <span className="text-red-500">data belum di isi</span>
               )}
             </li>
+
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
               <span className="min-w-48">Nilai Quiz</span>
               {Users?.score_quiz || (

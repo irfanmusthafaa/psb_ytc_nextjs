@@ -310,10 +310,17 @@ export default function Profil() {
                 <span className="text-red-500">data belum di isi</span>
               )}
             </li>
+
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
-              <span className="min-w-48">Nilai</span>
+              <span className="min-w-48">Nilai Quiz</span>
+              {profile?.score_quiz || (
+                <span className="text-red-500">Belum Mengerjakan Quiz</span>
+              )}
+            </li>
+            <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">
+              <span className="min-w-48">Nilai Bacaan Quran</span>
               {profile?.nilai || (
-                <span className="text-red-500">belum diproses</span>
+                <span className="text-red-500">Belum Diproses</span>
               )}
             </li>
             <li className="w-full flex justify-start items-center px-4 py-2 border-b border-gray-200 rounded-t-lg ">

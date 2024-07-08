@@ -310,7 +310,8 @@ export default function EditProfil() {
               <DatePicker
                 id="TanggalLahir"
                 placeholder="Pilih Tanggal"
-                // defaultValue={dayjs(formatTanggal, dateFormat)}
+                value={TanggalLahir ? dayjs(TanggalLahir, "YYYY-MM-DD") : null}
+                format="YYYY-MM-DD"
                 onChange={onChangeTL}
               />
             </div>
@@ -347,7 +348,7 @@ export default function EditProfil() {
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Pendidikan Terakhir</label>
               <Select
-                // value={PendidikanTerakhir}
+                value={PendidikanTerakhir}
                 placeholder="Pilih Pendidikan Terakhir"
                 onChange={handleChangePendidikan}
                 options={[
