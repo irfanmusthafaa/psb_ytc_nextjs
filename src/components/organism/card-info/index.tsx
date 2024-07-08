@@ -25,7 +25,7 @@ export default function CardInfo() {
   const [OpenModalCabang, setOpenModalCabang] = useState(false);
 
   return (
-    <div id="info-psb" className="bg-gray-100 flex flex-col gap-3 ">
+    <div id="info-psb" className="bg-gray-100 flex flex-col gap-3 pt-16 ">
       <div className=" ">
         <h2 className=" text-center text-2xl text-gray-800 font-semibold">
           Informasi PSB
