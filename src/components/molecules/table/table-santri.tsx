@@ -85,7 +85,7 @@ export default function TableSantri(props: DataSantriProps) {
         <Space size="middle">
           <Button
             type="primary"
-            className="flex justify-center items-center gap-2  border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none rounded-full"
+            className="flex justify-center items-center gap-2  border-none hover:bg-amber-900 hover:border-0 hover:text-white hover:border-none "
             // onClick={() => setOpenModalStatus(true)}
             onClick={() => router.push(`/admin/santri/${record.id}`)}
           >

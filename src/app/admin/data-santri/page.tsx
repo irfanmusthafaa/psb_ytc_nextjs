@@ -10,6 +10,8 @@ import { SantriTypes } from "@/services/data-types";
 import { Files, UserCheck, UsersIcon } from "lucide-react";
 import DonutChart from "@/components/molecules/apex-chart/donut-chart/donut-chart";
 import PieChart from "@/components/molecules/apex-chart/pie-chart/pie-chart";
+import { CookiesKey, CookiesStorage } from "@/utils/cookies";
+import { toast } from "react-toastify";
 
 interface UserStatus {
   totalUsers: number;
@@ -19,12 +21,13 @@ interface UserStatus {
 }
 
 export default function DataSantri() {
-  // const [Users, setUsers] = useState([]);
   const [Users, setUsers] = useState<SantriTypes[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<SantriTypes[]>([]);
   const [UserStatus, setUserStatus] = useState<UserStatus | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [status, setStatus] = useState("");
+  const [tahun, setTahun] = useState("");
+  const [jk, setJk] = useState("");
 
   const {
     data: dataUsers,
@@ -33,6 +36,8 @@ export default function DataSantri() {
   } = useGetAllUser({
     latest: true,
     status: status,
+    jenis_kelamin: jk,
+    tahun: tahun,
   });
 
   useEffect(() => {
@@ -49,80 +54,89 @@ export default function DataSantri() {
     setFilteredUsers(filtered);
   }, [searchTerm, Users]);
 
-  console.log(Users, "Users");
-
-  console.log(UserStatus, "Users status");
-
   const handleMenuClick: MenuProps["onClick"] = (e) => {
     setStatus(e.key);
   };
 
+  const handleMenuClickJk: MenuProps["onClick"] = (e) => {
+    setJk(e.key);
+  };
+
+  const handleMenuClickTahun: MenuProps["onClick"] = (e) => {
+    setTahun(e.key);
+  };
+
   const items: MenuProps["items"] = [
-    {
-      label: "lulus",
-      key: "lulus",
-    },
-    {
-      label: "tidak lulus",
-      key: "tidak lulus",
-    },
-    {
-      label: "belum diproses",
-      key: "belum diproses",
-    },
-    {
-      label: "hapus filter",
-      key: "",
-    },
+    { label: "Lulus", key: "lulus" },
+    { label: "Tidak Lulus", key: "tidak lulus" },
+    { label: "Belum Diproses", key: "belum diproses" },
+    { label: "Hapus Filter", key: "" },
   ];
 
-  const menuProps = {
-    items,
-    onClick: handleMenuClick,
+  const itemsJk: MenuProps["items"] = [
+    { label: "Laki-laki", key: "Laki-laki" },
+    { label: "Perempuan", key: "Perempuan" },
+    { label: "Hapus Filter", key: "" },
+  ];
+
+  const itemsTahun: MenuProps["items"] = [
+    { label: "2021", key: "2021" },
+    { label: "2022", key: "2022" },
+    { label: "2023", key: "2023" },
+    { label: "2024", key: "2024" },
+    { label: "Hapus Filter", key: "" },
+  ];
+
+  const menuProps = { items, onClick: handleMenuClick };
+  const menuPropsJk = { items: itemsJk, onClick: handleMenuClickJk };
+  const menuPropsTahun = { items: itemsTahun, onClick: handleMenuClickTahun };
+
+  const handleDownloadPdf = async () => {
+    try {
+      const query = new URLSearchParams({
+        jenis_kelamin: jk,
+        tahun: tahun,
+        status: status,
+      }).toString();
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_KEY}/api/v1/admin/download-pdf?${query}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${CookiesStorage.get(
+              CookiesKey.TokenAdmin
+            )}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "filename"; // You can set a default file name here or extract it from response headers
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      toast.success("File downloaded successfully");
+    } catch (error) {
+      toast.error("Gagal Mendownload File");
+    }
   };
 
   return (
     <div className="bg-white h-auto min-h-[500px] m-8 box-border w-max-full rounded-xl">
-      {/* Form */}
       <div className="pt-5 px-6">
-        <div className="w-full flex justify-center items-start gap-10">
-          {/* Card */}
-          {/* <div className="w-full flex justify-between items-center gap-4  ">
-            <div className="w-1/3 flex items-center bg-white border rounded-sm overflow-hidden shadow">
-              <div className="p-4 bg-green-400">
-                <UsersIcon className="h-12 w-12 text-white" />
-              </div>
-              <div className="px-4 text-gray-700">
-                <h3 className="text-sm tracking-wider">Total Pendaftar</h3>
-                <p className="text-3xl">{UserStatus?.totalUsers}</p>
-              </div>
-            </div>
-            <div className="w-1/3 flex items-center bg-white border rounded-sm overflow-hidden shadow">
-              <div className="p-4 bg-blue-400">
-                <UserCheck className="h-12 w-12 text-white" />
-              </div>
-              <div className="px-4 text-gray-700">
-                <h3 className="text-sm tracking-wider">Total Santri Lulus</h3>
-                <p className="text-3xl">{UserStatus?.totalPassedUsers}</p>
-              </div>
-            </div>
-            <div className="w-1/3 flex items-center bg-white border rounded-sm overflow-hidden shadow">
-              <div className="p-4 bg-indigo-400">
-                <Files className="h-12 w-12 text-white" />
-              </div>
-              <div className="px-4 text-gray-700">
-                <h3 className="text-sm tracking-wider">
-                  Total Mengikuti Seleksi
-                </h3>
-                <p className="text-3xl">{UserStatus?.totalProcessingUsers}</p>
-              </div>
-            </div>
-          </div> */}
-          {/* End Card */}
-        </div>
-
+        <div className="w-full flex justify-center items-start gap-10"></div>
         <div className="mt-7 w-full flex flex-col justify-center items-start gap-3">
-          <div className="w-1/3 flex gap-2 items-center">
+          <div className="w-full flex gap-2 items-center">
             <Input
               placeholder="Cari santri"
               prefix={<SearchOutlined />}
@@ -132,13 +146,31 @@ export default function DataSantri() {
             <Dropdown menu={menuProps}>
               <Button>
                 <Space>
-                  Filter
+                  Filter Status
                   <DownOutlined />
                 </Space>
               </Button>
             </Dropdown>
+            <Dropdown menu={menuPropsJk}>
+              <Button>
+                <Space>
+                  Filter Jenis Kelamin
+                  <DownOutlined />
+                </Space>
+              </Button>
+            </Dropdown>
+            <Dropdown menu={menuPropsTahun}>
+              <Button>
+                <Space>
+                  Filter Tahun
+                  <DownOutlined />
+                </Space>
+              </Button>
+            </Dropdown>
+            <Button type="primary" onClick={handleDownloadPdf}>
+              Download PDF
+            </Button>
           </div>
-
           <TableSantri data={filteredUsers} />
         </div>
       </div>
