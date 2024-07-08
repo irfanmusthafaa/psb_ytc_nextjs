@@ -78,7 +78,7 @@ const ModalStatus: React.FC<ModalStatusProps> = ({
       </h2>
       <div className="mt-5 w-full flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium">Nilai Tes Seleksi</label>
+          <label className="text-sm font-medium">Nilai Tes Bacaan Quran</label>
           <Input
             id="Nilai"
             onChange={handleInput}

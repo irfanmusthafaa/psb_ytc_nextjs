@@ -73,7 +73,7 @@ export default function Status() {
     if (nilai_bacaan !== null) {
       return (
         <Card title="Pemberitahuan Nilai Bacaan Quran" size="small">
-          Anda telah menyelesaikan soal quiz dengan nilai{" "}
+          Anda telah menyelesaikan test bacaan Al- Qur'an dengan nilai{" "}
           <span className="font-bold">{profile?.nilai}</span>
         </Card>
       );

@@ -198,7 +198,7 @@ export default function Seleksi() {
           <Button
             type="primary"
             className="mt-5 bg-[#273b83]"
-            onClick={() => router.push("/psb/quiz")}
+            onClick={() => (window.location.href = "/quiz")}
             disabled={!ConfigQuiz?.access_quiz}
           >
             Kerjakan Quiz

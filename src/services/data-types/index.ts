@@ -27,6 +27,7 @@ export interface SantriTypes {
   infaq_id: InfaqTypes;
   document_id: DocumentTypes;
   seleksi_id: SeleksiTypes;
+  score_quiz: number;
 }
 
 
