@@ -151,7 +151,7 @@ export default function Login() {
                 Belum punya akun?{" "}
                 <a
                   href="/register"
-                  className="font-medium text-white hover:underline"
+                  className="font-medium text-black hover:underline"
                 >
                   Daftar disini
                 </a>
